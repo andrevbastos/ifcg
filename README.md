@@ -48,8 +48,8 @@ vcpkg.exe install glfw3
 
 Clone the repository:
 ```bash
-git clone https://github.com/JotaEspig/axolote-engine
-cd axolote-engine
+git clone https://gitlab.com/oederaugusto/ifcg
+cd ifcg
 mkdir build
 cd build
 ```
