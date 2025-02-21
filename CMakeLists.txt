@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(axolote-engine)
+project(ifcg-engine)
 
 # CMake settings
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -68,19 +68,19 @@ set(
     ${SOURCE_DIR}/glad/glad.c
 )
 
-# Adding axolote shared library
-add_library(axolote SHARED ${SOURCE_FILES})
-target_compile_definitions(axolote PUBLIC GLAD_GLAPI_EXPORT PRIVATE GLAD_GLAPI_EXPORT_BUILD)
+# Adding ifcg shared library
+add_library(ifcg SHARED ${SOURCE_FILES})
+target_compile_definitions(ifcg PUBLIC GLAD_GLAPI_EXPORT PRIVATE GLAD_GLAPI_EXPORT_BUILD)
 
 # Libraries
 target_link_libraries(
-    axolote
+    ifcg
     PUBLIC
     ${OPENGL_LIBRARIES} glfw
 )
 if (UNIX)
     target_link_libraries(
-        axolote
+        ifcg
         PUBLIC
         stdc++
     )
@@ -88,7 +88,7 @@ endif (UNIX)
 
 # Header files
 target_include_directories(
-    axolote
+    ifcg
     PUBLIC
     ${CMAKE_SOURCE_DIR}/include
 )
@@ -111,7 +111,7 @@ set(
 
 # Adding executables for testing
 add_executable(main-test ${MAIN_TEST_SOURCE_FILES})
-add_dependencies(main-test axolote)
+add_dependencies(main-test ifcg)
 target_compile_definitions(main-test PUBLIC GLAD_GLAPI_EXPORT)
 target_compile_definitions(main-test PUBLIC PROJECT_ROOT_FOLDER="${CMAKE_SOURCE_DIR}")
 
@@ -126,7 +126,7 @@ endif (UNIX)
 target_link_libraries(
     main-test
     PUBLIC
-    axolote
+    ifcg
     ${OPENGL_LIBRARIES} glfw
 )
 if (UNIX)
