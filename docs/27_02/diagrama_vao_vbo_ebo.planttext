@@ -1,0 +1,33 @@
+class VAO {
+  -GLuint _id
+  
+  +VAO()
+  +GLuint id() const
+  +void linkAttrib(VBO vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeitptr size, void *offset)
+  +void bind()
+  +void unbind()
+  +void destroy()
+}
+
+class VBO {
+  -GLuint _id
+  
+  +VBO()
+  +GLuint id() const
+  +void bind()
+  +void unbind()
+  +void bufferData(size_t size, const void *data)
+  +void destroy()
+}
+
+class EBO {
+  -GLuint _id
+  -size_t _size;
+  
+  +EBO()
+  +GLuint id() const
+  +void bind()
+  +void unbind()
+  +void bufferData(size_t size, const void *data)
+  +void destroy()
+}
