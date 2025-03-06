@@ -14,8 +14,13 @@ std::string path(const std::string &filepath) {
     std::string path = std::filesystem::absolute(PROJECT_ROOT_FOLDER);
     // join the path with the file
     path = path + "/" + filepath;
-    std::cout << path << std::endl;
     return path;
+}
+
+void processInput(GLFWwindow *window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, true);
+    }
 }
 
 float vertices[] = {
@@ -61,6 +66,10 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // Close window
+        glfwPollEvents();
+        processInput(window);
 
         shaderProgram.activate();
         vao.bind();
