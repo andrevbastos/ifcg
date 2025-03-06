@@ -65,6 +65,10 @@ endif (UNIX)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(
     SOURCE_FILES
+    ${SOURCE_DIR}/vao.cpp
+    ${SOURCE_DIR}/vbo.cpp
+    ${SOURCE_DIR}/ebo.cpp
+    ${SOURCE_DIR}/shader.cpp
     ${SOURCE_DIR}/glad/glad.c
 )
 
