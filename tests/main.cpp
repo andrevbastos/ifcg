@@ -24,9 +24,14 @@ void processInput(GLFWwindow *window) {
 }
 
 float vertices[] = {
+    // clang-format off
     // positions        // colors
-    0.5f,  0.5f,  0.0f, 0.5f, 0.0f, 1.0f, 0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f};
+    0.5f,  0.5f,  0.0f, 0.5f, 0.0f, 1.0f,
+    0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+    -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f
+    // clang-format on
+};
 
 GLuint indices[] = {0, 1, 3, 1, 2, 3};
 
