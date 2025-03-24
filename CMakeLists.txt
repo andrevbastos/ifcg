@@ -70,6 +70,8 @@ set(
     ${SOURCE_DIR}/ebo.cpp
     ${SOURCE_DIR}/shader.cpp
     ${SOURCE_DIR}/glad/glad.c
+    ${SOURCE_DIR}/ifcg.cpp
+    ${SOURCE_DIR}/mesh.cpp
 )
 
 # Adding ifcg shared library
