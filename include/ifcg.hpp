@@ -8,8 +8,11 @@
 * \brief Constructor for IFCG class using Singleton pattern
 **/
 
+#include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "mesh.hpp"
+#include "shader.hpp"
 
 #if defined(_WIN32) && defined(IFCG_BUILD_SHARED)
     #define IFCG_API __declspec(dllexport)

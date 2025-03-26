@@ -24,26 +24,6 @@ sudo pacman -S glm
 sudo pamcan -S glfw
 ```
 
-### Windows
-
-Download the CMake installer in [https://cmake.org/download/](https://cmake.org/download/)
-and install it.
-
-The other dependencies will be installed via vcpkg.
-Install the vcpkg:
-```bash
-git clone https://github.com/microsoft/vcpkg.git
-cd vcpkg
-bootstrap-vcpkg.bat
-vcpkg.exe integrate install
-```
-
-Install the dependencies
-```bash
-vcpkg.exe install glm
-vcpkg.exe install glfw3
-```
-
 ## 🔧 Compiling
 
 Clone the repository:
@@ -54,21 +34,11 @@ mkdir build
 cd build
 ```
 
-### Linux
-
-Compile the project:
+Compile and run the project:
 ```bash
 cmake ..
 make -j4
-```
-
-### Windows
-
-Compile the project (pay attention to the path of the vcpkg.cmake file,
-you must change it to your path where you cloned the vcpkg repository):
-```bash
-cmake -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=C:/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-cmake --build . --config Release
+./bin/main-test
 ```
 
 ## 📚 Documentation
@@ -100,5 +70,6 @@ TODO
 ## 🙏 Acknowledgments
 
 * [Learn OpenGL](https://github.com/JoeyDeVries/LearnOpenGL)
-* [OpenGL course](https://www.youtube.com/watch?v=45MIykWJ-C4&ab_channel=freeCodeCamp.org) - By freeCodeCamp
+* [OpenGL course](https://www.youtube.com/watch?v=45MIykWJ-C4&ab_channel=freeCodeCamp.org) - by freeCodeCamp
+* [OpenGL course](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=ggvK1vKGWtdA4YJm) - by Victor Gordan
 * [README-Template.md](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)

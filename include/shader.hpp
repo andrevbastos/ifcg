@@ -1,6 +1,13 @@
 #ifndef SHADER_CLASS_H
 #define SHADER_CLASS_H
 
+/**
+* \author André B.
+* \date February 27, 2025
+* \version March 15, 2025
+* \brief Constructor for Shader class
+**/
+
 #include<glad/glad.h>
 #include<string>
 #include<fstream>

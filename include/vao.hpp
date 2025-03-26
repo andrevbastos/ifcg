@@ -1,6 +1,13 @@
 #ifndef VAO_CLASS_H
 #define VAO_CLASS_H
 
+/**
+* \author André B.
+* \date February 27, 2025
+* \version March 13, 2025
+* \brief Constructor for VAO class
+**/
+
 #include <glad/glad.h>
 #include "vbo.hpp"
 
