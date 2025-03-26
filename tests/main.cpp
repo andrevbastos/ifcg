@@ -105,10 +105,7 @@ int main()
     Shader shaderProgram("../resources/shaders/default.vert", "../resources/shaders/default.frag");
     
     // Criação do mesh a partir dos vértices e índices
-    Mesh cube(vertices, indices);
-    
-    // Variável de tempo para animação
-    float time = 0.0f;
+    Mesh cube(vertices, indices, shaderProgram._id);
 
     // Loop principal de renderização
     while (!glfwWindowShouldClose(window))
@@ -124,28 +121,8 @@ int main()
         // Ativa o programa de shader
         shaderProgram.activate();
 
-        // Matrizes de transformação
-        glm::mat4 model = glm::mat4(1.0f);  // Matriz modelo (identidade)
-        glm::mat4 view = glm::mat4(1.0f);   // Matriz de visualização (identidade)
-        glm::mat4 proj = glm::mat4(1.0f);   // Matriz de projeção (identidade)
-
-        // Atualiza o tempo para animação
-        time += 0.01f;
-
-        // Aplica transformações
-        model = glm::rotate(model, time, glm::vec3(0.3f, 0.0f, 0.0f));  // Rotação nos eixos X, Y, Z
-        view = glm::translate(view, glm::vec3(0.0f, -0.4f, -2.0f));     // Move a câmera nos eixos X, Y, Z
-        proj = glm::perspective(glm::radians(45.0f), 
-                (float)width / (float)height, 0.1f, 100.0f);            // Projeção de perspectiva
-
-        // Passa as matrizes para os shaders
-        GLuint modelLoc = glGetUniformLocation(shaderProgram._id, "model");
-        GLuint viewLoc = glGetUniformLocation(shaderProgram._id, "view");
-        GLuint projLoc = glGetUniformLocation(shaderProgram._id, "proj");
-
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+        // Rotaciona cubo
+        cube.rotate(0.01f, glm::vec3(0.0f, 0.3f, 0.1f));
 
         // Renderiza o cubo
         cube.draw();
