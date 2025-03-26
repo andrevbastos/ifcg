@@ -1,0 +1,1 @@
+/usr/bin/c++ "CMakeFiles/main-test.dir/tests/main.cpp.o" -o bin/main-test   -L/home/andrevbastos/dev/ifcg/./lib  -Wl,-rpath,/home/andrevbastos/dev/ifcg/./lib:/home/andrevbastos/dev/ifcg/build/lib lib/libifcg.so /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libGLU.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -lstdc++ 
