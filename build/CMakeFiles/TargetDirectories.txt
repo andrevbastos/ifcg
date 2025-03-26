@@ -1,5 +1,0 @@
-/home/andrevbastos/dev/ifcg/build/CMakeFiles/copy-compile-commands.dir
-/home/andrevbastos/dev/ifcg/build/CMakeFiles/ifcg.dir
-/home/andrevbastos/dev/ifcg/build/CMakeFiles/main-test.dir
-/home/andrevbastos/dev/ifcg/build/CMakeFiles/edit_cache.dir
-/home/andrevbastos/dev/ifcg/build/CMakeFiles/rebuild_cache.dir
