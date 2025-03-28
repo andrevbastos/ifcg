@@ -18,15 +18,13 @@ int main()
     Shader shaderProgram("../resources/shaders/default.vert", "../resources/shaders/default.frag");
     
     Mesh cube(IFCG::cubeVertex(), IFCG::cubeIndex(), shaderProgram._id);
-    cube.scale(0.25, 0.25, 0.25); 
+    cube.scale(0.2, 0.2, 0.2); 
 
     Mesh pyramid(IFCG::pyramidVertex(), IFCG::pyramidIndex(), shaderProgram._id);
-    pyramid.model = glm::translate(pyramid.model, glm::vec3(0.0f, 0.5f, 0.0f));
     pyramid.scale(0.3, 0.3, 0.3); 
 
     std::vector<Mesh> testeVector = { cube, pyramid };
     Mesh testeMesh(testeVector, shaderProgram._id);
-    testeMesh.scale(0.3, 0.3, 0.3);
 
     while (!glfwWindowShouldClose(window))
     {   
@@ -41,7 +39,8 @@ int main()
         // pyramid.rotate(0.01f, glm::vec3(0.0f, 0.3f, 0.0f));
         // pyramid.draw();
 
-        testeMesh.rotate(0.01f, glm::vec3(0.0f, 0.3f, 1.0f));
+        testeMesh.rotate(0, 0.01f, glm::vec3(0.0f, 0.3f, 1.0f));
+        testeMesh.rotate(1, 0.01f, glm::vec3(0.0f, 0.3f, 1.0f));
         testeMesh.draw();
 
         glfwSwapBuffers(window);

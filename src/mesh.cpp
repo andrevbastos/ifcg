@@ -5,6 +5,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint sha
 	this->vertices = vertices;
 	this->indices = indices;
 	this->shaderID = shaderID;
+	this->meshSize.push_back(vertices.size());
 
 	this->vao = vao;
 	vao.bind();
@@ -25,6 +26,7 @@ Mesh::Mesh(std::vector<Mesh> meshes, GLuint shaderID)
     for (unsigned int i = 0; i < meshes.size(); i++) {
 		std::vector<Vertex> curretnVertices = meshes[i].vertices;
 		std::vector<GLuint> currentIndices = meshes[i].indices;
+		std::vector<glm::mat4> currentModels = meshes[i].models;
 
 		if (vertices.size() != 0) {
 			for (GLuint& index : currentIndices) {
@@ -34,9 +36,12 @@ Mesh::Mesh(std::vector<Mesh> meshes, GLuint shaderID)
 
         this->vertices.insert(this->vertices.end(), curretnVertices.begin(), curretnVertices.end());
 		this->indices.insert(this->indices.end(), currentIndices.begin(), currentIndices.end());
+		this->models.insert(this->models.end(), currentModels.begin(), currentModels.end());
+		this->meshSize.push_back(currentIndices.size());
 
 		std::cout << "MESH VERTICES: " << vertices.size() << std::endl;
 		std::cout << "MESH INDICES: "<< indices.size() << std::endl;
+		std::cout << "CURRENT MESH INDEX SIZE: " << meshSize[i] << std::endl;
     }
 	this->shaderID = shaderID;
 
@@ -55,22 +60,45 @@ Mesh::Mesh(std::vector<Mesh> meshes, GLuint shaderID)
 	ebo.unbind();
 };
 
-void Mesh::draw()
-{
-	GLuint modelLoc = glGetUniformLocation(shaderID, "model");
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+void Mesh::draw() {
+    GLuint modelLoc = glGetUniformLocation(shaderID, "model");
 
-	vao.bind();
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	vao.unbind();
+    vao.bind();
+    GLuint currentOffset = 0;
+
+    for (GLuint i = 0; i < meshSize.size(); i++) {
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[i]));
+        glDrawElements(
+            GL_TRIANGLES,
+            meshSize[i],
+            GL_UNSIGNED_INT,
+            (void*)(currentOffset * sizeof(GLuint))
+        );
+        currentOffset += meshSize[i] - 1;
+    }
+    vao.unbind();
 }
 
 void Mesh::rotate(float angle, glm::vec3 axis)
 {
-	model = glm::rotate(model, angle, axis);
+	for (size_t modelIndex = 0; modelIndex < models.size(); modelIndex++) {
+		models[modelIndex] = glm::rotate(models[modelIndex], angle, axis);
+	}
+};
+
+void Mesh::rotate(GLuint modelIndex, float angle, glm::vec3 axis)
+{
+	models[modelIndex] = glm::rotate(models[modelIndex], angle, axis);
 };
 
 void Mesh::scale(float x, float y, float z) 
 {
-	model = glm::scale(model, glm::vec3(x,y,z));
+	for (size_t modelIndex = 0; modelIndex < models.size(); modelIndex++) {
+		models[modelIndex] = glm::scale(models[modelIndex], glm::vec3(x,y,z));
+	}
+};
+
+void Mesh::scale(GLuint modelIndex, float x, float y, float z) 
+{
+	models[modelIndex] = glm::scale(models[modelIndex], glm::vec3(x,y,z));
 };
