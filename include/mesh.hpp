@@ -28,9 +28,11 @@ public:
 
 	VAO vao;
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID);
+	Mesh(std::vector<Mesh> meshes, GLuint shaderID);
 
 	void draw();
 	void rotate(float angle, glm::vec3 axis);
+	void scale(float x, float y, float z);
 };
 
 #endif

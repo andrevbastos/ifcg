@@ -25,10 +25,20 @@
 class IFCG
 {
 public:
+	static IFCG* init();
+	static GLFWwindow* window;
+
 	static void createWindow(GLuint width, GLuint height);
 	static void createViewport(GLuint width, GLuint height);
-	static GLFWwindow* window;
-	static IFCG* init();
+	static void clearBuffer();
+	static void readInputs(GLFWwindow* window);
+	static void processInput(GLFWwindow *window);
+
+	static std::vector<Vertex> cubeVertex();
+	static std::vector<GLuint> cubeIndex();
+	static std::vector<Vertex> pyramidVertex();
+	static std::vector<GLuint> pyramidIndex();
+
 private:
 	static IFCG* instance;
 	IFCG();
