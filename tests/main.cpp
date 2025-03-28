@@ -26,6 +26,7 @@ int main()
 
     std::vector<Mesh> testeVector = { cube, pyramid };
     Mesh testeMesh(testeVector, shaderProgram._id);
+    testeMesh.scale(0.3, 0.3, 0.3);
 
     while (!glfwWindowShouldClose(window))
     {   

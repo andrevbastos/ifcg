@@ -6,7 +6,6 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint sha
 	this->indices = indices;
 	this->shaderID = shaderID;
 
-	VAO vao;
 	this->vao = vao;
 	vao.bind();
 
@@ -24,8 +23,17 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint sha
 Mesh::Mesh(std::vector<Mesh> meshes, GLuint shaderID)
 {
     for (unsigned int i = 0; i < meshes.size(); i++) {
-        this->vertices.insert(this->vertices.end(), meshes[i].vertices.begin(), meshes[i].vertices.end());
-		this->indices.insert(this->indices.end(), meshes[i].indices.begin(), meshes[i].indices.end());
+		std::vector<Vertex> curretnVertices = meshes[i].vertices;
+		std::vector<GLuint> currentIndices = meshes[i].indices;
+
+		if (vertices.size() != 0) {
+			for (GLuint& index : currentIndices) {
+				index += vertices.size();
+			}
+		}
+
+        this->vertices.insert(this->vertices.end(), curretnVertices.begin(), curretnVertices.end());
+		this->indices.insert(this->indices.end(), currentIndices.begin(), currentIndices.end());
 
 		std::cout << "MESH VERTICES: " << vertices.size() << std::endl;
 		std::cout << "MESH INDICES: "<< indices.size() << std::endl;

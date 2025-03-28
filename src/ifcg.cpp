@@ -71,40 +71,40 @@ std::vector<Vertex> IFCG::cubeVertex()
         // Vertex{glm::vec3(x, y, z), glm::vec3(R, G, B)},
 
         // Frente (azul)
-        Vertex{glm::vec3(+0.5f, +0.5f, +0.5f), glm::vec3(0.0f, 0.0f, 1.0f)},
-        Vertex{glm::vec3(+0.5f, -0.5f, +0.5f), glm::vec3(0.0f, 0.0f, 1.0f)},
-        Vertex{glm::vec3(-0.5f, -0.5f, +0.5f), glm::vec3(0.0f, 0.0f, 1.0f)},
-        Vertex{glm::vec3(-0.5f, +0.5f, +0.5f), glm::vec3(0.0f, 0.0f, 1.0f)},
+        Vertex{glm::vec3(+1.0f, +1.0f, +1.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
+        Vertex{glm::vec3(+1.0f, -1.0f, +1.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
+        Vertex{glm::vec3(-1.0f, -1.0f, +1.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
+        Vertex{glm::vec3(-1.0f, +1.0f, +1.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
 
         // Trás (vermelha)
-        Vertex{glm::vec3(+0.5f, +0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f)},
-        Vertex{glm::vec3(+0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f)},
-        Vertex{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f)},
-        Vertex{glm::vec3(-0.5f, +0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f)},
+        Vertex{glm::vec3(+1.0f, +1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+        Vertex{glm::vec3(+1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+        Vertex{glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
+        Vertex{glm::vec3(-1.0f, +1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f)},
 
         // Esquerda (verde)
-        Vertex{glm::vec3(-0.5f, +0.5f, +0.5f), glm::vec3(0.0f, 1.0f, 0.0f)},
-        Vertex{glm::vec3(-0.5f, -0.5f, +0.5f), glm::vec3(0.0f, 1.0f, 0.0f)},
-        Vertex{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f)},
-        Vertex{glm::vec3(-0.5f, +0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(-1.0f, +1.0f, +1.0f), glm::vec3(0.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(-1.0f, -1.0f, +1.0f), glm::vec3(0.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(-1.0f, +1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f)},
 
         // Direita (amarela)
-        Vertex{glm::vec3(+0.5f, -0.5f, +0.5f), glm::vec3(1.0f, 1.0f, 0.0f)},
-        Vertex{glm::vec3(+0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 0.0f)},
-        Vertex{glm::vec3(+0.5f, +0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 0.0f)},
-        Vertex{glm::vec3(+0.5f, +0.5f, +0.5f), glm::vec3(1.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(+1.0f, -1.0f, +1.0f), glm::vec3(1.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(+1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(+1.0f, +1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f)},
+        Vertex{glm::vec3(+1.0f, +1.0f, +1.0f), glm::vec3(1.0f, 1.0f, 0.0f)},
 
         // Cima (ciano)
-        Vertex{glm::vec3(+0.5f, +0.5f, +0.5f), glm::vec3(0.0f, 1.0f, 1.0f)},
-        Vertex{glm::vec3(+0.5f, +0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 1.0f)},
-        Vertex{glm::vec3(-0.5f, +0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 1.0f)},
-        Vertex{glm::vec3(-0.5f, +0.5f, +0.5f), glm::vec3(0.0f, 1.0f, 1.0f)},
+        Vertex{glm::vec3(+1.0f, +1.0f, +1.0f), glm::vec3(0.0f, 1.0f, 1.0f)},
+        Vertex{glm::vec3(+1.0f, +1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f)},
+        Vertex{glm::vec3(-1.0f, +1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f)},
+        Vertex{glm::vec3(-1.0f, +1.0f, +1.0f), glm::vec3(0.0f, 1.0f, 1.0f)},
 
         // Baixo (magenta)
-        Vertex{glm::vec3(+0.5f, -0.5f, +0.5f), glm::vec3(1.0f, 0.0f, 1.0f)},
-        Vertex{glm::vec3(+0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f)},
-        Vertex{glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f)},
-        Vertex{glm::vec3(-0.5f, -0.5f, +0.5f), glm::vec3(1.0f, 0.0f, 1.0f)}
+        Vertex{glm::vec3(+1.0f, -1.0f, +1.0f), glm::vec3(1.0f, 0.0f, 1.0f)},
+        Vertex{glm::vec3(+1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f)},
+        Vertex{glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f)},
+        Vertex{glm::vec3(-1.0f, -1.0f, +1.0f), glm::vec3(1.0f, 0.0f, 1.0f)}
     };
 
     return vertices;
