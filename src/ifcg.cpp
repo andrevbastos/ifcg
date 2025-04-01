@@ -142,8 +142,6 @@ std::vector<GLuint> IFCG::cubeIndex() {
 std::vector<Vertex> IFCG::pyramidVertex()
 {
     std::vector<Vertex> vertices = {       
-        //        (layout = 0) aPos   (layout = 1) aColor
-        // Vertex{glm::vec3(x, y, z), glm::vec3(R, G, B)}
         // Base (magenta)
         Vertex{glm::vec3(+1.0f, -1.0f, +1.0f), glm::vec3(1.0f, 0.0f, 1.0f)},
         Vertex{glm::vec3(+1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f)},
@@ -175,7 +173,7 @@ std::vector<Vertex> IFCG::pyramidVertex()
 
 std::vector<GLuint> IFCG::pyramidIndex() {
     std::vector<GLuint> indices = {
-        // Baixo
+        // Base
         0, 1, 3,
         1, 2, 3,
 

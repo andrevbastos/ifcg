@@ -36,8 +36,13 @@ Mesh::Mesh(std::vector<Mesh> meshes, GLuint shaderID)
 
         this->vertices.insert(this->vertices.end(), curretnVertices.begin(), curretnVertices.end());
 		this->indices.insert(this->indices.end(), currentIndices.begin(), currentIndices.end());
-		this->models.insert(this->models.end(), currentModels.begin(), currentModels.end());
 		this->meshSize.push_back(currentIndices.size());
+
+		if (i == 0) {
+            this->models = currentModels; 
+		} else {
+            this->models.insert(this->models.end(), currentModels.begin(), currentModels.end());
+        }
 
 		std::cout << "MESH VERTICES: " << vertices.size() << std::endl;
 		std::cout << "MESH INDICES: "<< indices.size() << std::endl;
@@ -74,7 +79,7 @@ void Mesh::draw() {
             GL_UNSIGNED_INT,
             (void*)(currentOffset * sizeof(GLuint))
         );
-        currentOffset += meshSize[i] - 1;
+        currentOffset += meshSize[i];
     }
     vao.unbind();
 }
