@@ -67,7 +67,7 @@ void Mesh::draw() {
     GLuint currentOffset = 0;
 
     for (GLuint i = 0; i < meshSize.size(); i++) {
-		glm::mat4 trueModel = models[i] * model;
+		glm::mat4 trueModel = model * models[i];
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(trueModel));
         glDrawElements(
             GL_TRIANGLES,

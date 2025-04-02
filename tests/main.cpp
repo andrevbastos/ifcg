@@ -22,6 +22,7 @@ int main()
 
     Mesh pyramid(IFCG::pyramidVertex(), IFCG::pyramidIndex(), shaderProgram._id);
     pyramid.scale(0.3, 0.3, 0.3); 
+    pyramid.rotate(1.0f, glm::vec3(1.0f, 0.0f, 1.0f));
 
     std::vector<Mesh> testeVector = { cube, pyramid };
     Mesh testeMesh(testeVector, shaderProgram._id);
@@ -33,12 +34,6 @@ int main()
         IFCG::readInputs(window);
 
         shaderProgram.activate();
-
-        // cube.rotate(0.01f, glm::vec3(0.0f, 0.3f, 0.0f));
-        // cube.draw();
-
-        // pyramid.rotate(0.01f, glm::vec3(0.0f, 0.3f, 0.0f));
-        // pyramid.draw();
 
         testeMesh.rotate(0.01f, glm::vec3(0.3f, 0.3f, 0.3f));
         testeMesh.draw();
