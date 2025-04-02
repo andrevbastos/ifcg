@@ -26,6 +26,7 @@ int main()
     std::vector<Mesh> testeVector = { cube, pyramid };
     Mesh testeMesh(testeVector, shaderProgram._id);
 
+    float time = 0.0f;
     while (!glfwWindowShouldClose(window))
     {   
         IFCG::clearBuffer();
@@ -39,8 +40,7 @@ int main()
         // pyramid.rotate(0.01f, glm::vec3(0.0f, 0.3f, 0.0f));
         // pyramid.draw();
 
-        testeMesh.rotate(0, 0.01f, glm::vec3(0.0f, 0.3f, 1.0f));
-        testeMesh.rotate(1, 0.01f, glm::vec3(0.0f, 0.3f, 1.0f));
+        testeMesh.rotate(0.01f, glm::vec3(0.3f, 0.3f, 0.3f));
         testeMesh.draw();
 
         glfwSwapBuffers(window);

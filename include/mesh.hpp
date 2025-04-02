@@ -26,6 +26,7 @@ public:
 	GLuint shaderID;
 	
 	std::vector<glm::mat4> models = { glm::mat4(1.0f) };
+	glm::mat4 model = glm::mat4(1.0f);
 	
 	VAO vao;
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID);

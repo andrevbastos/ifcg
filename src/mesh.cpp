@@ -26,7 +26,6 @@ Mesh::Mesh(std::vector<Mesh> meshes, GLuint shaderID)
     for (unsigned int i = 0; i < meshes.size(); i++) {
 		std::vector<Vertex> curretnVertices = meshes[i].vertices;
 		std::vector<GLuint> currentIndices = meshes[i].indices;
-		std::vector<glm::mat4> currentModels = meshes[i].models;
 
 		if (vertices.size() != 0) {
 			for (GLuint& index : currentIndices) {
@@ -39,14 +38,10 @@ Mesh::Mesh(std::vector<Mesh> meshes, GLuint shaderID)
 		this->meshSize.push_back(currentIndices.size());
 
 		if (i == 0) {
-            this->models = currentModels; 
+            this->models[0] = meshes[i].model; 
 		} else {
-            this->models.insert(this->models.end(), currentModels.begin(), currentModels.end());
+            this->models.insert(this->models.end(), meshes[i].model);
         }
-
-		std::cout << "MESH VERTICES: " << vertices.size() << std::endl;
-		std::cout << "MESH INDICES: "<< indices.size() << std::endl;
-		std::cout << "CURRENT MESH INDEX SIZE: " << meshSize[i] << std::endl;
     }
 	this->shaderID = shaderID;
 
@@ -72,7 +67,8 @@ void Mesh::draw() {
     GLuint currentOffset = 0;
 
     for (GLuint i = 0; i < meshSize.size(); i++) {
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[i]));
+		glm::mat4 trueModel = models[i] * model;
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(trueModel));
         glDrawElements(
             GL_TRIANGLES,
             meshSize[i],
@@ -86,9 +82,7 @@ void Mesh::draw() {
 
 void Mesh::rotate(float angle, glm::vec3 axis)
 {
-	for (size_t modelIndex = 0; modelIndex < models.size(); modelIndex++) {
-		models[modelIndex] = glm::rotate(models[modelIndex], angle, axis);
-	}
+	model = glm::rotate(model, angle, axis);
 };
 
 void Mesh::rotate(GLuint modelIndex, float angle, glm::vec3 axis)
@@ -98,9 +92,7 @@ void Mesh::rotate(GLuint modelIndex, float angle, glm::vec3 axis)
 
 void Mesh::scale(float x, float y, float z) 
 {
-	for (size_t modelIndex = 0; modelIndex < models.size(); modelIndex++) {
-		models[modelIndex] = glm::scale(models[modelIndex], glm::vec3(x,y,z));
-	}
+	model = glm::scale(model, glm::vec3(x,y,z));
 };
 
 void Mesh::scale(GLuint modelIndex, float x, float y, float z) 
