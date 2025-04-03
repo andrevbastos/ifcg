@@ -12,17 +12,11 @@
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
-struct Vertex
-{
-    glm::vec3 position;
-	glm::vec3 color;
-};
-
 class VBO
 {
 public:
     GLuint _id;
-	VBO(const std::vector<Vertex>& vertices);
+	VBO(const std::vector<Vertex2D>& vertices);
 
     void bind();
     void unbind();
