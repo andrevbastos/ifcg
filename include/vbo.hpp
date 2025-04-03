@@ -12,6 +12,8 @@
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
+#include "vertex2D.hpp"
+
 class VBO
 {
 public:

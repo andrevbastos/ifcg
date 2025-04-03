@@ -1,10 +1,10 @@
 #include "vbo.hpp"
 
-VBO::VBO(const std::vector<Vertex>& vertices)
+VBO::VBO(const std::vector<Vertex2D>& vertices)
 {
     glGenBuffers(1, &_id);
     glBindBuffer(GL_ARRAY_BUFFER, _id);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex2D), vertices.data(), GL_STATIC_DRAW);
 }
 
 void VBO::bind()

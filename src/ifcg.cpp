@@ -93,6 +93,10 @@ namespace ifcg
         glfwSwapBuffers(window);
     };
 
+    Shader IFCG::getDefaultShader2D() {
+        return Shader("../resources/shaders/default.vert", "../resources/shaders/default.frag");
+    };
+
     void IFCG::terminate_() 
     {
         glfwTerminate();
@@ -102,4 +106,5 @@ namespace ifcg
     {
         glViewport(0, 0, width, height);
     }   
+
 }; // end of namespace ifcg

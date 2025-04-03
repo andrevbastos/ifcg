@@ -12,6 +12,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "shader.hpp"
+#include "vertex2D.hpp"
+
 #if defined(_WIN32) && defined(IFCG_BUILD_SHARED)
 	#define IFCG_API __declspec(dllexport)
 #elif defined(_WIN32) && !defined(IFCG_BUILD_SHARED)
@@ -36,8 +39,12 @@ namespace ifcg
 		static void readInputs();
 		static void processInput();
 		static void swapBuffer();
-		static void terminate();
 		
+		static Shader getDefaultShader2D();
+		static Shader getDefaultShader3D();
+
+		static void terminate();
+
 		static GLFWwindow* window;
 
 	private:

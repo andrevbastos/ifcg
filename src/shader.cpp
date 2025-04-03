@@ -50,7 +50,7 @@ void Shader::activate()
 	glUseProgram(_id);
 }
 
-void Shader::destroy()
+void Shader::terminate()
 {
 	glDeleteProgram(_id);
 }
