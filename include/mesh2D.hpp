@@ -18,17 +18,17 @@ namespace mesh2D
         Mesh2D(std::vector<Vertex2D> vertices, std::vector<GLuint> indices, GLuint shaderID);
         
         virtual void draw();
-        // virtual void transform(glm::mat3 t);
-        // virtual void rotate(float angle);
-        // virtual void scale(float sX, float sY);
-        // virtual void translate(float tX, float tY);
+        virtual void transform(glm::mat4 t);
+        virtual void translate(float tX, float tY);
+        virtual void scale(float sX, float sY);
+        virtual void rotate(float angle);
 
+		glm::mat4 model = glm::mat4(1.0f);
     private:
         std::vector<Vertex2D> vertices;
         std::vector<GLuint> indices;
         GLuint shaderID;
         
-        glm::mat4 model = glm::mat4(1.0f);
         VAO vao;
     };
 
@@ -42,7 +42,7 @@ namespace mesh2D
         EBO ebo(indices);
 		
         vao.linkAttrib(vbo, 0, 2, GL_FLOAT, sizeof(Vertex2D), (void*) 0);
-        vao.linkAttrib(vbo, 1, 3, GL_FLOAT, sizeof(Vertex2D), (void*)(2 * sizeof(float)));
+        vao.linkAttrib(vbo, 1, 3, GL_FLOAT, sizeof(Vertex2D), (void*) (2 * sizeof(float)));
 
         vao.unbind();
         vbo.unbind();
@@ -58,13 +58,27 @@ namespace mesh2D
         vao.unbind();
     }
 
-    // void Mesh2D::rotate(float angle)
-    // {
-    //     model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-    // }
+	void Mesh2D::transform(glm::mat4 t)
+	{
+		model *= t;
+	};
 
-    // void Mesh2D::scale(float x, float y) 
-    // {
-    //     model = glm::scale(model, glm::vec3(x, y, 1.0f));
-    // }
+	void Mesh2D::translate(float tX, float tY)
+	{
+		model = glm::translate(model, glm::vec3(tX, tY, 0.0f));
+	}
+	
+    void Mesh2D::scale(float x, float y) 
+    {
+		model = glm::scale(model, glm::vec3(x, y, 1.0f));
+    }
+
+	void Mesh2D::rotate(float angle)
+	{
+		glm::mat4 modelSave = model;
+		model = glm::mat4(1.0f);
+    	glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0.0f, 0.0f, 1.0f));		
+		
+		model = modelSave * rotation * model;
+	}
 };

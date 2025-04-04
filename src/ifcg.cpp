@@ -94,7 +94,7 @@ namespace ifcg
     };
 
     Shader IFCG::getDefaultShader2D() {
-        return Shader("../resources/shaders/default.vert", "../resources/shaders/default.frag");
+        return Shader("../resources/shaders/default2D.vert", "../resources/shaders/default2D.frag");
     };
 
     void IFCG::terminate_() 
