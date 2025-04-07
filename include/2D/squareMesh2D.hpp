@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mesh2D.hpp"
+#include "2D/mesh2D.hpp"
 
 using namespace mesh2D;
 

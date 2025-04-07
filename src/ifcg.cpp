@@ -3,7 +3,8 @@
 
 namespace ifcg
 {
-    IFCG* IFCG::instance = nullptr;
+
+	IFCG* IFCG::instance = nullptr;
     GLFWwindow* IFCG::window = nullptr;
 
     IFCG::IFCG()
@@ -97,6 +98,10 @@ namespace ifcg
         return Shader("../resources/shaders/default2D.vert", "../resources/shaders/default2D.frag");
     };
 
+	Shader IFCG::getDefaultShader3D() {
+        return Shader("../resources/shaders/default3D.vert", "../resources/shaders/default3D.frag");
+    };
+
     void IFCG::terminate_() 
     {
         glfwTerminate();
@@ -105,6 +110,6 @@ namespace ifcg
     void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     {
         glViewport(0, 0, width, height);
-    }   
+    }    
 
 }; // end of namespace ifcg

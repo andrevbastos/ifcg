@@ -13,9 +13,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "vao.hpp"
-#include "ebo.hpp"
-#include "shader.hpp"
+#include "shader/vao.hpp"
+#include "shader/ebo.hpp"
+#include "shader/shader.hpp"
 
 class Mesh
 {

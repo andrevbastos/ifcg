@@ -9,7 +9,7 @@
 **/
 
 #include <glad/glad.h>
-#include "vbo.hpp"
+#include "shader/vbo.hpp"
 
 class VAO
 {

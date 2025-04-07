@@ -1,4 +1,4 @@
-#include "vao.hpp"
+#include "shader/vao.hpp"
 
 VAO::VAO()
 {

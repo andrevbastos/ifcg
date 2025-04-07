@@ -1,13 +1,12 @@
+#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>
 #include "ifcg.hpp"
-#include "triangleMesh2D.hpp"
-#include "squareMesh2D.hpp"
+#include "3D/pyramidMesh3D.hpp"
+#include "3D/cubeMesh3D.hpp"
 
 using namespace ifcg;
-using namespace mesh2D;
 
 unsigned int width = 800;
 unsigned int height = 800;
@@ -17,28 +16,28 @@ int main()
     IFCG::init();
     IFCG::createWindow(width, height);
 
-    Shader shaderProgram = IFCG::getDefaultShader2D();
+    Shader shader3D = IFCG::getDefaultShader3D();
 
-    Triangle2D triangle(IFCG::getDefaultShader2D());
-    triangle.translate(-0.5f, -0.5f);
-    triangle.scale(0.5f, 0.5f);
+    Pyramid3D pyramid(shader3D);
+    pyramid.translate(0.5f, 0.5f, 0.0f);
+    pyramid.scale(0.3f, 0.3f, 0.3f);
 
-    Square2D square(shaderProgram);
-    square.translate(0.5f, 0.5f);
-    square.scale(0.5f, 0.5f);
+    Cube3D cube(shader3D);
+    cube.translate(-0.5f, -0.5f, 0.0f);
+    cube.scale(.3f, 0.3f, 0.3f);
 
     while (!IFCG::shouldClose())
     {
         IFCG::processInput();
         IFCG::clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
 
-        shaderProgram.activate();
+        shader3D.activate();
 
-        triangle.rotate(0.01f);
-        triangle.draw();
+        pyramid.rotate(0.01f, glm::vec3(0.0f, 0.1f, 0.3f));
+        pyramid.draw();
 
-        square.rotate(0.01f);
-        square.draw();
+        cube.rotate(0.01f, glm::vec3(0.0f, 0.1f, 0.3f));
+        cube.draw();
 
         IFCG::swapBuffer();
         IFCG::readInputs();

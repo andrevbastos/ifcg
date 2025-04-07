@@ -8,12 +8,13 @@
 * \brief Constructor for IFCG class using Singleton pattern
 **/
 
+#include <iostream>
 #include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "shader.hpp"
-#include "vertex2D.hpp"
+#include "shader/shader.hpp"
+#include "2D/vertex2D.hpp"
 
 #if defined(_WIN32) && defined(IFCG_BUILD_SHARED)
 	#define IFCG_API __declspec(dllexport)

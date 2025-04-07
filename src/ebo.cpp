@@ -1,4 +1,4 @@
-#include "ebo.hpp"
+#include "shader/ebo.hpp"
 
 EBO::EBO(const std::vector<GLuint>& indices)
 {
