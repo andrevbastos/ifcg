@@ -9,10 +9,10 @@ class Square2D : public Mesh2D
 public:
     Square2D(Shader shaderProgram)
         : Mesh2D({
-            {1.0f, 1.0f, 0.0f, 0.0f, 1.0f},
-            {1.0f, -1.0f, 0.0f, 1.0f, 0.0f},
-            {-1.0f, -1.0f, 0.0f, 1.0f, 1.0f},
-            {-1.0f, 1.0f, 1.0f, 0.0f, 0.0f}
+            Vertex2D{1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+            Vertex2D{1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+            Vertex2D{-1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+            Vertex2D{-1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f }
         },
         {
             0, 1, 3,

@@ -42,7 +42,7 @@ namespace mesh2D
         EBO ebo(indices);
 		
         vao.linkAttrib(vbo, 0, 2, GL_FLOAT, sizeof(Vertex2D), (void*) 0);
-        vao.linkAttrib(vbo, 1, 3, GL_FLOAT, sizeof(Vertex2D), (void*) (2 * sizeof(float)));
+        vao.linkAttrib(vbo, 1, 4, GL_FLOAT, sizeof(Vertex2D), (void*) (2 * sizeof(float)));
 
         vao.unbind();
         vbo.unbind();

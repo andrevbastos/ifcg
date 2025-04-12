@@ -4,8 +4,9 @@
 
 #include "ifcg.hpp"
 #include "3D/camera3D.hpp"
-#include "3D/pyramid_mesh3D.hpp"
 #include "3D/cube_mesh3D.hpp"
+#include "3D/pyramid_mesh3D.hpp"
+#include "3D/sphere_mesh3D.hpp"
 
 unsigned int width = 800;
 unsigned int height = 600;
@@ -17,27 +18,11 @@ int main()
 
     Shader shader3D = IFCG::getDefaultShader3D();
 
-    Camera3D camera(width, height, glm::vec3(0.0f, 0.0f, -2.0f));
-
-    Mesh3D floor({
-            Vertex3D( 1.0f, -1.0f,  1.0f, 0.5f, 0.5f, 0.5f),
-            Vertex3D( 1.0f, -1.0f, -1.0f, 0.5f, 0.5f, 0.5f),
-            Vertex3D(-1.0f, -1.0f, -1.0f, 0.5f, 0.5f, 0.5f),
-            Vertex3D(-1.0f, -1.0f,  1.0f, 0.5f, 0.5f, 0.5f),
-        },{
-            0, 1, 3,
-            1, 2, 3
-        },
-        shader3D._id
-    );
+    Camera3D camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
     Pyramid3D pyramid(shader3D);
-    pyramid.translate(0.5f, 0.5f, 0.0f);
-    pyramid.scale(0.3f, 0.3f, 0.3f);
-
     Cube3D cube(shader3D);
-    cube.translate(-0.5f, -0.5f, 0.0f);
-    cube.scale(0.3f, 0.3f, 0.3f);
+    Sphere3D sphere(50, shader3D);
 
     while (!IFCG::shouldClose())
     {
@@ -49,13 +34,7 @@ int main()
         camera.inputs(IFCG::window);
         camera.update(45.0f, 0.1f, 100.0f, shader3D);
 
-        pyramid.rotate(0.01f, glm::vec3(0.0f, 0.1f, 0.3f));
-        pyramid.draw();
-
-        cube.rotate(0.01f, glm::vec3(0.0f, 0.1f, 0.3f));
-        cube.draw();
-
-        floor.draw();
+        sphere.draw();
 
         IFCG::swapBuffer();
         IFCG::readInputs();
