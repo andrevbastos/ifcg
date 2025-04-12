@@ -1,5 +1,4 @@
-#ifndef VBO_CLASS_H
-#define VBO_CLASS_H
+#pragma once
 
 /**
 * \author André B.
@@ -15,16 +14,49 @@
 #include "2D/vertex2D.hpp"
 #include "3D/vertex3D.hpp"
 
-class VBO
+namespace vbo
 {
-public:
-    GLuint _id;
-	VBO(const std::vector<Vertex2D>& vertices);
-	VBO(const std::vector<Vertex3D>& vertices);
 
-    void bind();
-    void unbind();
-    void destroy();
-};
+    class VBO
+    {
+    public:
+        GLuint _id;
+        VBO(const std::vector<Vertex2D>& vertices);
+        VBO(const std::vector<Vertex3D>& vertices);
+    
+        void bind();
+        void unbind();
+        void destroy();
+    };
+        
+    VBO::VBO(const std::vector<Vertex2D>& vertices)
+    {
+        glGenBuffers(1, &_id);
+        glBindBuffer(GL_ARRAY_BUFFER, _id);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex2D), vertices.data(), GL_STATIC_DRAW);
+    }
+    
+    VBO::VBO(const std::vector<Vertex3D>& vertices)
+    {
+        glGenBuffers(1, &_id);
+        glBindBuffer(GL_ARRAY_BUFFER, _id);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex3D), vertices.data(), GL_STATIC_DRAW);
+    }
+    
+    void VBO::bind()
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, _id);
+    }
+    
+    void VBO::unbind()
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+    
+    void VBO::destroy()
+    {
+        glDeleteBuffers(1, &_id);
+    }
+}
 
-#endif
+using namespace vbo;

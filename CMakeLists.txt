@@ -65,13 +65,7 @@ endif (UNIX)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(
     SOURCE_FILES
-    ${SOURCE_DIR}/vao.cpp
-    ${SOURCE_DIR}/vbo.cpp
-    ${SOURCE_DIR}/ebo.cpp
-    ${SOURCE_DIR}/shader.cpp
     ${SOURCE_DIR}/glad/glad.c
-    ${SOURCE_DIR}/ifcg.cpp
-    # ${SOURCE_DIR}/mesh.cpp
 )
 
 # Adding ifcg shared library
@@ -112,7 +106,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Source files
 set(
     MAIN_TEST_SOURCE_FILES
-    ${CMAKE_SOURCE_DIR}/tests/main.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test2D.cpp
+    # ${CMAKE_SOURCE_DIR}/tests/test3D.cpp
+    # ${CMAKE_SOURCE_DIR}/tests/main.cpp
 )
 
 # Adding executables for testing

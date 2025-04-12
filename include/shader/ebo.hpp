@@ -1,5 +1,4 @@
-#ifndef EBO_CLASS_H
-#define EBO_CLASS_H
+#pragma once
 
 /**
 * \author André B.
@@ -11,15 +10,40 @@
 #include <vector>
 #include <glad/glad.h>
 
-class EBO
+namespace ebo
 {
-public:
-    GLuint ID;
-    EBO(const std::vector<GLuint>& indices);
+    class EBO
+    {
+    public:
+        GLuint ID;
+        EBO(const std::vector<GLuint>& indices);
+    
+        void bind();
+        void unbind();
+        void destroy();
+    };
 
-    void bind();
-    void unbind();
-    void destroy();
-};
-//oie
-#endif
+    EBO::EBO(const std::vector<GLuint>& indices)
+    {
+        glGenBuffers(1, &ID);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+    }
+
+    void EBO::bind()
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
+    }
+
+    void EBO::unbind()
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+
+    void EBO::destroy()
+    {
+        glDeleteBuffers(1, &ID);
+    }
+}
+
+using namespace ebo;

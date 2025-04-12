@@ -1,5 +1,4 @@
-#ifndef VAO_CLASS_H
-#define VAO_CLASS_H
+#pragma once
 
 /**
 * \author André B.
@@ -11,16 +10,46 @@
 #include <glad/glad.h>
 #include "shader/vbo.hpp"
 
-class VAO
+namespace vao
 {
-public:
-    GLuint _id;
-    VAO();
+    class VAO
+    {
+    public:
+        GLuint _id;
+        VAO();
+    
+        void linkAttrib(VBO& vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
+        void bind();
+        void unbind();
+        void destroy();
+    };
 
-    void linkAttrib(VBO& vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
-    void bind();
-    void unbind();
-    void destroy();
-};
+    VAO::VAO()
+    {
+        glGenVertexArrays(1, &_id);
+    }
 
-#endif
+    void VAO::linkAttrib(VBO& vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset)
+    {
+        vbo.bind();
+        glVertexAttribPointer(layout, numComponents, type, GL_FALSE, stride, offset);
+        glEnableVertexAttribArray(layout);
+    }
+
+    void VAO::bind()
+    {
+        glBindVertexArray(_id);
+    }
+
+    void VAO::unbind()
+    {
+        glBindVertexArray(0);
+    }
+
+    void VAO::destroy()
+    {
+        glDeleteVertexArrays(1, &_id);
+    }
+}
+
+using namespace vao;
