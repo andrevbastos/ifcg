@@ -18,11 +18,11 @@ int main()
 
     Shader shader2D = IFCG::getDefaultShader2D();
 
-    Camera2D camera(width, height, glm::vec3(0.0f, 0.0f, 5.0f));
+    Camera2D camera(width, height);
 
-    Triangle2D triangle(shader2D);
-    Square2D square(shader2D);
-    Circle2D circle(100, shader2D);
+    Triangle2D triangle(shader2D.id);
+    Square2D square(shader2D.id);
+    Circle2D circle(100, shader2D.id);
 
     while (!IFCG::shouldClose())
     {
@@ -32,7 +32,7 @@ int main()
         shader2D.activate();
         
         camera.inputs(IFCG::window);
-        camera.update(45.0f, 0.1f, 100.0f, shader2D);
+        camera.update(45.0f, 0.1f, 100.0f, shader2D.id);
 
         triangle.draw();
 

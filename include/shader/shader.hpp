@@ -21,7 +21,7 @@ namespace shader
 	class Shader
 	{
 	public:
-		GLuint _id;
+		GLuint id;
 		Shader(const char* vertexFile, const char* fragmentFile);
 	
 		void activate();
@@ -64,11 +64,11 @@ namespace shader
 		glCompileShader(fragmentShader);
 		compileErrors(fragmentShader, "FRAGMENT");
 
-		_id = glCreateProgram();
-		glAttachShader(_id, vertexShader);
-		glAttachShader(_id, fragmentShader);
-		glLinkProgram(_id);
-		compileErrors(_id, "PROGRAM");
+		id = glCreateProgram();
+		glAttachShader(id, vertexShader);
+		glAttachShader(id, fragmentShader);
+		glLinkProgram(id);
+		compileErrors(id, "PROGRAM");
 
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
@@ -77,12 +77,12 @@ namespace shader
 
 	void Shader::activate()
 	{
-		glUseProgram(_id);
+		glUseProgram(id);
 	}
 
 	void Shader::terminate()
 	{
-		glDeleteProgram(_id);
+		glDeleteProgram(id);
 	}
 
 	void Shader::compileErrors(unsigned int shader, const char* type)

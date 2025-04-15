@@ -8,11 +8,11 @@ using namespace mesh2D;
 class Circle2D : public Mesh2D
 {
 public:
-    Circle2D(int precision, Shader shaderProgram)
+    Circle2D(int precision, GLuint shaderID)
         : Mesh2D(
             Circle2D::vertices(precision),
             Circle2D::indices(precision),
-            shaderProgram._id
+            shaderID
         ) {}
 
     std::vector<Vertex2D> vertices(int precision) {

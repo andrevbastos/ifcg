@@ -10,11 +10,11 @@ using namespace mesh3D;
 class Sphere3D : public Mesh3D
 {
 public:
-    Sphere3D(int precision, Shader shaderProgram)
+    Sphere3D(int precision, GLuint shaderID)
         : Mesh3D(
             Sphere3D::vertices(precision),
             Sphere3D::indices(precision),
-            shaderProgram._id
+            shaderID
         ) {}
 
     std::vector<Vertex3D> vertices(int precision) {

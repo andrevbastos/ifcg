@@ -7,7 +7,7 @@ using namespace mesh3D;
 class Cube3D : public Mesh3D
 {
 public:
-    Cube3D(Shader shaderProgram)
+    Cube3D(GLuint shaderID)
         : Mesh3D({
             Vertex3D{+1.0f, +1.0f, +1.0f, 0.0f, 0.0f, 1.0f, 1.0f},
             Vertex3D{+1.0f, -1.0f, +1.0f, 0.0f, 0.0f, 1.0f, 1.0f},
@@ -58,6 +58,6 @@ public:
             20, 21, 23,
             21, 22, 23
         },
-        shaderProgram._id)
-    {}
+        shaderID
+    ) {}
 };

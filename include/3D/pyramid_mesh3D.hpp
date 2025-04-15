@@ -7,7 +7,7 @@ using namespace mesh3D;
 class Pyramid3D : public Mesh3D
 {
 public:
-    Pyramid3D(Shader shaderProgram)
+    Pyramid3D(GLuint shaderID)
         : Mesh3D({
             Vertex3D{+1.0f, -1.0f, +1.0f, 1.0f, 0.0f, 1.0f, 1.0f},
             Vertex3D{+1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f},
@@ -42,6 +42,6 @@ public:
     
             13, 14, 15
         },
-        shaderProgram._id)
-    {}
+        shaderID
+    ) {}
 };

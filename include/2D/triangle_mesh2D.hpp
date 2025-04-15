@@ -7,7 +7,7 @@ using namespace mesh2D;
 class Triangle2D : public Mesh2D
 {
 public:
-    Triangle2D(Shader shaderProgram)
+    Triangle2D(GLuint shaderID)
         : Mesh2D(
         {
             Vertex2D{  1.0f, -0.866f, 1.0f, 0.0f, 0.0f, 1.0f },
@@ -17,6 +17,6 @@ public:
         {
             0, 1, 2
         },
-        shaderProgram._id)
-    {}
+        shaderID
+    ) {}
 };

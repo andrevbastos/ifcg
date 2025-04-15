@@ -29,7 +29,7 @@ namespace camera
 	
 		Camera3D(int width, int height, glm::vec3 position);
 	
-		void update(float FOVdeg, float nearPlane, float farPlane, Shader& shader);
+		void update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID);
 		void inputs(GLFWwindow* window);
 	};
 
@@ -40,7 +40,7 @@ namespace camera
 		position = position;
 	}
 
-	void Camera3D::update(float FOVdeg, float nearPlane, float farPlane, Shader& shader)
+	void Camera3D::update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID)
 	{
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
@@ -49,7 +49,7 @@ namespace camera
 		projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 
 		glUniformMatrix4fv(
-			glGetUniformLocation(shader._id, "cam"),
+			glGetUniformLocation(shaderID, "cam"),
 			1,
 			GL_FALSE,
 			glm::value_ptr(projection * view)
