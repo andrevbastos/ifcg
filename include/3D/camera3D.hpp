@@ -35,9 +35,9 @@ namespace camera
 
 	Camera3D::Camera3D(int width, int height, glm::vec3 position)
 	{
-		Camera3D::width = width;
-		Camera3D::height = height;
-		position = position;
+		this->width = width;
+		this->height = height;
+		this->position = position;
 	}
 
 	void Camera3D::update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID)
@@ -82,15 +82,6 @@ namespace camera
 		{
 			position += speed * -up;
 		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		{
-			speed = 0.4f;
-		}
-		else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-		{
-			speed = 0.1f;
-		}
-
 
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
