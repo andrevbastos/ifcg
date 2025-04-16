@@ -90,11 +90,15 @@ namespace mesh3D
         EBO ebo(indices);
     
         vao.linkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(Vertex3D), (void*)0);
-        vao.linkAttrib(vbo, 1, 3, GL_FLOAT, sizeof(Vertex3D), (void*)(3 * sizeof(float)));
+        vao.linkAttrib(vbo, 1, 4, GL_FLOAT, sizeof(Vertex3D), (void*)(3 * sizeof(float)));
     
         vao.unbind();
         vbo.unbind();
         ebo.unbind();
+
+        if (!glIsEnabled(GL_DEPTH_TEST)) {
+            glEnable(GL_DEPTH_TEST);
+        }
     };
         
     void Mesh3D::draw() {
