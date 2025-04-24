@@ -107,7 +107,6 @@ namespace camera
 			float xoffset = sensitivity * (float)(mouseY - (height / 2)) / height;
 			float yoffset = sensitivity * (float)(mouseX - (width / 2)) / width;
 
-			std::cout << pitch << std::endl;
 			pitch += glm::radians(-xoffset);
 
 			if (pitch >= 1)

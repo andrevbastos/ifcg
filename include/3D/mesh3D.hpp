@@ -19,9 +19,13 @@ namespace mesh3D
 	    Mesh3D(std::vector<Mesh3D> meshes, GLuint shaderID);
 
         virtual void draw();
+        
         virtual void transform(glm::mat4 t);
         virtual void translate(float tX, float tY, float tZ);
+        virtual void translate(glm::vec3 axis);
         virtual void scale(float sX, float sY, float sZ);
+        virtual void scale(glm::vec3 axis);
+        virtual void rotate(float angle, float rX, float rY, float rZ);
         virtual void rotate(float angle, glm::vec3 axis);
 
 		glm::mat4 model = glm::mat4(1.0f);
@@ -129,11 +133,30 @@ namespace mesh3D
 	{
 		model = glm::translate(model, glm::vec3(tX, tY, 0.0f));
 	};
+
+    void Mesh3D::translate(glm::vec3 axis)
+    {
+		model = glm::translate(model, axis);
+	};
 	
     void Mesh3D::scale(float sX, float sY, float sZ) 
     {
 		model = glm::scale(model, glm::vec3(sX, sY, sZ));
     };
+	
+    void Mesh3D::scale(glm::vec3 axis) 
+    {
+		model = glm::scale(model, axis);
+    };
+
+	void Mesh3D::rotate(float angle, float rX, float rY, float rZ)
+	{
+		glm::mat4 modelSave = model;
+		model = glm::mat4(1.0f);
+    	glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(rX, rY, rZ));		
+		
+		model = modelSave * rotation * model;
+	};
 
 	void Mesh3D::rotate(float angle, glm::vec3 axis)
 	{
