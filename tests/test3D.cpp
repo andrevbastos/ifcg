@@ -21,11 +21,7 @@ int main()
 
     Camera3D camera(width, height, glm::vec3(0.0f, 0.0f, 0.0f));
 
-    Pyramid3D pyramid(shader3D.id);
     Cube3D cube(shader3D.id);
-    Sphere3D sphere(shader3D.id, 5);
-
-    Mesh3D teste(std::vector<Mesh3D>{pyramid, cube, sphere}, shader3D.id);
 
     while (!IFCG::shouldClose())
     {
@@ -38,7 +34,7 @@ int main()
         camera.inputs(IFCG::window);
         camera.update(90.0f, 0.1f, 100.0f, shader3D.id);
         
-        teste.draw();
+        cube.draw();
 
         IFCG::swapBuffer();
     }

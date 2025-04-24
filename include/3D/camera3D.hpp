@@ -15,22 +15,29 @@ namespace camera
 	class Camera3D
 	{
 	public:
-		glm::vec3 position;
-		glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	
-		bool firstClick = true;
-	
-		int width;
-		int height;
-	
-		float speed = 0.1f;
-		float sensitivity = 100.0f;
-	
 		Camera3D(int width, int height, glm::vec3 position);
-	
+		
 		void update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID);
 		void inputs(GLFWwindow* window);
+		
+		void translate(float t, glm::vec3 pos);
+		void rotate(float angle, glm::vec3 axis);
+
+	private:
+		glm::vec3 position;
+		
+		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+		
+		bool firstClick = true;
+		
+		float pitch = 0.0f;
+		
+		int width;
+		int height;
+		
+		float speed = 0.1f;
+		float sensitivity = 100.0f;
 	};
 
 	Camera3D::Camera3D(int width, int height, glm::vec3 position)
@@ -60,32 +67,32 @@ namespace camera
 	{
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			position += speed * orientation;
+			translate(speed, orientation);
 		}
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			position += speed * -glm::normalize(glm::cross(orientation, up));
+			translate(speed, -glm::normalize(glm::cross(orientation, up)));
 		}
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			position += speed * -orientation;
+			translate(speed, -orientation);
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			position += speed * glm::normalize(glm::cross(orientation, up));
+			translate(speed, glm::normalize(glm::cross(orientation, up)));
 		}
 		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
-			position += speed * up;
+			translate(speed, up);
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 		{
-			position += speed * -up;
+			translate(speed, -up);
 		}
 
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 			if (firstClick)
 			{
@@ -97,26 +104,40 @@ namespace camera
 			double mouseY;
 			glfwGetCursorPos(window, &mouseX, &mouseY);
 
-			float rotX = sensitivity * (float)(mouseY - (height / 2)) / height;
-			float rotY = sensitivity * (float)(mouseX - (width / 2)) / width;
+			float xoffset = sensitivity * (float)(mouseY - (height / 2)) / height;
+			float yoffset = sensitivity * (float)(mouseX - (width / 2)) / width;
 
-			glm::vec3 newOrientation = glm::rotate(orientation, glm::radians(-rotX), glm::normalize(glm::cross(orientation, up)));
+			std::cout << pitch << std::endl;
+			pitch += glm::radians(-xoffset);
 
-			if (abs(glm::angle(newOrientation, up) - glm::radians(90.0f)) <= glm::radians(85.0f))
-			{
-				orientation = newOrientation;
+			if (pitch >= 1)
+				pitch = 1;
+			if (pitch <= -1)
+				pitch = -1;
+
+			if (abs(pitch) != 1.0f) {
+				rotate(glm::radians(-xoffset), glm::normalize(glm::cross(orientation, up)));
 			}
 
-			orientation = glm::rotate(orientation, glm::radians(-rotY), up);
+			rotate(glm::radians(-yoffset), up);
 
 			glfwSetCursorPos(window, (width / 2), (height / 2));
-		}
-		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+		} else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			firstClick = true;
 		}
 	}
+
+	void Camera3D::translate(float amount, glm::vec3 target)
+	{
+		position += amount * target;
+	};
+
+	void Camera3D::rotate(float angle, glm::vec3 axis)
+	{
+		orientation = glm::rotate(orientation, angle, axis);
+	};
 }
 
 using namespace camera;
