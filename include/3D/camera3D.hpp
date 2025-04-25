@@ -23,6 +23,8 @@ namespace camera
 		void translate(float t, glm::vec3 pos);
 		void rotate(float angle, glm::vec3 axis);
 
+		void setPos(glm::vec3 pos);
+
 	private:
 		glm::vec3 position;
 		
@@ -127,6 +129,11 @@ namespace camera
 			firstClick = true;
 		}
 	}
+
+	void Camera3D::setPos(glm::vec3 pos)
+	{
+		position = pos;
+	};
 
 	void Camera3D::translate(float amount, glm::vec3 target)
 	{
