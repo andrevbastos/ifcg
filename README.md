@@ -57,15 +57,13 @@ You can create an Issue or contact the mantainers (authors)
 
 ## 👥 Authors
  * João Vitor Espig ([JotaEspig](https://gitlab.com/JotaEspig))
+ * André Vitor Bastos ([andrevbastos](https://github.com/andrevbastos))
+ * Helder Martins ([imheldermartins](https://github.com/imheldermartins))
  * TODO
 
 ## 🕒 Version History
 
 see [CHANGELOG.md](CHANGELOG.md)
-
-## 📜 License
-
-TODO
 
 ## 🙏 Acknowledgments
 
