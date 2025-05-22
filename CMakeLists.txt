@@ -106,9 +106,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Source files
 set(
     MAIN_TEST_SOURCE_FILES
-    #${CMAKE_SOURCE_DIR}/tests/main.cpp
-    #${CMAKE_SOURCE_DIR}/tests/test2D.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test3D.cpp
+    ${CMAKE_SOURCE_DIR}/tests/main.cpp
 )
 
 # Adding executables for testing
