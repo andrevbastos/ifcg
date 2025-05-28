@@ -5,6 +5,7 @@ namespace ifcg
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 	IFCG* IFCG::instance = nullptr;
     GLFWwindow* IFCG::window = nullptr;
+    std::vector<mesh3D::Mesh3D*> IFCG::renderQueue;
 
     IFCG::IFCG()
     {
@@ -110,6 +111,37 @@ namespace ifcg
 
 	Shader IFCG::getDefaultShader3D() {
         return Shader("../resources/shaders/default3D_vert.glsl", "../resources/shaders/default3D_frag.glsl");
+    };
+
+    void IFCG::addMesh(Mesh3D* mesh)
+    {
+        renderQueue.push_back(mesh);
+    };
+
+    void IFCG::removeMesh(Mesh3D* mesh)
+    {
+        if (renderQueue.empty()) {
+            std::cerr << "No meshes to remove." << std::endl;
+            return;
+        }
+        auto it = std::remove(renderQueue.begin(), renderQueue.end(), mesh);
+        if (it != renderQueue.end()) {
+            renderQueue.erase(it);
+        } else {
+            std::cerr << "Mesh not found in the list." << std::endl;
+        }
+    };
+
+    void IFCG::render()
+    {
+        if (renderQueue.empty()) {
+            std::cerr << "No meshes to draw." << std::endl;
+            return;
+        }
+        for (Mesh3D* mesh : renderQueue)
+        {
+            mesh->draw();
+        }
     };
 
     void IFCG::terminate_() 

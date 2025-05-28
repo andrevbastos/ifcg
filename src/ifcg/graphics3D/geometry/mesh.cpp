@@ -85,7 +85,7 @@ namespace mesh3D
 
 	void Mesh3D::translate(float tX, float tY, float tZ)
 	{
-		model = glm::translate(model, glm::vec3(tX, tY, 0.0f));
+		model = glm::translate(model, glm::vec3(tX, tY, tZ));
 	};
 
     void Mesh3D::translate(glm::vec3 axis)

@@ -8,12 +8,14 @@
 **/
 
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
 #include "ifcg/shader/shader.hpp"
+#include "ifcg/graphics3D/geometry/mesh.hpp"
 
 #if defined(_WIN32) && defined(IFCG_BUILD_SHARED)
 	#define IFCG_API __declspec(dllexport)
@@ -41,15 +43,20 @@ namespace ifcg
 		static Shader getDefaultShader2D();
 		static Shader getDefaultShader3D();
 
+		static void addMesh(Mesh3D* mesh);
+		static void removeMesh(Mesh3D* mesh);
+		static void render();
+		
 		static void terminate();
-
+		
 		static GLFWwindow* window;
-
+		
 	private:
 		IFCG();
 		static void terminate_();
 		
 		static IFCG* instance;
+		static std::vector<Mesh3D*> renderQueue;
 	};
 };
 
