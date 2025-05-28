@@ -21,7 +21,13 @@ int main()
 
     Camera3D camera(width, height, glm::vec3(0.0f, 0.0f, 0.0f));
 
-    Cube3D cube(shader3D.id);
+    Cube3D cube1(shader3D.id);
+    Cube3D cube2(shader3D.id);
+
+    Mesh3D teste({
+        &cube1,
+        &cube2
+    }, shader3D.id);
 
     while (!IFCG::shouldClose())
     {
@@ -34,7 +40,8 @@ int main()
         camera.inputs(IFCG::window);
         camera.update(90.0f, 0.1f, 100.0f, shader3D.id);
         
-        cube.draw();
+        cube1.rotate(0.1f, 1.0f, 0.0f, 0.0f);
+        teste.draw();
 
         IFCG::swapBuffer();
     }
