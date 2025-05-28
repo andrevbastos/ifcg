@@ -1,23 +1,15 @@
-#pragma once
+#include "ifcg/graphics3D/geometry/sphere.hpp"
 
-#pragma once
-
-#include <math.h>
-#include "3D/mesh3D.hpp"
-
-using namespace mesh3D;
-
-class Sphere3D : public Mesh3D
+namespace mesh3D
 {
-public:
-    Sphere3D(int precision, GLuint shaderID)
+    Sphere3D::Sphere3D(int precision, GLuint shaderID)
         : Mesh3D(
             Sphere3D::vertices(precision),
             Sphere3D::indices(precision),
             shaderID
         ) {}
 
-    std::vector<Vertex3D> vertices(int precision) {
+    std::vector<Vertex3D> Sphere3D::vertices(int precision) {
         std::vector<Vertex3D> vertices;
 
         const float step = 1.0f / (float)precision;
@@ -38,7 +30,7 @@ public:
         return vertices;
     }
 
-    std::vector<GLuint> indices(int precision) {
+    std::vector<GLuint> Sphere3D::indices(int precision) {
         std::vector<GLuint> indices;
 
         const float step = 1.0f / (float)precision;

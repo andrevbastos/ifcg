@@ -1,13 +1,8 @@
-#pragma once
+#include "ifcg/graphics3D/geometry/cube.hpp"
 
-#include "3D/mesh3D.hpp"
-
-using namespace mesh3D;
-
-class Cube3D : public Mesh3D
+namespace mesh3D
 {
-public:
-    Cube3D(GLuint shaderID)
+    Cube3D::Cube3D(GLuint shaderID)
         : Mesh3D({
             Vertex3D{+1.0f, +1.0f, +1.0f, 0.0f, 0.0f, 1.0f, 1.0f},
             Vertex3D{+1.0f, -1.0f, +1.0f, 0.0f, 0.0f, 1.0f, 1.0f},
@@ -59,5 +54,5 @@ public:
             21, 22, 23
         },
         shaderID
-    ) {}
+    ) {};
 };

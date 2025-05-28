@@ -2,12 +2,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "ifcg.hpp"
-#include "3D/mesh3D.hpp"
-#include "3D/camera3D.hpp"
-#include "3D/cube_mesh3D.hpp"
-#include "3D/pyramid_mesh3D.hpp"
-#include "3D/sphere_mesh3D.hpp"
+#include "ifcg/ifcg.hpp"
+#include "ifcg/graphics3D/scene/camera.hpp"
+#include "ifcg/graphics3D/geometry/cube.hpp"
 
 unsigned int width = 800;
 unsigned int height = 600;
@@ -20,14 +17,7 @@ int main()
     Shader shader3D = IFCG::getDefaultShader3D();
 
     Camera3D camera(width, height, glm::vec3(0.0f, 0.0f, 0.0f));
-
-    Cube3D cube1(shader3D.id);
-    Cube3D cube2(shader3D.id);
-
-    Mesh3D teste({
-        &cube1,
-        &cube2
-    }, shader3D.id);
+    Cube3D cube(shader3D.id);
 
     while (!IFCG::shouldClose())
     {
@@ -39,10 +29,9 @@ int main()
 
         camera.inputs(IFCG::window);
         camera.update(90.0f, 0.1f, 100.0f, shader3D.id);
-        
-        cube1.rotate(0.1f, 1.0f, 0.0f, 0.0f);
-        teste.draw();
 
+        cube.draw();
+        
         IFCG::swapBuffer();
     }
 

@@ -1,13 +1,8 @@
-#pragma once
+#include "ifcg/graphics2D/geometry/triangle.hpp"
 
-#include "2D/mesh2D.hpp"
-
-using namespace mesh2D;
-
-class Triangle2D : public Mesh2D
+namespace mesh2D
 {
-public:
-    Triangle2D(GLuint shaderID)
+    Triangle2D::Triangle2D(GLuint shaderID)
         : Mesh2D(
         {
             Vertex2D{  1.0f, -0.866f, 1.0f, 0.0f, 0.0f, 1.0f },

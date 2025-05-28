@@ -1,51 +1,10 @@
-#pragma once
-
-#include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include "shader/vao.hpp"
-#include "shader/vbo.hpp"
-#include "shader/ebo.hpp"
-#include "shader/shader.hpp"
+#include "ifcg/graphics3D/geometry/mesh.hpp"
 
 namespace mesh3D
 {
-    class Mesh3D
-    {
-    public:
-        Mesh3D(std::vector<Vertex3D> vertices, std::vector<GLuint> indices, GLuint shaderID);
-	    Mesh3D(const std::vector<Mesh3D*>& meshes, GLuint shaderID);
-
-        virtual void draw();
-        
-        virtual void transform(glm::mat4 t);
-        virtual void translate(float tX, float tY, float tZ);
-        virtual void translate(glm::vec3 axis);
-        virtual void scale(float sX, float sY, float sZ);
-        virtual void scale(glm::vec3 axis);
-        virtual void rotate(float angle, float rX, float rY, float rZ);
-        virtual void rotate(float angle, glm::vec3 axis);
-
-
-    private:
-        std::vector<Vertex3D> vertices;
-        std::vector<GLuint> indices;
-        std::vector<GLuint> sizes;
-
-        GLuint shaderID;
-        VAO vao;
-        
-		glm::mat4 model = glm::mat4(1.0f);
-		std::vector<Mesh3D*> subMeshes;
-    };
-
     Mesh3D::Mesh3D(std::vector<Vertex3D> vertices, std::vector<GLuint> indices, GLuint shaderID)
         : vertices(vertices), indices(indices), shaderID(shaderID)
     {
-        this->sizes.push_back(indices.size());
-
 		this->vao = vao;
         vao.bind();
 
@@ -79,23 +38,45 @@ namespace mesh3D
 
         if (!subMeshes.empty()) {
             for (Mesh3D* mesh : subMeshes) {
-                mesh->draw();
+                mesh->draw(model);
             }
         } else {
             vao.bind();
     
-            for (GLuint i = 0; i < sizes.size(); i++) {
-                glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-                glDrawElements(
-                    GL_TRIANGLES,
-                    indices.size(),
-                    GL_UNSIGNED_INT,
-                    (void*)0
-                );
-            }
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glDrawElements(
+                GL_TRIANGLES,
+                indices.size(),
+                GL_UNSIGNED_INT,
+                (void*)0
+            );
             vao.unbind();
         }
     };
+
+    void Mesh3D::draw(glm::mat4 m)
+    {
+        GLuint modelLoc = glGetUniformLocation(shaderID, "model");
+        m *= model;
+
+        if (!subMeshes.empty()) {
+            for (Mesh3D* mesh : subMeshes) {
+                mesh->draw(m);
+            }
+        } else {
+            vao.bind();
+    
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(m));
+            glDrawElements(
+                GL_TRIANGLES,
+                indices.size(),
+                GL_UNSIGNED_INT,
+                (void*)0
+            );
+            vao.unbind();
+        }
+    };
+
 
 	void Mesh3D::transform(glm::mat4 t)
 	{
@@ -140,5 +121,3 @@ namespace mesh3D
 		model = modelSave * rotation * model;
 	};
 };
-
-using namespace mesh3D;

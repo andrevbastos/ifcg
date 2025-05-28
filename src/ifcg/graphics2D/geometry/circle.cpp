@@ -1,21 +1,16 @@
-#pragma once
-
 #include <math.h>
-#include "2D/mesh2D.hpp"
+#include "ifcg/graphics2D/geometry/circle.hpp"
 
-using namespace mesh2D;
-
-class Circle2D : public Mesh2D
+namespace mesh2D
 {
-public:
-    Circle2D(int precision, GLuint shaderID)
+    Circle2D::Circle2D(int precision, GLuint shaderID)
         : Mesh2D(
             Circle2D::vertices(precision),
             Circle2D::indices(precision),
             shaderID
         ) {}
 
-    std::vector<Vertex2D> vertices(int precision) {
+    std::vector<Vertex2D> Circle2D::vertices(int precision) {
         std::vector<Vertex2D> vertices;
         vertices.reserve(precision + 1);
         
@@ -53,7 +48,7 @@ public:
         return vertices;
     }
 
-    std::vector<GLuint> indices(int precision) {
+    std::vector<GLuint> Circle2D::indices(int precision) {
         std::vector<GLuint> indices;
         indices.reserve(precision * 3);
         
@@ -70,4 +65,4 @@ public:
 
         return indices;
     }
-};
+}

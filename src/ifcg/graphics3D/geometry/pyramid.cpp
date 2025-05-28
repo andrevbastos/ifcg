@@ -1,13 +1,8 @@
-#pragma once
+#include "ifcg/graphics3D/geometry/pyramid.hpp"
 
-#include "3D/mesh3D.hpp"
-
-using namespace mesh3D;
-
-class Pyramid3D : public Mesh3D
+namespace mesh3D
 {
-public:
-    Pyramid3D(GLuint shaderID)
+    Pyramid3D::Pyramid3D(GLuint shaderID)
         : Mesh3D({
             Vertex3D{+1.0f, -1.0f, +1.0f, 1.0f, 0.0f, 1.0f, 1.0f},
             Vertex3D{+1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f},
@@ -44,4 +39,4 @@ public:
         },
         shaderID
     ) {}
-};
+}

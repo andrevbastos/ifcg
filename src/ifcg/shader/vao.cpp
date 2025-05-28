@@ -1,29 +1,7 @@
-#pragma once
-
-/**
-* \author André B.
-* \date February 27, 2025
-* \version March 13, 2025
-* \brief Constructor for VAO class
-**/
-
-#include <glad/glad.h>
-#include "shader/vbo.hpp"
+#include "ifcg/shader/vao.hpp"
 
 namespace vao
 {
-    class VAO
-    {
-    public:
-        GLuint _id;
-        VAO();
-    
-        void linkAttrib(VBO& vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
-        void bind();
-        void unbind();
-        void destroy();
-    };
-
     VAO::VAO()
     {
         glGenVertexArrays(1, &_id);
@@ -51,5 +29,3 @@ namespace vao
         glDeleteVertexArrays(1, &_id);
     }
 }
-
-using namespace vao;

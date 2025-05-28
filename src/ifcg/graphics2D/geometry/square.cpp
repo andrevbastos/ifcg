@@ -1,13 +1,8 @@
-#pragma once
+#include "ifcg/graphics2D/geometry/square.hpp"
 
-#include "2D/mesh2D.hpp"
-
-using namespace mesh2D;
-
-class Square2D : public Mesh2D
+namespace mesh2D
 {
-public:
-    Square2D(GLuint shaderID)
+    Square2D::Square2D(GLuint shaderID)
         : Mesh2D({
             Vertex2D{1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f },
             Vertex2D{1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f },
