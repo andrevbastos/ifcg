@@ -1,18 +1,10 @@
 #pragma once
 
-#include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include "ifcg/shader/vao.hpp"
-#include "ifcg/shader/vbo.hpp"
-#include "ifcg/shader/ebo.hpp"
-#include "ifcg/shader/shader.hpp"
+#include "ifcg/common/mesh.hpp"
 
 namespace mesh2D
 {
-    class Mesh2D
+    class Mesh2D : public ifcg::Mesh
     {
     public:
         Mesh2D(std::vector<Vertex2D> vertices, std::vector<GLuint> indices, GLuint shaderID);

@@ -15,6 +15,12 @@
 #include <glm/glm.hpp>
 
 #include "ifcg/shader/shader.hpp"
+#include "ifcg/common/mesh.hpp"
+#include "ifcg/common/camera.hpp"
+
+#include "ifcg/graphics2D/scene/camera.hpp"
+#include "ifcg/graphics3D/scene/camera.hpp"
+#include "ifcg/graphics2D/geometry/mesh.hpp"
 #include "ifcg/graphics3D/geometry/mesh.hpp"
 
 #if defined(_WIN32) && defined(IFCG_BUILD_SHARED)
@@ -32,7 +38,7 @@ namespace ifcg
 	public:
 		static void init();
 		
-		static void createWindow(GLuint width, GLuint height);
+		static void createWindow(GLuint w, GLuint h);
 		static void destroyWindow();
 		static bool shouldClose();
     	static void clearBuffer(float r, float g, float b, float a = 1.0f);
@@ -40,23 +46,27 @@ namespace ifcg
 		static void processInput();
 		static void swapBuffer();
 		
-		static Shader getDefaultShader2D();
-		static Shader getDefaultShader3D();
+		static void setup2D();
+		static void setup3D();
 
-		static void addMesh(Mesh3D* mesh);
-		static void removeMesh(Mesh3D* mesh);
+		static void addMesh(Mesh* mesh);
+		static void removeMesh(Mesh* mesh);
 		static void render();
 		
 		static void terminate();
 		
 		static GLFWwindow* window;
+		static Camera* camera;
+		static Shader shader;
 		
 	private:
 		IFCG();
 		static void terminate_();
 		
 		static IFCG* instance;
-		static std::vector<Mesh3D*> renderQueue;
+		static std::vector<Mesh*> renderQueue;
+		static GLuint width;
+		static GLuint height;
 	};
 };
 

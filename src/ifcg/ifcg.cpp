@@ -3,9 +3,14 @@
 namespace ifcg
 {
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 	IFCG* IFCG::instance = nullptr;
     GLFWwindow* IFCG::window = nullptr;
-    std::vector<mesh3D::Mesh3D*> IFCG::renderQueue;
+    Camera* IFCG::camera = nullptr;
+    std::vector<Mesh*> IFCG::renderQueue;
+    Shader IFCG::shader;
+	GLuint IFCG::width;
+	GLuint IFCG::height;
 
     IFCG::IFCG()
     {
@@ -29,8 +34,11 @@ namespace ifcg
         }
     }
 
-    void IFCG::createWindow(GLuint width, GLuint height)
+    void IFCG::createWindow(GLuint w, GLuint h)
     {
+        width = w;
+        height = h;
+
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -98,6 +106,9 @@ namespace ifcg
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             glfwSetWindowShouldClose(window, true);
         }
+        if (camera != nullptr) {
+            camera->inputs(window);
+        }
     };
 
     void IFCG::swapBuffer()
@@ -105,20 +116,59 @@ namespace ifcg
         glfwSwapBuffers(window);
     };
 
-    Shader IFCG::getDefaultShader2D() {
-        return Shader("../resources/shaders/default2D_vert.glsl", "../resources/shaders/default2D_frag.glsl");
+    void IFCG::setup2D() {
+        if (shader.id != 0) {
+            shader.terminate();
+        }
+        if (renderQueue.size() > 0) {
+            for (Mesh* mesh : renderQueue) {
+                delete mesh;
+            }
+            renderQueue.clear();
+        }
+        if (camera != nullptr) {
+            delete camera; 
+            camera = nullptr; 
+        }
+        
+        shader = Shader("../resources/shaders/default2D_vert.glsl", "../resources/shaders/default2D_frag.glsl");
+        camera = new Camera2D(width, height);
+        camera->setPos(glm::vec3(0.0f, 0.0f, -0.5f));
+
+        if (glIsEnabled(GL_DEPTH_TEST)) {
+            glDisable(GL_DEPTH_TEST);
+        }
     };
 
-	Shader IFCG::getDefaultShader3D() {
-        return Shader("../resources/shaders/default3D_vert.glsl", "../resources/shaders/default3D_frag.glsl");
+	void IFCG::setup3D() {
+        if (shader.id != 0) {
+            shader.terminate(); 
+        }
+        if (renderQueue.size() > 0) {
+            for (Mesh* mesh : renderQueue) {
+                delete mesh;
+            }
+            renderQueue.clear();
+        }
+        if (camera != nullptr) {
+            delete camera; 
+            camera = nullptr; 
+        }
+
+        shader = Shader("../resources/shaders/default3D_vert.glsl", "../resources/shaders/default3D_frag.glsl");
+        camera = new Camera3D(width, height);
+
+        if (!glIsEnabled(GL_DEPTH_TEST)) {
+            glEnable(GL_DEPTH_TEST);
+        }
     };
 
-    void IFCG::addMesh(Mesh3D* mesh)
+    void IFCG::addMesh(Mesh* mesh)
     {
         renderQueue.push_back(mesh);
     };
 
-    void IFCG::removeMesh(Mesh3D* mesh)
+    void IFCG::removeMesh(Mesh* mesh)
     {
         if (renderQueue.empty()) {
             std::cerr << "No meshes to remove." << std::endl;
@@ -134,11 +184,13 @@ namespace ifcg
 
     void IFCG::render()
     {
+        shader.activate();
+        camera->update(90.0f, 0.1f, 100.0f, shader.id);
+
         if (renderQueue.empty()) {
-            std::cerr << "No meshes to draw." << std::endl;
             return;
         }
-        for (Mesh3D* mesh : renderQueue)
+        for (Mesh* mesh : renderQueue)
         {
             mesh->draw();
         }

@@ -17,20 +17,12 @@ namespace mesh3D
         vao.unbind();
         vbo.unbind();
         ebo.unbind();
-
-        if (!glIsEnabled(GL_DEPTH_TEST)) {
-            glEnable(GL_DEPTH_TEST);
-        }
     };
 
     Mesh3D::Mesh3D(const std::vector<Mesh3D*>& meshes, GLuint shaderID)
         : shaderID(shaderID)
     {
         this->subMeshes = meshes;
-
-        if (!glIsEnabled(GL_DEPTH_TEST)) {
-            glEnable(GL_DEPTH_TEST);
-        }
     };
         
     void Mesh3D::draw() {

@@ -9,6 +9,6 @@ uniform mat4 cam;
 
 void main()
 {
-    gl_Position = cam * model * vec4(aPos, 0.0, 1.0);
+    gl_Position = cam * model * vec4(aPos, 1.0, 1.0);
     ourColor = aColor;
 }

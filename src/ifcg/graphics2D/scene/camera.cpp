@@ -3,10 +3,7 @@
 namespace camera
 {
 	Camera2D::Camera2D(int width, int height)
-	{
-		Camera2D::width = width;
-		Camera2D::height = height;
-	}
+		: width(width), height(height) {}
 
 	void Camera2D::update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID)
 	{
@@ -59,6 +56,11 @@ namespace camera
 			speed = 0.1f;
 		}
 	}
+
+	void Camera2D::setPos(glm::vec3 pos)
+	{
+		position = pos;
+	};
 }
 
 using namespace camera;

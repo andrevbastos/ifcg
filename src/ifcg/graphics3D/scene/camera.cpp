@@ -2,12 +2,8 @@
 
 namespace camera
 {
-	Camera3D::Camera3D(int width, int height, glm::vec3 position)
-	{
-		this->width = width;
-		this->height = height;
-		this->position = position;
-	}
+	Camera3D::Camera3D(int w, int h)
+		: width(w), height(h) {}
 
 	void Camera3D::update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID)
 	{

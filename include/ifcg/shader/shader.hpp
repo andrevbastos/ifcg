@@ -20,6 +20,7 @@ namespace shader
 	{
 	public:
 		GLuint id;
+		Shader(); 
 		Shader(const char* vertexFile, const char* fragmentFile);
 		
 		void activate();
