@@ -128,7 +128,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # =-=-=-=-=-=-= APLICAÇÃO PRINCIPAL =-=-=-=-=-=-=
 set(APP_SOURCE_DIR ${CMAKE_SOURCE_DIR}/tests)
-set(APP_MAIN_SOURCE_FILES "${APP_SOURCE_DIR}/main.cpp")
+set(APP_MAIN_SOURCE_FILES "${APP_SOURCE_DIR}/test3D.cpp")
 
 add_executable(ifcg_app ${APP_MAIN_SOURCE_FILES})
 

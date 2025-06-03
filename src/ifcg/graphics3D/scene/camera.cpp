@@ -47,6 +47,16 @@ namespace camera
 		{
 			translate(speed, -up);
 		}
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		{
+			translate(speed, glm::normalize(glm::cross(orientation, up)));
+			rotate(glm::radians(1.0f), up);
+		}
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		{
+			translate(speed, -glm::normalize(glm::cross(orientation, up)));
+			rotate(glm::radians(-1.0f), up);
+		}
 
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{

@@ -24,29 +24,8 @@ namespace mesh3D
     {
         this->subMeshes = meshes;
     };
-        
-    void Mesh3D::draw() {
-        GLuint modelLoc = glGetUniformLocation(shaderID, "model");
 
-        if (!subMeshes.empty()) {
-            for (Mesh3D* mesh : subMeshes) {
-                mesh->draw(model);
-            }
-        } else {
-            vao.bind();
-    
-            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-            glDrawElements(
-                GL_TRIANGLES,
-                indices.size(),
-                GL_UNSIGNED_INT,
-                (void*)0
-            );
-            vao.unbind();
-        }
-    };
-
-    void Mesh3D::draw(glm::mat4 m)
+    void Mesh3D::draw(glm::mat4 m = glm::mat4(1.0f))
     {
         GLuint modelLoc = glGetUniformLocation(shaderID, "model");
         m *= model;
@@ -65,10 +44,44 @@ namespace mesh3D
                 GL_UNSIGNED_INT,
                 (void*)0
             );
+
+            if (outline) {
+                drawOutline();
+            }
+
             vao.unbind();
         }
     };
 
+    void Mesh3D::drawOutline()
+    {
+        vao.bind();
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDisable(GL_DEPTH_TEST);
+        glLineWidth(1.0f);
+        glDrawElements(
+            GL_TRIANGLES, 
+            indices.size(), 
+            GL_UNSIGNED_INT, 
+            0
+        );
+        glEnable(GL_DEPTH_TEST);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+        vao.unbind();
+    }
+
+    void Mesh3D::setOutline(bool outline) 
+    {
+        if (!subMeshes.empty()) {
+            for (Mesh3D* mesh : subMeshes) {
+                mesh->setOutline(outline);
+            }
+        } else {
+            this->outline = outline; 
+        }
+    };
 
 	void Mesh3D::transform(glm::mat4 t)
 	{

@@ -17,6 +17,6 @@ namespace ifcg
     public:
         virtual ~Mesh() = default;
 
-        virtual void draw() = 0;
+        virtual void draw(glm::mat4 m = glm::mat4(1.0f)) = 0;
     };
 }

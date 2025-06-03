@@ -17,15 +17,32 @@ int main()
 
     IFCG::setup3D();
 
-    Cube3D cube(IFCG::shader.id);
+    Cube3D cube1(IFCG::shader.id);
+    Cube3D cube2(IFCG::shader.id);
+    Mesh3D cubes({&cube1, &cube2}, IFCG::shader.id);
 
-    IFCG::addMesh(&cube);
+    Pyramid3D pyramid(IFCG::shader.id);
+
+    cube1.translate(2.0f, 0.0f, 1.0f);
+    cube2.translate(-2.0f, 0.0f, 1.0f);
+
+    pyramid.scale(0.5f, 0.5f, 0.5f);
+    
+    cubes.setOutline(true);
+    pyramid.setOutline(true);
+
+    IFCG::addMesh(&cubes);
+    IFCG::addMesh(&pyramid);
 
     while (!IFCG::shouldClose())
     {
         IFCG::readInputs();
         IFCG::processInput();
         IFCG::clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
+
+        cube1.rotate(0.1f, 1.0f, 0.0f, 0.0f);
+        cube2.rotate(0.1f, 0.0f, 1.0f, 0.0f);
+        cubes.rotate(0.05f, 0.0f, 0.0f, 1.0f);
         
         IFCG::render();
         
