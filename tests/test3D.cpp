@@ -22,8 +22,11 @@ int main()
 
     Cube3D blades1(IFCG::shader.id);
     blades1.scale(glm::vec3(0.2f, 1.0f, 0.2f));
+    blades1.rotate(0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+    
     Cube3D blades2(IFCG::shader.id);
     blades2.scale(glm::vec3(1.0f, 0.2f, 0.2f));
+    blades2.rotate(0.5f, glm::vec3(1.0f, 0.0f, 0.0f));
 
     Mesh3D propeller({&blades1, &blades2}, IFCG::shader.id);
     propeller.scale(0.3f, 0.3f, 0.3f);
@@ -31,12 +34,10 @@ int main()
 
     Mesh3D wing1({&wingHull, &propeller}, IFCG::shader.id);
     wing1.translate(1.5f, 0.0f, 0.0f);
-    wing1.setOutline(true);
 
     Mesh3D wing2({&wingHull, &propeller}, IFCG::shader.id);
     wing2.translate(-1.5f, 0.0f, 0.0f);
     wing2.reflect(true, false, false);
-    wing2.setOutline(true);
 
     IFCG::addMesh(&wing1);
     IFCG::addMesh(&wing2);
@@ -47,9 +48,10 @@ int main()
         IFCG::readInputs();
         IFCG::processInput();
         IFCG::clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
-
-        propeller.rotate(-0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
-
+        
+        if (glfwGetKey(IFCG::window, GLFW_KEY_UP) == GLFW_PRESS) {
+            propeller.rotate(-0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
+        }
         if (glfwGetKey(IFCG::window, GLFW_KEY_LEFT) == GLFW_PRESS) {
             if (wingRot <= 0.5f) {
                 wingRot += 0.1f;
@@ -63,11 +65,11 @@ int main()
                 wing2.rotate(0.1f, glm::vec3(1.0f, 0.0f, 0.0f));
             }
         } else {
-            if (wingRot > 0.05f) {
+            if (wingRot > 0.01f) {
                 wingRot -= 0.05f;
                 wing1.rotate(-0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
                 wing2.rotate(0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
-            } else if (wingRot < -0.05f) {
+            } else if (wingRot < -0.01f) {
                 wingRot += 0.05f;
                 wing1.rotate(0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
                 wing2.rotate(-0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
