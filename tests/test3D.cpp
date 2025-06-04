@@ -17,32 +17,64 @@ int main()
 
     IFCG::setup3D();
 
-    Cube3D cube1(IFCG::shader.id);
-    Cube3D cube2(IFCG::shader.id);
-    Mesh3D cubes({&cube1, &cube2}, IFCG::shader.id);
+    Cube3D wingHull(IFCG::shader.id);
+    wingHull.scale(1.0f, 0.15f, 0.25f);
 
-    Pyramid3D pyramid(IFCG::shader.id);
+    Cube3D blades1(IFCG::shader.id);
+    blades1.scale(glm::vec3(0.2f, 1.0f, 0.2f));
+    Cube3D blades2(IFCG::shader.id);
+    blades2.scale(glm::vec3(1.0f, 0.2f, 0.2f));
 
-    cube1.translate(2.0f, 0.0f, 1.0f);
-    cube2.translate(-2.0f, 0.0f, 1.0f);
+    Mesh3D propeller({&blades1, &blades2}, IFCG::shader.id);
+    propeller.scale(0.3f, 0.3f, 0.3f);
+    propeller.translate(0.0f, 0.0f, -1.0f);
 
-    pyramid.scale(0.5f, 0.5f, 0.5f);
+    Mesh3D wing1({&wingHull, &propeller}, IFCG::shader.id);
+    wing1.translate(1.5f, 0.0f, 0.0f);
+    wing1.setOutline(true);
+
+    Mesh3D wing2({&wingHull, &propeller}, IFCG::shader.id);
+    wing2.translate(-1.5f, 0.0f, 0.0f);
+    wing2.reflect(true, false, false);
+    wing2.setOutline(true);
+
+    IFCG::addMesh(&wing1);
+    IFCG::addMesh(&wing2);
     
-    cubes.setOutline(true);
-    pyramid.setOutline(true);
-
-    IFCG::addMesh(&cubes);
-    IFCG::addMesh(&pyramid);
-
+    float wingRot = 0;
     while (!IFCG::shouldClose())
     {
         IFCG::readInputs();
         IFCG::processInput();
         IFCG::clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
 
-        cube1.rotate(0.1f, 1.0f, 0.0f, 0.0f);
-        cube2.rotate(0.1f, 0.0f, 1.0f, 0.0f);
-        cubes.rotate(0.05f, 0.0f, 0.0f, 1.0f);
+        propeller.rotate(-0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+        if (glfwGetKey(IFCG::window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+            if (wingRot <= 0.5f) {
+                wingRot += 0.1f;
+                wing1.rotate(0.1f, glm::vec3(1.0f, 0.0f, 0.0f));
+                wing2.rotate(-0.1f, glm::vec3(1.0f, 0.0f, 0.0f));
+            }
+        } else if (glfwGetKey(IFCG::window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+            if (wingRot >= -0.5f) {
+                wingRot -= 0.1f;
+                wing1.rotate(-0.1f, glm::vec3(1.0f, 0.0f, 0.0f));
+                wing2.rotate(0.1f, glm::vec3(1.0f, 0.0f, 0.0f));
+            }
+        } else {
+            if (wingRot > 0.05f) {
+                wingRot -= 0.05f;
+                wing1.rotate(-0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
+                wing2.rotate(0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
+            } else if (wingRot < -0.05f) {
+                wingRot += 0.05f;
+                wing1.rotate(0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
+                wing2.rotate(-0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
+            } else {
+                wingRot = 0.0f;
+            }
+        }
         
         IFCG::render();
         

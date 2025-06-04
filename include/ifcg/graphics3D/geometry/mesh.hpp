@@ -21,6 +21,7 @@ namespace mesh3D
         virtual void scale(glm::vec3 axis);
         virtual void rotate(float angle, float rX, float rY, float rZ);
         virtual void rotate(float angle, glm::vec3 axis);
+        virtual void reflect(bool refX, bool refY, bool refZ);
 
         virtual void setOutline(bool outline);
 

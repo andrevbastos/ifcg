@@ -125,4 +125,14 @@ namespace mesh3D
 		
 		model = modelSave * rotation * model;
 	};
+
+    void Mesh3D::reflect(bool refX, bool refY, bool refZ)
+    {
+        glm::mat4 m = glm::mat4(1.0f);
+        m[0][0] = (refX) ? -1.0f : 1.0f;
+        m[1][1] = (refY) ? -1.0f : 1.0f;
+        m[2][2] = (refZ) ? -1.0f : 1.0f;
+        model *= m;
+    };
+
 };
