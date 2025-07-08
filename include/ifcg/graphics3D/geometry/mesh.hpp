@@ -8,33 +8,28 @@ namespace mesh3D
     {
     public:
         virtual ~Mesh3D() = default;
-        Mesh3D(std::vector<Vertex3D> vertices, std::vector<GLuint> indices, GLuint shaderID);
-	    Mesh3D(const std::vector<Mesh3D*>& meshes, GLuint shaderID);
+        Mesh3D(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID);
+        Mesh3D(const Mesh3D &other);
+        Mesh3D* duplicate() const override;
 
-        virtual void draw(glm::mat4 m);
+        virtual void draw(glm::mat4 m = glm::mat4(1.0f)) override;
         virtual void drawOutline();
+        virtual void setOutline(bool outline) override;
         
-        virtual void transform(glm::mat4 t);
-        virtual void translate(float tX, float tY, float tZ);
-        virtual void translate(glm::vec3 axis);
-        virtual void scale(float sX, float sY, float sZ);
-        virtual void scale(glm::vec3 axis);
-        virtual void rotate(float angle, float rX, float rY, float rZ);
-        virtual void rotate(float angle, glm::vec3 axis);
-        virtual void reflect(bool refX, bool refY, bool refZ);
+        virtual void translate(float tX, float tY, float tZ) override;
+        virtual void scale(float sX, float sY, float sZ) override;
+        virtual void rotate(float angle, float rX, float rY, float rZ) override;
+        virtual void reflect(bool refX, bool refY, bool refZ) override;
 
-        virtual void setOutline(bool outline);
-
-    private:
-        std::vector<Vertex3D> vertices;
+        std::vector<Vertex> vertices;
         std::vector<GLuint> indices;
 
+        glm::mat4 model = glm::mat4(1.0f);
+
+    private:
         GLuint shaderID;
         VAO vao;
         
-		glm::mat4 model = glm::mat4(1.0f);
-		std::vector<Mesh3D*> subMeshes;
-
         bool outline = false;
     };
 };

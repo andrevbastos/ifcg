@@ -59,14 +59,14 @@ namespace ifcg
 		static Camera* camera;
 		static Shader shader;
 		
+		static std::vector<Mesh*> renderQueue;
+		static GLuint width;
+		static GLuint height;
 	private:
 		IFCG();
 		static void terminate_();
 		
 		static IFCG* instance;
-		static std::vector<Mesh*> renderQueue;
-		static GLuint width;
-		static GLuint height;
 	};
 };
 
