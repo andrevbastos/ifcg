@@ -5,6 +5,7 @@ namespace ifcg
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 	IFCG* IFCG::instance = nullptr;
+    double IFCG::frameTimeTarget = 0.0; 
     GLFWwindow* IFCG::window = nullptr;
     Camera* IFCG::camera = nullptr;
     std::vector<Mesh*> IFCG::renderQueue;
@@ -33,6 +34,46 @@ namespace ifcg
             terminate_();
         }
     }
+
+    void IFCG::setFramesPerSecond(int fps) {
+        if (fps > 0) {
+            frameTimeTarget = 1.0 / static_cast<double>(fps);
+        } else {
+            frameTimeTarget = 0.0;
+        }
+    }
+
+void IFCG::loop(const std::function<void()>& gameLoopBody)
+{
+    double lastFrameTime = 0.0;
+
+    while (!shouldClose())
+    {
+        readInputs();
+        processInput();
+        clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
+        
+        gameLoopBody();
+        
+        render();
+        swapBuffer();
+        
+        double startTime = glfwGetTime();
+        if (frameTimeTarget > 0.0)
+        {
+            double endTime = glfwGetTime();
+            double frameDuration = endTime - startTime;
+            if (frameDuration < frameTimeTarget)
+            {
+                int sleepTimeMs = static_cast<int>((frameTimeTarget - frameDuration) * 1000.0);
+                if (sleepTimeMs > 0)
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTimeMs));
+                }
+            }
+        }
+    }
+}
 
     void IFCG::createWindow(GLuint w, GLuint h)
     {
@@ -131,7 +172,7 @@ namespace ifcg
             camera = nullptr; 
         }
         
-        shader = Shader("../resources/shaders/default2D_vert.glsl", "../resources/shaders/default2D_frag.glsl");
+        shader = Shader("resources/shaders/default2D_vert.glsl", "resources/shaders/default2D_frag.glsl");
         camera = new Camera2D(width, height);
         camera->setPos(glm::vec3(0.0f, 0.0f, -0.5f));
 
@@ -155,7 +196,7 @@ namespace ifcg
             camera = nullptr; 
         }
 
-        shader = Shader("../resources/shaders/default3D_vert.glsl", "../resources/shaders/default3D_frag.glsl");
+        shader = Shader("resources/shaders/default3D_vert.glsl", "resources/shaders/default3D_frag.glsl");
         camera = new Camera3D(width, height);
 
         if (!glIsEnabled(GL_DEPTH_TEST)) {

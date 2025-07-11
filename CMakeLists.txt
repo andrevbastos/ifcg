@@ -69,8 +69,6 @@ if (DOXYGEN_FOUND)
     else()
         message(WARNING "Doxyfile não encontrado em ${DOXYGEN_CONFIG_FILE}. O target `docs` pode não funcionar como esperado.")
     endif()
-else (DOXYGEN_FOUND)
-    message(WARNING "Doxygen não encontrado. O target `docs` não estará disponível.") #
 endif (DOXYGEN_FOUND)
 
 # =-=-=-=-=-=-= BIBLIOTECA ifcg =-=-=-=-=-=-=
@@ -102,7 +100,9 @@ set(IFCG_LIBRARY_SOURCE_FILES
 # Adicionando a biblioteca ifcg como SHARED
 add_library(ifcg SHARED ${IFCG_LIBRARY_SOURCE_FILES})
 
+
 # Definições de compilação para a biblioteca ifcg
+target_compile_definitions(ifcg PRIVATE IFCG_EXPORTS)
 target_compile_definitions(ifcg PUBLIC GLAD_GLAPI_EXPORT PRIVATE GLAD_GLAPI_EXPORT_BUILD) #
 
 # Diretórios de Include para ifcg
@@ -128,7 +128,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # =-=-=-=-=-=-= APLICAÇÃO PRINCIPAL =-=-=-=-=-=-=
 set(APP_SOURCE_DIR ${CMAKE_SOURCE_DIR}/tests)
-set(APP_MAIN_SOURCE_FILES "${APP_SOURCE_DIR}/test3D.cpp")
+set(APP_MAIN_SOURCE_FILES "${APP_SOURCE_DIR}/main.cpp")
 
 add_executable(ifcg_app ${APP_MAIN_SOURCE_FILES})
 
@@ -156,6 +156,11 @@ if (WIN32) #
         COMMENT "Copiando DLLs necessárias para o diretório do executável..."
     )
 endif ()
+
+add_custom_command(TARGET ifcg_app POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:ifcg_app>/resources
+)
 
 # Mensagem final para o usuário
 message(STATUS "Configuração do CMake concluída. Para construir, use 'make' no diretório de build.")

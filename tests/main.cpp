@@ -45,21 +45,14 @@ int main()
     IFCG::addMesh(meshTree);
     IFCG::addMesh(meshTree2);
 
-    while (!IFCG::shouldClose())
-    {
-        IFCG::readInputs();
-        IFCG::processInput();
-        IFCG::clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
-
+    IFCG::setFramesPerSecond(120);
+    IFCG::loop([&]() 
+    {   
         cube2->rotate(0.01f, 0.0f, 1.0f, 0.0f);
-        cube3->rotate(0.01f, 0.0f, 0.0f, 1.0f);
-        
+        cube3->rotate(0.01f, 0.0f, 0.0f, 1.0f);   
+
         cube1Copy->rotate(0.01f, 1.0f, 0.0f, 0.0f);
-        
-        IFCG::render();
-        
-        IFCG::swapBuffer();
-    }
+     });
 
     IFCG::terminate();
     return 0;

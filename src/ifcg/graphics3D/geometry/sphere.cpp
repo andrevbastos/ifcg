@@ -1,5 +1,10 @@
 #include "ifcg/graphics3D/geometry/sphere.hpp"
 
+#include <cmath>
+#ifndef M_PIf
+#define M_PIf (3.14159265358979323846f)
+#endif
+
 namespace mesh3D
 {
     Sphere3D::Sphere3D(int precision, GLuint shaderID)
