@@ -7,18 +7,6 @@
 * \brief Constructor for IFCG class using Singleton pattern
 **/
 
-#ifndef IFCG_API
-    #ifdef _WIN32
-        #ifdef IFCG_EXPORTS
-            #define IFCG_API __declspec(dllexport)
-        #else
-            #define IFCG_API __declspec(dllimport)
-        #endif
-    #else
-        #define IFCG_API
-    #endif
-#endif
-
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -37,6 +25,14 @@
 #include "ifcg/graphics3D/scene/camera.hpp"
 #include "ifcg/graphics2D/geometry/mesh.hpp"
 #include "ifcg/graphics3D/geometry/mesh.hpp"
+
+#if defined(_WIN32) && defined(IFCG_BUILD_SHARED)
+	#define IFCG_API __declspec(dllexport)
+#elif defined(_WIN32) && !defined(IFCG_BUILD_SHARED)
+	#define IFCG_API __declspec(dllimport)
+#else
+	#define IFCG_API
+#endif
 
 namespace ifcg
 {
@@ -64,20 +60,19 @@ namespace ifcg
 		
 		static void terminate();
 		
-		IFCG_API static GLFWwindow* window;
-		IFCG_API static Camera* camera;
-		IFCG_API static Shader shader;
+		static GLFWwindow* window;
+		static Camera* camera;
+		static Shader shader;
 		
-		IFCG_API static std::vector<Mesh*> renderQueue;
-		IFCG_API static GLuint width;
-		IFCG_API static GLuint height;
-		
+		static std::vector<Mesh*> renderQueue;
+		static GLuint width;
+		static GLuint height;
 	private:
 		IFCG();
 		static void terminate_();
 		
-		IFCG_API static IFCG* instance;
-		IFCG_API static double frameTimeTarget; 
+		static IFCG* instance;
+		static double frameTimeTarget; 
 	};
 };
 

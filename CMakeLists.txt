@@ -49,27 +49,6 @@ set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 CONFIG REQUIRED)
 find_package(glm 0.9.9 REQUIRED)
-find_package(Doxygen OPTIONAL_COMPONENTS dot)
-
-# =-=-=-=-=-=-= DOCUMENTAÇÃO (Doxygen) =-=-=-=-=-=-=
-if (DOXYGEN_FOUND)
-    # Assumindo que você tem um arquivo Doxyfile na raiz do projeto
-    set(DOXYGEN_OUTPUT_DIR ${CMAKE_BINARY_DIR}/docs)
-    set(DOXYGEN_CONFIG_FILE ${CMAKE_SOURCE_DIR}/Doxyfile)
-
-    if(EXISTS ${DOXYGEN_CONFIG_FILE})
-        message(STATUS "Doxygen encontrado. Você pode usar `make docs` ou `ninja docs`.")
-        add_custom_target(
-            docs
-            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG_FILE} #
-            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} #
-            COMMENT "Gerando documentação com Doxygen (saída em ${DOXYGEN_OUTPUT_DIR})..."
-            VERBATIM
-        )
-    else()
-        message(WARNING "Doxyfile não encontrado em ${DOXYGEN_CONFIG_FILE}. O target `docs` pode não funcionar como esperado.")
-    endif()
-endif (DOXYGEN_FOUND)
 
 # =-=-=-=-=-=-= BIBLIOTECA ifcg =-=-=-=-=-=-=
 # Define onde as bibliotecas (.so, .dll, .dylib) serão colocadas

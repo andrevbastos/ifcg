@@ -1,5 +1,8 @@
 # IFCG
 
+A C ++ and Opengl graphic engine library as part of the IFC - Blumenau computer graphics discipline.
+*Uma biblioteca de motor gráfico feito em C++ e OpenGL como parte da disciplina de Computação Gráfica do IFC - Blumenau. (pt-br)*
+
 ## 📦 Dependencies
 
 * CMake 2.8.5+
@@ -8,66 +11,48 @@
 * GLM
 * Doxygen (Optional)
 
-### Linux
-
-Ubuntu:
+### Installation
+**Ubuntu/Debian:**
 ```bash
-sudo apt-get install cmake
-sudo apt-get install libglm-dev
-sudo apt-get install libglfw3-dev libglfw3
+sudo apt install cmake libglm-dev libglfw3-dev
 ```
 
-Arch:
+**Arch:**
 ```bash
-sudo pacman -S cmake
-sudo pacman -S glm
-sudo pamcan -S glfw
+sudo pacman -S cmake glm glfw-x11
 ```
 
 ## 🔧 Compiling
 
-Clone the repository:
+**Clone the repository:**
 ```bash
-git clone https://gitlab.com/oederaugusto/ifcg
+git clone https://github.com/andrevbastos/ifcg
 cd ifcg
 mkdir build
 cd build
 ```
 
-Compile and run the project:
+**Compile and run the project:**
 ```bash
 cmake ..
-make -j4
-./bin/main-test
+make
+./bin/ifcg-app
 ```
 
-## 📚 Documentation
+## 🧑‍🏫 Usage
 
-If you have Doxygen, you can read the documentation using:
+The ([main](tests/main.cpp)) file has some good usage examples. You can alter it and the whole project however you prefer, but when using the current CMakeLists setup remember: ([include](include)) folder must only contain .hpp files, ([src](src)) folder must only contain .cpp files and the entry point will alway be at ([main](tests/main.cpp)).
 
-### Linux
+## 👤 Author
 
-```bash
-make docs
-```
-
-## ❓ Help
-
-You can create an Issue or contact the mantainers (authors)
-
-## 👥 Authors
- * João Vitor Espig ([JotaEspig](https://gitlab.com/JotaEspig))
  * André Vitor Bastos ([andrevbastos](https://github.com/andrevbastos))
+
+## 👥 Special Thanks
+
+ * Éder Augusto ([oederaugusto](https://gitlab.com/oederaugusto/))
+ * João Vitor Espig ([JotaEspig](https://gitlab.com/JotaEspig))
  * Helder Martins ([imheldermartins](https://github.com/imheldermartins))
- * TODO
-
-## 🕒 Version History
-
-see [CHANGELOG.md](CHANGELOG.md)
 
 ## 🙏 Acknowledgments
 
-* [Learn OpenGL](https://github.com/JoeyDeVries/LearnOpenGL)
-* [OpenGL course](https://www.youtube.com/watch?v=45MIykWJ-C4&ab_channel=freeCodeCamp.org) - by freeCodeCamp
 * [OpenGL course](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=ggvK1vKGWtdA4YJm) - by Victor Gordan
-* [README-Template.md](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
