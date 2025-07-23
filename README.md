@@ -1,6 +1,6 @@
 # IFCG
 
-A C ++ and Opengl graphic engine library as part of the IFC - Blumenau computer graphics discipline.
+A C ++ and Opengl graphic engine library as part of the IFC - Blumenau computer graphics discipline.<br>
 *Uma biblioteca de motor gráfico feito em C++ e OpenGL como parte da disciplina de Computação Gráfica do IFC - Blumenau. (pt-br)*
 
 ## 📦 Dependencies
