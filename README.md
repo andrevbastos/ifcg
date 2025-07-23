@@ -41,17 +41,17 @@ make
 
 ## 🧑‍🏫 Usage
 
-The ([main](tests/main.cpp)) file has some good usage examples. You can alter it and the whole project however you prefer, but when using the current CMakeLists setup remember: ([include](include)) folder must only contain .hpp files, ([src](src)) folder must only contain .cpp files and the entry point will alway be at ([main](tests/main.cpp)).
+The [main](tests/main.cpp) file has some good usage examples. You can alter it and the whole project however you prefer, but when using the current CMakeLists setup remember: [include](include) folder must only contain .hpp files, [src](src) folder must only contain .cpp files and the entry point will alway be at [main](tests/main.cpp).
 
 ## 👤 Author
 
- * André Vitor Bastos ([andrevbastos](https://github.com/andrevbastos))
+ * André Vitor Bastos ([GitHub](https://github.com/andrevbastos))
 
 ## 👥 Special Thanks
 
- * Éder Augusto ([oederaugusto](https://gitlab.com/oederaugusto/))
- * João Vitor Espig ([JotaEspig](https://gitlab.com/JotaEspig))
- * Helder Martins ([imheldermartins](https://github.com/imheldermartins))
+ * Éder Augusto ([GitLab](https://gitlab.com/oederaugusto/))
+ * João Vitor Espig ([GitLab](https://gitlab.com/JotaEspig))
+ * Helder Martins ([GitHub](https://github.com/imheldermartins))
 
 ## 🙏 Acknowledgments
 
