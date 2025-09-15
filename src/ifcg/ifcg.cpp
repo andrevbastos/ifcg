@@ -211,7 +211,7 @@ namespace ifcg
         }
     }
 
-    void IFCG::loop(const std::function<void()>& gameLoopBody)
+    void IFCG::loop(const std::function<void()>& loopBody)
     {
         double lastFrameTime = 0.0;
 
@@ -221,7 +221,7 @@ namespace ifcg
             processInput();
             clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
             
-            gameLoopBody();
+            loopBody();
             
             render();
             swapBuffer();

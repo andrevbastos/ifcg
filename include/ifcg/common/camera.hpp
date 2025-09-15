@@ -1,3 +1,9 @@
+/**
+ * @file camera.hpp
+ * @author andrevbastos (andrev.bastos28@gmail.com)
+ * @brief Camera interface for 2D and 3D scenes.
+ * @copyright Copyright (c) 2025
+ */
 #pragma once
 
 #include <glad/glad.h>
@@ -12,6 +18,12 @@
 
 namespace camera
 {
+    /**
+     * @class Camera
+     * @brief Abstract base class for camera implementations in 2D and 3D scenes.
+     * @details This class defines the interface for camera operations such as updating
+     * projection and view matrices, handling user inputs, and setting position.
+     */
     class Camera
     {
     public:
