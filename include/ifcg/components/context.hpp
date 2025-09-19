@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <stdexcept>
 
 namespace ifcg
 {
@@ -23,7 +24,7 @@ namespace ifcg
 		 * @brief Initialize the rendering context.
 		 * @param window Pointer to the window object.
 		 */
-		void init();
+		Context();
 		/**
 		 * @brief Poll for and process events.
 		 */

@@ -21,8 +21,6 @@ namespace shader
 		throw(errno);
 	}
 
-	Shader::Shader() : id(0) {}; 
-
 	Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	{
 		std::string vertexCode = get_file_contents(vertexFile);

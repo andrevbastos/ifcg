@@ -11,10 +11,14 @@
 
 #include <functional>
 #include <vector>
+#include <algorithm>
 
 #include "ifcg/common/mesh.hpp"
 #include "ifcg/common/camera.hpp"
 #include "ifcg/components/window.hpp"
+#include "ifcg/shader/shader.hpp"
+#include "ifcg/graphics/view/camera2D.hpp"
+#include "ifcg/graphics/view/camera3D.hpp"
 
 namespace ifcg
 {
@@ -62,6 +66,10 @@ namespace ifcg
 		 * @brief Render all meshes in the render queue.
 		 */
 		void render();
+		/**
+		 * @brief Clear the render queue and reset the renderer state.
+		 */
+		void reset();
 
 	private:
         /**

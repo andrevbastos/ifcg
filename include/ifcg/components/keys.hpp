@@ -9,22 +9,44 @@
 #pragma once
 
 #include <unordered_map>
+#include <functional>
+#include <vector>
+
+#include "ifcg/components/window.hpp"
 
 namespace ifcg
 {
 	/**
-	 * @class KeyInput
+	 * @class Keys
 	 * @brief Class responsible for handling key input.
 	 */
-	class KeyInput
+	class Keys
 	{
 	public:
+		/**
+		 * @brief Construct a new Keys object.
+		 * @param win The window to associate with this key handler.
+		 */
+		Keys(Window* win) 
+			: _window(win->getGLFWwindow()) {};
         /**
          * @brief Add a callback for a specific key.
          * @param key The key to bind the callback to.
          * @param callback The function to call when the key is pressed.
          */
-        void addKeyCallback(int key, const std::function<void()>& callback);
+        void addKeyCallback(int key, const std::function<void()> callback);
+
+		/**
+		 * @brief Update the key states. Should be called each frame.
+		 */
+		void update();
+
+		/**
+		 * @brief Get the state of a key.
+		 * @param key The key to check.
+		 * @return The state of the key.
+		 */
+		int getKeyState(int key) const;
 
 		/**
 		 * @brief Get the state of a key.
@@ -50,16 +72,15 @@ namespace ifcg
         void processInput();
 
 	private:
-		/**
-         * @brief Set the key state.
-         * @param key The key to set.
-         * @param state The state to set.
-		 */
-        void setKeyState(int key, bool state);
-
+		// Pointer to the GLFW window.
+		GLFWwindow* _window;
         // Key callbacks map.
-        std::unordered_map<int, const std::function<void()>> _keyCallbacks;
+        std::unordered_map<int, std::vector<std::function<void()>>> _keyCallbacks;
         // Key states map.
-		std::unordered_map<int, bool> _keyStates;
+		std::unordered_map<int, int> _keyStates;
+
+		// Just pressed and just released states for edge detection.
+		std::unordered_map<int, bool> _justPressed;
+        std::unordered_map<int, bool> _justReleased;
 	};
 };
