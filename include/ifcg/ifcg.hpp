@@ -49,6 +49,12 @@ namespace ifcg
 		static Keys* getInputHandler();
 
 		/**
+		 * @brief Get the Renderer object.
+		 * @return Renderer* Pointer to the Renderer object.
+		 */
+		static Renderer* getRenderer();
+
+		/**
 		 * @brief Set the FramesPerSecond used in the main loop.
 		 * @param fps Frames per second (0 for uncapped).
 		 */
@@ -62,6 +68,7 @@ namespace ifcg
 		 * @brief Terminate the IFCG library and clean up resources.
 		 */
 		static void terminate();
+
 
 	private:
 		// Private constructor and destructor to enforce singleton pattern.

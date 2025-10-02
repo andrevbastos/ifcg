@@ -3,7 +3,7 @@
 namespace ifcg
 {
     Renderer::Renderer(Window* win)
-        : _window(win), _shader(nullptr), _camera(nullptr) {};
+        : _window(win), _shader(nullptr), _camera(nullptr), _renderQueue({}) {};
 
     void Renderer::setup2D() {
         _shader = new Shader("../resources/shaders/default2D_vert.glsl", "../resources/shaders/default2D_frag.glsl");
@@ -18,18 +18,19 @@ namespace ifcg
 	void Renderer::setup3D() {
         _shader = new Shader("../resources/shaders/default3D_vert.glsl", "../resources/shaders/default3D_frag.glsl");
         _camera = new Camera3D(_window->getWidth(), _window->getHeight());
+        _camera->setPos(glm::vec3(0.0f, 0.0f, 5.0f));
 
         if (!glIsEnabled(GL_DEPTH_TEST)) {
             glEnable(GL_DEPTH_TEST);
         }
     };
 
-    void Renderer::addMesh(Mesh* mesh)
+    void Renderer::addMesh(MeshBase* mesh)
     {
         _renderQueue.push_back(mesh);
     };
 
-    void Renderer::removeMesh(Mesh* mesh)
+    void Renderer::removeMesh(MeshBase* mesh)
     {
         if (_renderQueue.empty()) {
             std::cerr << "No meshes to remove." << std::endl;
@@ -58,8 +59,7 @@ namespace ifcg
         _shader->activate();
         _camera->update(90.0f, 0.1f, 100.0f, _shader->id);
 
-        if (_renderQueue.empty()) return;
-        for (Mesh* mesh : _renderQueue)
+        for (MeshBase* mesh : _renderQueue)
         {
             mesh->draw();
         }
@@ -72,7 +72,7 @@ namespace ifcg
             delete _shader;
         }
         if (_renderQueue.size() > 0) {
-            for (Mesh* mesh : _renderQueue) {
+            for (auto* mesh : _renderQueue) {
                 delete mesh;
             }
             _renderQueue.clear();
@@ -81,5 +81,32 @@ namespace ifcg
             delete _camera;
             _camera = nullptr; 
         }
+    };
+
+    GLuint Renderer::getShaderID() const
+    {
+        return _shader ? _shader->id : 0;
+    };
+
+    void Renderer::setShader(Shader* shader)
+    {
+        if (_shader) {
+            _shader->terminate();
+            delete _shader;
+        }
+        _shader = shader;
+    };
+
+    void Renderer::setCamera(Camera* cam)
+    {
+        if (_camera) {
+            delete _camera;
+        }
+        _camera = cam;
+    };
+
+    Camera* Renderer::getCamera() const 
+    { 
+        return _camera; 
     };
 };

@@ -6,9 +6,9 @@
  */
 #pragma once
 
-#include "ifcg/common/camera.hpp"
+#include "ifcg/common/cameraBase.hpp"
 
-namespace camera
+namespace ifcg
 {
 	class Camera3D : public Camera
 	{
@@ -84,6 +84,4 @@ namespace camera
 		// Mouse sensitivity
 		float sensitivity = 100.0f;
 	};
-}
-
-using namespace camera;
+};

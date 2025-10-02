@@ -59,6 +59,11 @@ namespace ifcg
         return _keys;
     };
 
+    Renderer* IFCG::getRenderer() 
+    { 
+        return _renderer; 
+    };
+
     void IFCG::setFramesPerSecond(int fps) {
         if (fps > 0) {
             _frameTimeTarget = 1.0 / static_cast<double>(fps);
@@ -80,6 +85,7 @@ namespace ifcg
             
             loopBody();
             
+            _renderer->getCamera()->inputs(_window->getGLFWwindow());
             _renderer->render();
             _renderer->swapBuffer();
             

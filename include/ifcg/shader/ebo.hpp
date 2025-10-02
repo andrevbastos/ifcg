@@ -11,6 +11,8 @@
 #include <vector>
 #include <glad/glad.h>
 
+#include "ifcg/components/error.hpp"
+
 namespace ebo
 {
     /**

@@ -7,6 +7,7 @@ namespace vbo
         glGenBuffers(1, &_id);
         bind();
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+        GLCheckError();
     }
 
     void VBO::bind()

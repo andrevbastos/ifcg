@@ -4,27 +4,32 @@ namespace shader
 {
 
 	std::string get_file_contents(const char* filename);
-	
 	std::string get_file_contents(const char* filename)
 	{
-		std::ifstream in(filename, std::ios::binary);
+		std::ifstream in(filename, std::ios::in | std::ios::binary);
 		if (in)
 		{
-			std::string contents;
-			in.seekg(0, std::ios::end);
-			contents.resize(in.tellg());
-			in.seekg(0, std::ios::beg);
-			in.read(&contents[0], contents.size());
+			std::ostringstream contents;
+			contents << in.rdbuf();
 			in.close();
-			return(contents);
+			return contents.str();
 		}
-		throw(errno);
-	}
+
+		std::cerr << "ERRO: Nao foi possivel abrir o arquivo do shader: " << filename << std::endl;
+		return "";
+	};
 
 	Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	{
 		std::string vertexCode = get_file_contents(vertexFile);
 		std::string fragmentCode = get_file_contents(fragmentFile);
+
+		if (vertexCode.empty() || fragmentCode.empty())
+		{
+            id = 0;
+			std::cerr << "ERRO: Criacao do shader abortada devido a falha na leitura do arquivo." << std::endl;
+			return;
+		}
 
 		const char* vertexSource = vertexCode.c_str();
 		const char* fragmentSource = fragmentCode.c_str();
@@ -47,18 +52,17 @@ namespace shader
 
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
-
-	}
+	};
 
 	void Shader::activate()
 	{
 		glUseProgram(id);
-	}
+	};
 
 	void Shader::terminate()
 	{
 		glDeleteProgram(id);
-	}
+	};
 
 	void Shader::compileErrors(unsigned int shader, const char* type)
 	{
@@ -82,5 +86,5 @@ namespace shader
 				std::cout << "SHADER_LINKING_ERROR for:" << type << "\n" << infoLog << std::endl;
 			}
 		}
-	}
+	};
 }

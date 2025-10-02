@@ -16,7 +16,7 @@
 
 #include "ifcg/shader/shader.hpp"
 
-namespace camera
+namespace ifcg
 {
     /**
      * @class Camera
@@ -37,5 +37,3 @@ namespace camera
         virtual glm::mat4 getViewMatrix() = 0;
     };
 }
-
-using namespace camera;

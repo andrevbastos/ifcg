@@ -9,7 +9,9 @@
 #pragma once
 
 #include <glad/glad.h>
+
 #include "ifcg/shader/vbo.hpp"
+#include "ifcg/components/error.hpp"
 
 namespace vao
 {

@@ -12,9 +12,10 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
-#include "ifcg/common/mesh.hpp"
-#include "ifcg/common/camera.hpp"
+#include "ifcg/common/meshBase.hpp"
+#include "ifcg/common/cameraBase.hpp"
 #include "ifcg/components/window.hpp"
 #include "ifcg/shader/shader.hpp"
 #include "ifcg/graphics/view/camera2D.hpp"
@@ -29,6 +30,10 @@ namespace ifcg
 	class Renderer
 	{
 	public:
+		/**
+		 * @brief Construct a new Renderer object.
+		 * @param win Pointer to the associated Window object.
+		 */
         Renderer(Window* win);
 
 		/**
@@ -44,12 +49,12 @@ namespace ifcg
 		 * @brief Adds a mesh to the render queue.
 		 * @param mesh Pointer to the mesh to be added.
 		 */
-		void addMesh(Mesh* mesh);
+		void addMesh(MeshBase* mesh);
 		/**
 		 * @brief Removes a mesh from the render queue.
 		 * @param mesh Pointer to the mesh to be removed.
 		 */
-		void removeMesh(Mesh* mesh);
+		void removeMesh(MeshBase* mesh);
         /**
          * @brief Clear the color and depth buffers with the given color.
          * @param r Red component (0.0f to 1.0f).
@@ -71,12 +76,34 @@ namespace ifcg
 		 */
 		void reset();
 
+		/**
+		 * @brief Get the OpenGL shader program ID.
+		 * @return unsigned int Shader program ID.
+		 */
+		unsigned int getShaderID() const;
+		/**
+		 * @brief Set the active shader program.
+		 * @param shader Pointer to the Shader object.
+		 */
+		void setShader(Shader* shader);
+
+		/**
+		 * @brief Set the active camera for 3D rendering.
+		 * @param cam Pointer to the Camera object.
+		 */
+		void setCamera(Camera* cam);
+		/**
+		 * @brief Get the active camera for 3D rendering.
+		 * @return Pointer to the Camera object.
+		 */
+		Camera* getCamera() const;
+
 	private:
         /**
 		 * @brief Render queue holding all meshes to be drawn each frame.
 		 * @details Meshes can be added or removed from this queue using addMesh and removeMesh methods.
 		 */
-		std::vector<Mesh*> _renderQueue;
+		std::vector<MeshBase*> _renderQueue;
 		
         // Pointer to the current shader program.
 		Shader* _shader;

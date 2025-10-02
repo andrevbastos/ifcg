@@ -13,6 +13,7 @@
 #include <glad/glad.h>
 
 #include "ifcg/common/vertex.hpp"
+#include "ifcg/components/error.hpp"
 
 namespace vbo
 {

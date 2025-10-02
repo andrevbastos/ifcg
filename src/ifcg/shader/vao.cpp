@@ -5,6 +5,7 @@ namespace vao
     VAO::VAO()
     {
         glGenVertexArrays(1, &_id);
+        GLCheckError();
     }
 
     void VAO::linkAttrib(VBO& vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset)

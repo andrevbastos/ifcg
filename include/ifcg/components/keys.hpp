@@ -29,6 +29,7 @@ namespace ifcg
 		 */
 		Keys(Window* win) 
 			: _window(win->getGLFWwindow()) {};
+		
         /**
          * @brief Add a callback for a specific key.
          * @param key The key to bind the callback to.

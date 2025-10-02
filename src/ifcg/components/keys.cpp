@@ -6,7 +6,6 @@ namespace ifcg
     {
         auto& callbacks = _keyCallbacks[key];
         _keyCallbacks[key].push_back(callback);
-        std::cout << callbacks.size() << std::endl;
     }
     void Keys::update()
     {

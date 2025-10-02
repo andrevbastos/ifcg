@@ -1,6 +1,6 @@
 #include "ifcg/graphics/view/camera3D.hpp"
 
-namespace camera
+namespace ifcg
 {
 	Camera3D::Camera3D(int w, int h)
 		: width(w), height(h) {}
@@ -11,10 +11,16 @@ namespace camera
 		projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 
 		glUniformMatrix4fv(
-			glGetUniformLocation(shaderID, "cam"),
+			glGetUniformLocation(shaderID, "projection"),
 			1,
 			GL_FALSE,
-			glm::value_ptr(projection * view)
+			glm::value_ptr(projection)
+		);
+		glUniformMatrix4fv(
+			glGetUniformLocation(shaderID, "view"),
+			1,
+			GL_FALSE,
+			glm::value_ptr(view)
 		);
 	}
 
@@ -91,7 +97,7 @@ namespace camera
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			firstClick = true;
 		}
-	}
+	};
 
 	void Camera3D::setPos(glm::vec3 pos)
 	{
