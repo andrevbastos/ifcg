@@ -5,13 +5,13 @@ namespace ifcg
     MeshTree::MeshTree(const MeshTree& other) {
         this->_model = other._model;
         for (const auto& child : other._children) {
-            this->addChild(std::unique_ptr<MeshBase>(child->duplicate()));
+            this->addChild(child->duplicate());
         }
     }
 
-    void MeshTree::addChild(std::unique_ptr<MeshBase> child) {
+    void MeshTree::addChild(MeshBase* child) {
         if (child) {
-            _children.push_back(std::move(child));
+            _children.push_back(child);
         }
     }
 
@@ -32,7 +32,7 @@ namespace ifcg
     {
         if (index >= 0 && index < _children.size())
         {
-            return _children[index].get();
+            return _children[index];
         }
         return nullptr;
     };
