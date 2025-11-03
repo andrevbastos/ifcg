@@ -4,7 +4,6 @@
  * @brief Vertex structure for 2D and 3D geometries.
  * @copyright Copyright (c) 2025
  */
-
 #pragma once
 
 /**
@@ -12,7 +11,7 @@
  * @brief Vertex structure holding position and color data.
  * @details This structure is used to define vertices of 2D and 3D geometries,
  *          including position (x, y, z) and color (r, g, b, a) attributes.
- *          Default values are provided for z(0.0f), r(1.0f), g(0.0f), b(1.0f) and a(1.0f);
+ *          Default values are provided for z(0.0f), r(1.0f), g(0.0f), b(1.0f), a(1.0f), u(0.0f), v(0.0f).
  */
 class Vertex {
 public:
@@ -26,11 +25,12 @@ public:
      * @param b Blue color component.
      * @param a Alpha component.
      */
-    Vertex(float x, float y, float z = 0.0f, float r = 1.0f, float g = 0.0f, float b = 1.0f, float a = 1.0f) 
+    Vertex(float x, float y, float z = 0.0f, 
+           float r = 1.0f, float g = 0.0f, float b = 1.0f, float a = 1.0f)
         : x(x), y(y), z(z), r(r), g(g), b(b), a(a) {}
 
-    // Position data
+    // Dados de Posição
     float x, y, z;
-    // Color data
+    // Dados de Cor
     float r, g, b, a;
 };

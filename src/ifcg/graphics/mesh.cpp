@@ -6,7 +6,7 @@ namespace ifcg {
     {
         this->_model = other._model;
         setupMesh();
-    }
+    };
 
     Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID)
         : _vertices(vertices), _indices(indices), _shaderID(shaderID), _vbo(_vertices), _ebo(_indices)
@@ -42,8 +42,8 @@ namespace ifcg {
         _vbo.bind();
         _ebo.bind();
 
-        _vao.linkAttrib(_vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*) 0);
-        _vao.linkAttrib(_vbo, 1, 4, GL_FLOAT, sizeof(Vertex), (void*) (3 * sizeof(float)));
+        _vao.linkAttrib(_vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, x));
+        _vao.linkAttrib(_vbo, 1, 4, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, r));
 
         _vao.unbind();
         _vbo.unbind();

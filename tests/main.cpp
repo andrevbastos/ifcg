@@ -13,37 +13,44 @@ int main()
     IFCG::init(width, height, "Teste");
     IFCG::setup3D();
 
-    auto* keys = IFCG::getInputHandler();
+    auto* k = IFCG::getInputHandler();
     auto* r = IFCG::getRenderer();
 
+    float xmount = 200.0f;
+    float ymount = 200.0f;
+
     auto* cube1 = new Cube(r->getShaderID());
-    auto* cube2 = cube1->duplicate();
-    cube2->translate(2.0f, 0.0f, 0.0f);
-    auto* cube3 = cube1->duplicate();
-    cube3->translate(-2.0f, 0.0f, 0.0f);
+    cube1->translate(-(xmount/2), (ymount/2), 0.0f);
 
-    keys->addKeyCallback(GLFW_KEY_UP, [&]() {
-        if (keys->isKeyHeld(GLFW_KEY_UP))
-            cube2->rotate(-0.01f, 1.0f, 0.0f, 0.0f);
-    });
-    keys->addKeyCallback(GLFW_KEY_DOWN, [&]() {
-        if (keys->isKeyHeld(GLFW_KEY_DOWN))
-            cube2->rotate(0.01f, 1.0f, 0.0f, 0.0f);
-    });
+    auto* scene = new MeshTree();
+    scene->translate(0.0f, 0.0f, -80.0f);
+    for (int i = 0; i <= xmount; i += 2)
+    {
+        for (int j = 0; j <= ymount; j += 2)
+        {
+            auto* cube = cube1->duplicate();
+            cube->translate(i, -j, 0.0f);
+            scene->addChild(cube);
 
-    keys->addKeyCallback(GLFW_KEY_RIGHT, [&]() {
-        if (keys->isKeyHeld(GLFW_KEY_RIGHT))
-            cube3->rotate(-0.01f, 0.0f, 1.0f, 0.0f);
-    });
-    keys->addKeyCallback(GLFW_KEY_LEFT, [&]() {
-        if (keys->isKeyHeld(GLFW_KEY_LEFT))
-            cube3->rotate(0.01f, 0.0f, 1.0f, 0.0f);
-    });
+            k->addKeyCallback(GLFW_KEY_UP, [cube, k]() {
+                if (k->isKeyHeld(GLFW_KEY_UP))
+                    cube->rotate(0.01f, -1.0f, 0.0f, 0.0f);
+            });
+            k->addKeyCallback(GLFW_KEY_DOWN, [cube, k]() {
+                if (k->isKeyHeld(GLFW_KEY_DOWN))
+                    cube->rotate(0.01f, 1.0f, 0.0f, 0.0f);
+            });
 
-    auto* scene = new ifcg::MeshTree();
-    scene->addChild(cube1);
-    scene->addChild(cube2);
-    scene->addChild(cube3);
+            k->addKeyCallback(GLFW_KEY_LEFT, [cube, k]() {
+                if (k->isKeyHeld(GLFW_KEY_LEFT))
+                    cube->rotate(0.01f, 0.0f, 1.0f, 0.0f);
+            });
+            k->addKeyCallback(GLFW_KEY_RIGHT, [cube, k]() {
+                if (k->isKeyHeld(GLFW_KEY_RIGHT))
+                    cube->rotate(-0.01f, 0.0f, 1.0f, 0.0f);
+            });
+        }
+    }
 
     r->addMesh(scene);
 

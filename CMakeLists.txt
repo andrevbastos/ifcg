@@ -50,6 +50,30 @@ find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 CONFIG REQUIRED)
 find_package(glm 0.9.9 REQUIRED)
 
+# =-=-=-=-=-=-= Gerenciamento de Dependências (FetchContent) =-=-=-=-=-=-=
+include(FetchContent)
+
+# Declara o conteúdo a ser baixado: stb_image
+FetchContent_Declare(
+  stb
+  GIT_REPOSITORY https://github.com/nothings/stb.git
+  GIT_TAG        master
+)
+
+# Torna o conteúdo disponível (baixa e adiciona ao build)
+FetchContent_MakeAvailable(stb)
+
+# Criamos uma biblioteca ESTÁTICA para a implementação da stb_image.
+# Isso compila a implementação e permite que ela seja linkada.
+add_library(stb_image_lib STATIC
+    ${CMAKE_SOURCE_DIR}/src/stb.cpp
+)
+
+# Propagamos o diretório de include da stb para quem usar esta biblioteca.
+target_include_directories(stb_image_lib PUBLIC ${stb_SOURCE_DIR})
+
+message(STATUS "Dependência 'stb_image' configurada via FetchContent.")
+
 # =-=-=-=-=-=-= BIBLIOTECA ifcg =-=-=-=-=-=-=
 # Define onde as bibliotecas (.so, .dll, .dylib) serão colocadas
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -63,17 +87,10 @@ file(GLOB_RECURSE IFCG_LIBRARY_CPP_FILES CONFIGURE_DEPENDS
     "${IFCG_LIB_BASE_SOURCE_DIR}/*.cpp"
 )
 
-# O file(GLOB_RECURSE) já pega os arquivos em subdiretórios.
-# Se você tiver ifcg.cpp na raiz de src/ e outros .cpp em src/2D/, src/3D/, etc.
-# o seguinte padrão é suficiente:
-file(GLOB_RECURSE IFCG_LIBRARY_CPP_FILES_REFINED CONFIGURE_DEPENDS
-    "${IFCG_LIB_BASE_SOURCE_DIR}/*.cpp"
-)
-
 # Lista final de arquivos fonte para a biblioteca ifcg
 set(IFCG_LIBRARY_SOURCE_FILES
     ${IFCG_LIB_BASE_SOURCE_DIR}/glad/glad.c
-    ${IFCG_LIBRARY_CPP_FILES_REFINED}
+    ${IFCG_LIBRARY_CPP_FILES}
 )
 
 # Adicionando a biblioteca ifcg como SHARED
@@ -100,6 +117,8 @@ target_link_libraries(
         OpenGL::GL
         glfw
         glm::glm
+    PRIVATE
+        stb_image_lib
 )
 
 # Define o diretório de output para executáveis
