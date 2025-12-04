@@ -13,8 +13,16 @@ namespace ifcg
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        
+        glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_FALSE);
+        glfwWindowHint(GLFW_ALPHA_BITS, 0);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); 
+
+        glfwWindowHintString(GLFW_X11_CLASS_NAME, "ifcg_opengl");
+        glfwWindowHintString(GLFW_X11_INSTANCE_NAME, "ifcg_opengl");
+        #ifdef GLFW_WAYLAND_APP_ID
+            glfwWindowHintString(GLFW_WAYLAND_APP_ID, "ifcg_opengl");
+        #endif
+
         if (!_window)
         {
             _window = glfwCreateWindow(width, height, title, NULL, NULL);
@@ -28,11 +36,6 @@ namespace ifcg
 
         GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* vidMode = glfwGetVideoMode(primaryMonitor);
-    
-        int posX = (vidMode->width - width) / 2;
-        int posY = (vidMode->height - height) / 2;
-
-        glfwSetWindowPos(_window, posX, posY);
 
         glfwFocusWindow(_window);
 
