@@ -29,7 +29,6 @@ namespace ifcg
             float h = hue * 6.0f;
             int sector = static_cast<int>(h);
             float fraction = h - sector;
-            float p = 1.0f;
             float q = 1.0f - fraction;
             float t = fraction;
             

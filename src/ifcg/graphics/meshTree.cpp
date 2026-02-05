@@ -28,9 +28,9 @@ namespace ifcg
         }
     }
 
-    ifcg::MeshBase* MeshTree::getChild(int index) const
+    ifcg::MeshBase* MeshTree::getChild(std::size_t index) const
     {
-        if (index >= 0 && index < _children.size())
+        if (index < _children.size())
         {
             return _children[index];
         }

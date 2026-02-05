@@ -3,7 +3,10 @@
 namespace ifcg
 {
     Renderer::Renderer(Window* win)
-        : _window(win), _shader(nullptr), _camera(nullptr), _renderQueue({}) {};
+        : _renderQueue({}), _window(win) {
+        _shader = nullptr;
+        _camera = nullptr;
+    };
 
     void Renderer::setup2D() {
         _shader = new Shader("../resources/shaders/default2D_vert.glsl", "../resources/shaders/default2D_frag.glsl");

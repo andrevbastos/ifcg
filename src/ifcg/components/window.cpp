@@ -2,14 +2,15 @@
 
 namespace ifcg
 {
-    void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+    void framebuffer_size_callback(GLFWwindow* /*window*/, int width, int height)
     {
         glViewport(0, 0, width, height);
     }   
 
     Window::Window(unsigned int width, unsigned int height, const char* title)
-        : _width(width), _height(height), _window(nullptr)
-    {
+        : _width(width), _height(height) {
+        _window = nullptr;
+
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -35,7 +36,7 @@ namespace ifcg
         }
 
         GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* vidMode = glfwGetVideoMode(primaryMonitor);
+        glfwGetVideoMode(primaryMonitor);
 
         glfwFocusWindow(_window);
 

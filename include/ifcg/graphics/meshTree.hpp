@@ -16,7 +16,7 @@ namespace ifcg
         void draw(glm::mat4 parentModel = glm::mat4(1.0f)) override;
 
         void addChild(MeshBase* child);
-        MeshBase* getChild(int index) const;
+        MeshBase* getChild(std::size_t index) const;
 
     private:
         std::vector<MeshBase*> _children;

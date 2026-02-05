@@ -74,8 +74,6 @@ namespace ifcg
 
     void IFCG::loop(const std::function<void()>& loopBody)
     {
-        double lastFrameTime = 0.0;
-
         while (!_window->shouldClose())
         {
             _context->pollEvents();

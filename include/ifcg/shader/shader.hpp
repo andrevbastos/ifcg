@@ -14,6 +14,7 @@
 #include<sstream>
 #include<iostream>
 #include<cerrno>
+#include <cstring>
 
 namespace shader
 {
