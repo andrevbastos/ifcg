@@ -1,4 +1,4 @@
-# Coleta todos os sources da engine, EXCETO o main.cpp e o stb.cpp
+# Coleta todos os sources da engine, EXCETO o main.cpp
 file(GLOB_RECURSE IFCG_CORE_SOURCES 
     "${CMAKE_CURRENT_SOURCE_DIR}/ifcg/*.cpp"
 )
@@ -27,7 +27,6 @@ target_link_libraries(ifcg_core PUBLIC
     glfw
     glm::glm
     PRIVATE
-    stb_image_lib
 )
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
