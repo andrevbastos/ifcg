@@ -1,4 +1,4 @@
-# Coleta todos os sources da engine, EXCETO o main.cpp
+# Coleta todos os sources da engine, EXCETO o main.cpp e o stb.cpp
 file(GLOB_RECURSE IFCG_CORE_SOURCES 
     "${CMAKE_CURRENT_SOURCE_DIR}/ifcg/*.cpp"
 )
@@ -30,22 +30,25 @@ target_link_libraries(ifcg_core PUBLIC
     stb_image_lib
 )
 
-# O Executável final fica no src e linka com o core
-add_executable(ifcg main.cpp)
-target_link_libraries(ifcg PRIVATE ifcg_core)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    
+    # O Executável final de demonstração linka com o core
+    add_executable(ifcg main.cpp)
+    target_link_libraries(ifcg PRIVATE ifcg_core)
 
-# --- Pós-Build: Recursos e DLLs ---
-if (WIN32)
+    # --- Pós-Build: Recursos e DLLs ---
+    if (WIN32)
+        add_custom_command(TARGET ifcg POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_RUNTIME_DLLS:ifcg> $<TARGET_FILE_DIR:ifcg>
+            COMMENT "Copiando DLLs para o diretório de build..."
+        )
+    endif()
+
     add_custom_command(TARGET ifcg POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_RUNTIME_DLLS:ifcg>
-        $<TARGET_FILE_DIR:ifcg>
-        COMMAND_EXPAND_LISTS
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/resources $<TARGET_FILE_DIR:ifcg>/resources
+        COMMENT "Copiando diretório de resources para a build..."
     )
-endif()
 
-add_custom_command(TARGET ifcg POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${PROJECT_SOURCE_DIR}/resources $<TARGET_FILE_DIR:ifcg>/resources
-    COMMENT "Sincronizando resources para o diretório bin..."
-)
+endif()
