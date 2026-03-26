@@ -2,14 +2,14 @@
 
 namespace ifcg {
     Mesh::Mesh(const Mesh& other)
-        : _vertices(other._vertices), _indices(other._indices), _shaderID(other._shaderID), _vbo(other._vertices), _ebo(other._indices)
+        : _vertices(other._vertices), _indices(other._indices), _shaderID(other._shaderID), _drawMode(other._drawMode), _vbo(other._vertices), _ebo(other._indices)
     {
         this->_model = other._model;
         setupMesh();
     };
 
-    Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID)
-        : _vertices(vertices), _indices(indices), _shaderID(shaderID), _vbo(_vertices), _ebo(_indices)
+    Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID, GLenum drawMode)
+        : _vertices(vertices), _indices(indices), _shaderID(shaderID), _drawMode(drawMode), _vbo(_vertices), _ebo(_indices)
     {
         setupMesh();
     };
@@ -27,13 +27,18 @@ namespace ifcg {
         _vao.bind();
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(parentModel));
         glDrawElements(
-            GL_TRIANGLES,
+            _drawMode,
             _indices.size(),
             GL_UNSIGNED_INT,
             (void*)0
         );
 
         _vao.unbind();
+    };
+
+    void Mesh::setDrawMode(GLenum mode) 
+    { 
+        _drawMode = mode; 
     };
 
     void Mesh::setupMesh() 

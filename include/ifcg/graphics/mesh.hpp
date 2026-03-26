@@ -13,11 +13,12 @@
 namespace ifcg {
     class Mesh : public ifcg::MeshBase {
     public:
-        Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID);
+        Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID, GLenum drawMode = GL_TRIANGLES);
         Mesh(const Mesh& other);
         Mesh* duplicate() const override;
 
         virtual void draw(glm::mat4 parentModel = glm::mat4(1.0f));
+        void setDrawMode(GLenum mode);
 
     private:
         void setupMesh();
@@ -26,6 +27,8 @@ namespace ifcg {
         std::vector<GLuint> _indices;
         
         GLuint _shaderID;
+        GLenum _drawMode;
+
         VAO _vao;
         VBO _vbo;
         EBO _ebo;

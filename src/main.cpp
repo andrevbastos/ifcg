@@ -22,6 +22,7 @@ int main()
 
     // 2. Criando Primitivas
     auto* centralSphere = new Sphere(20, shader);
+    centralSphere->setDrawMode(GL_LINE_LOOP);
     auto* leftPyramid = new Pyramid(shader);
     auto* rightCube = new Cube(shader);
 
