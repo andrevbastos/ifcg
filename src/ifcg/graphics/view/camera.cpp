@@ -1,11 +1,11 @@
-#include "ifcg/graphics/view/camera2D.hpp"
+#include "ifcg/graphics/view/camera.hpp"
 
 namespace ifcg
 {
-	Camera2D::Camera2D(int w, int h)
+	Camera::Camera(int w, int h)
 		: width(w), height(h) {}
 
-	void Camera2D::update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID)
+	void Camera::update(float FOVdeg, float nearPlane, float farPlane, GLuint shaderID)
 	{	
 		view = glm::lookAt(position, position + orientation, up);
 		projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
@@ -24,7 +24,7 @@ namespace ifcg
 		);
 	}
 
-	void Camera2D::inputs(GLFWwindow* window)
+	void Camera::inputs(GLFWwindow* window)
 	{
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
@@ -99,27 +99,27 @@ namespace ifcg
 		}
 	};
 
-	void Camera2D::setPos(glm::vec3 pos)
+	void Camera::setPos(glm::vec3 pos)
 	{
 		position = pos;
 	};
 
-	void Camera2D::translate(float amount, glm::vec3 target)
+	void Camera::translate(float amount, glm::vec3 target)
 	{
 		position += amount * target;
 	};
 
-	void Camera2D::rotate(float angle, glm::vec3 axis)
+	void Camera::rotate(float angle, glm::vec3 axis)
 	{
 		orientation = glm::rotate(orientation, angle, axis);
 	};
 
-	glm::mat4 Camera2D::getProjectionMatrix()
+	glm::mat4 Camera::getProjectionMatrix()
 	{
 		return projection;
 	};
 
-	glm::mat4 Camera2D::getViewMatrix()
+	glm::mat4 Camera::getViewMatrix()
 	{
 		return view;
 	};

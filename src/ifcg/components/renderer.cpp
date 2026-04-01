@@ -10,7 +10,7 @@ namespace ifcg
 
     void Renderer::setup2D() {
         _shader = new Shader("../resources/shaders/default2D_vert.glsl", "../resources/shaders/default2D_frag.glsl");
-        _camera = new Camera2D(_window->getWidth(), _window->getHeight());
+        _camera = new Camera(_window->getWidth(), _window->getHeight());
         _camera->setPos(glm::vec3(0.0f, 0.0f, -0.5f));
 
         if (glIsEnabled(GL_DEPTH_TEST)) {
@@ -20,7 +20,7 @@ namespace ifcg
 
 	void Renderer::setup3D() {
         _shader = new Shader("../resources/shaders/default3D_vert.glsl", "../resources/shaders/default3D_frag.glsl");
-        _camera = new Camera3D(_window->getWidth(), _window->getHeight());
+        _camera = new Camera(_window->getWidth(), _window->getHeight());
         _camera->setPos(glm::vec3(0.0f, 0.0f, 5.0f));
 
         if (!glIsEnabled(GL_DEPTH_TEST)) {

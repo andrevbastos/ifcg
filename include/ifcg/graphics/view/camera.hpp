@@ -1,28 +1,36 @@
 /**
- * @file camera2D.hpp
+ * @file camera3D.hpp
  * @author andrevbastos (andrev.bastos28@gmail.com)
- * @brief Camera2D class for representing a 2D camera.
+ * @brief Camera3D class for representing a 3D camera.
  * @copyright Copyright (c) 2025
  */
 #pragma once
 
-#include "ifcg/common/cameraBase.hpp"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
+
+#include "ifcg/shader/shader.hpp"
 
 namespace ifcg
 {
-	class Camera2D : public Camera
+	class Camera
 	{
 	public:
 		/**
-		 * @brief Destroy the Camera2D object
+		 * @brief Destroy the Camera object
 		 */
-		~Camera2D() = default;
+		~Camera() = default;
 		/**
-		 * @brief Construct a new Camera2D object
+		 * @brief Construct a new Camera object
 		 * @param width Width of the viewport.
 		 * @param height Height of the viewport.
 		 */
-		Camera2D(int width, int height);
+		Camera(int width, int height);
 		
 		/**
 		 * @brief Update the camera's projection and view matrices.
@@ -54,10 +62,10 @@ namespace ifcg
 		 */
 		glm::mat4 getViewMatrix();
 		
-	private:
 		// Helper methods for camera transformations
 		void translate(float t, glm::vec3 pos);
 		void rotate(float angle, glm::vec3 axis);
+	private:
 		
 		// Camera attributes
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);

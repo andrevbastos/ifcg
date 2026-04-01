@@ -16,9 +16,7 @@
 
 #include "ifcg/components/window.hpp"
 #include "ifcg/common/meshBase.hpp"
-#include "ifcg/common/cameraBase.hpp"
-#include "ifcg/graphics/view/camera2D.hpp"
-#include "ifcg/graphics/view/camera3D.hpp"
+#include "ifcg/graphics/view/camera.hpp"
 #include "ifcg/shader/shader.hpp"
 
 namespace ifcg
