@@ -54,10 +54,10 @@ namespace ifcg
 		 */
 		glm::mat4 getViewMatrix();
 		
-	private:
 		// Helper methods for camera transformations
 		void translate(float t, glm::vec3 pos);
 		void rotate(float angle, glm::vec3 axis);
+	private:
 		
 		// Camera attributes
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
