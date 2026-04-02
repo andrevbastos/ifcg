@@ -17,6 +17,9 @@ namespace ifcg {
         Mesh(const Mesh& other);
         Mesh* duplicate() const override;
 
+        std::vector<Vertex> getVertices() const;
+        std::vector<GLuint> getIndices() const;
+
         virtual void draw(glm::mat4 parentModel = glm::mat4(1.0f));
         void setDrawMode(GLenum mode);
 

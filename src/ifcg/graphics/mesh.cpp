@@ -19,6 +19,16 @@ namespace ifcg {
         return new Mesh(*this);
     };
 
+    std::vector<Vertex> Mesh::getVertices() const
+    {
+        return _vertices;
+    };
+
+    std::vector<GLuint> Mesh::getIndices() const
+    {
+        return _indices;
+    };
+
     void Mesh::draw(glm::mat4 parentModel)
     {
         GLuint modelLoc = glGetUniformLocation(_shaderID, "model");
