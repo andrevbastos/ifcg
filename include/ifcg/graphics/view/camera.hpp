@@ -65,6 +65,9 @@ namespace ifcg
 		// Helper methods for camera transformations
 		void translate(float t, glm::vec3 pos);
 		void rotate(float angle, glm::vec3 axis);
+
+		void setSpeed(float newSpeed);
+		float getSpeed() const;
 	private:
 		
 		// Camera attributes

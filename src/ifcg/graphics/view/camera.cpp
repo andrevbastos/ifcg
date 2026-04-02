@@ -114,6 +114,16 @@ namespace ifcg
 		orientation = glm::rotate(orientation, angle, axis);
 	};
 
+	void Camera::setSpeed(float newSpeed) 
+	{ 
+		speed = newSpeed; 
+	}
+	
+	float Camera::getSpeed() const 
+	{ 
+		return speed; 
+	}
+
 	glm::mat4 Camera::getProjectionMatrix()
 	{
 		return projection;
