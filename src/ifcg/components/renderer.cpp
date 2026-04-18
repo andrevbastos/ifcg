@@ -60,7 +60,7 @@ namespace ifcg
     void Renderer::render()
     {
         _shader->activate();
-        _camera->update(90.0f, 0.1f, 100.0f, _shader->id);
+        _camera->update(_fov, _nearPlane, _farPlane, _shader->id);
 
         for (MeshBase* mesh : _renderQueue)
         {

@@ -96,6 +96,10 @@ namespace ifcg
 		 */
 		Camera* getCamera() const;
 
+		void setFOV(float fov) { _fov = fov; }
+		void setNearPlane(float nearPlane) { _nearPlane = nearPlane; }
+		void setFarPlane(float farPlane) { _farPlane = farPlane; }
+
 	private:
         /**
 		 * @brief Render queue holding all meshes to be drawn each frame.
@@ -109,5 +113,9 @@ namespace ifcg
         Camera* _camera;
         // Pointer to the associated window for rendering context.    
         Window* _window;
+
+		float _fov = 90.0f;
+		float _nearPlane = 0.1f;
+		float _farPlane = 100.0f;
     };
 };
