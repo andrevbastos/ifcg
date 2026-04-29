@@ -7,6 +7,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -29,9 +30,9 @@ namespace ifcg
         virtual ~MeshBase() = default;
         /**
          * @brief Duplicate the current mesh.
-         * @return MeshBase* 
+         * @return MeshBase shared pointer to the duplicated mesh.
          */
-        virtual MeshBase* duplicate() const = 0;
+        virtual std::shared_ptr<MeshBase> duplicate() const = 0;
 
         /**
          * @brief Draw the mesh.

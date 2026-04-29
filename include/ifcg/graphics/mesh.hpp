@@ -15,7 +15,7 @@ namespace ifcg {
     public:
         Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLuint shaderID, GLenum drawMode = GL_TRIANGLES);
         Mesh(const Mesh& other);
-        Mesh* duplicate() const override;
+        std::shared_ptr<MeshBase> duplicate() const override;
 
         std::vector<Vertex> getVertices() const;
         std::vector<GLuint> getIndices() const;

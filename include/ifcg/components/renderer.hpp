@@ -30,9 +30,9 @@ namespace ifcg
 	public:
 		/**
 		 * @brief Construct a new Renderer object.
-		 * @param win Pointer to the associated Window object.
+		 * @param win Reference to the associated Window object.
 		 */
-        Renderer(Window* win);
+        Renderer(Window& win);
 
 		/**
 		 * @brief Setup the 2D rendering environment.
@@ -47,13 +47,14 @@ namespace ifcg
 		 * @brief Adds a mesh to the render queue.
 		 * @param mesh Pointer to the mesh to be added.
 		 */
-		void addMesh(MeshBase* mesh);
+		void addMesh(std::shared_ptr<MeshBase> mesh);
 		/**
 		 * @brief Removes a mesh from the render queue.
 		 * @param mesh Pointer to the mesh to be removed.
 		 */
-		void removeMesh(MeshBase* mesh);
-        /**
+		void removeMesh(std::shared_ptr<MeshBase> mesh);
+
+		/**
          * @brief Clear the color and depth buffers with the given color.
          * @param r Red component (0.0f to 1.0f).
          * @param g Green component (0.0f to 1.0f).
@@ -83,18 +84,19 @@ namespace ifcg
 		 * @brief Set the active shader program.
 		 * @param shader Pointer to the Shader object.
 		 */
-		void setShader(Shader* shader);
-
+		void setShader(std::shared_ptr<Shader> shader);
+		
 		/**
 		 * @brief Set the active camera for 3D rendering.
 		 * @param cam Pointer to the Camera object.
 		 */
-		void setCamera(Camera* cam);
+		void setCamera(std::shared_ptr<Camera> cam);
+
 		/**
 		 * @brief Get the active camera for 3D rendering.
 		 * @return Pointer to the Camera object.
 		 */
-		Camera* getCamera() const;
+		Camera& getCamera() const;
 
 		void setFOV(float fov) { _fov = fov; }
 		void setNearPlane(float nearPlane) { _nearPlane = nearPlane; }
@@ -105,14 +107,14 @@ namespace ifcg
 		 * @brief Render queue holding all meshes to be drawn each frame.
 		 * @details Meshes can be added or removed from this queue using addMesh and removeMesh methods.
 		 */
-		std::vector<MeshBase*> _renderQueue;
+		std::vector<std::shared_ptr<MeshBase>> _renderQueue;
 		
         // Pointer to the current shader program.
-		Shader* _shader;
+		std::shared_ptr<Shader> _shader;
         // Pointer to the active camera for 3D rendering.
-        Camera* _camera;
+        std::shared_ptr<Camera> _camera;
         // Pointer to the associated window for rendering context.    
-        Window* _window;
+        Window& _window;
 
 		float _fov = 90.0f;
 		float _nearPlane = 0.1f;

@@ -9,14 +9,14 @@ namespace ifcg
         }
     }
 
-    void MeshTree::addChild(MeshBase* child) {
+    void MeshTree::addChild(std::shared_ptr<MeshBase> child) {
         if (child) {
             _children.push_back(child);
         }
     }
 
-    MeshBase* MeshTree::duplicate() const {
-        return new MeshTree(*this);
+    std::shared_ptr<MeshBase> MeshTree::duplicate() const {
+        return std::make_shared<MeshTree>(*this);
     }
 
     void MeshTree::draw(glm::mat4 parentModel) {
@@ -28,7 +28,7 @@ namespace ifcg
         }
     }
 
-    ifcg::MeshBase* MeshTree::getChild(std::size_t index) const
+    std::shared_ptr<MeshBase> MeshTree::getChild(std::size_t index) const
     {
         if (index < _children.size())
         {

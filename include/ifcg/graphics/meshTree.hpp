@@ -12,13 +12,13 @@ namespace ifcg
         MeshTree() = default;
         MeshTree(const MeshTree &other); 
 
-        MeshBase* duplicate() const override;
+        std::shared_ptr<MeshBase> duplicate() const override;
         void draw(glm::mat4 parentModel = glm::mat4(1.0f)) override;
 
-        void addChild(MeshBase* child);
-        MeshBase* getChild(std::size_t index) const;
+        void addChild(std::shared_ptr<MeshBase> child);
+        std::shared_ptr<MeshBase> getChild(std::size_t index) const;
 
     private:
-        std::vector<MeshBase*> _children;
+        std::vector<std::shared_ptr<MeshBase>> _children;
     };
 };

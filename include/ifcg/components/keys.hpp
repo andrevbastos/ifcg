@@ -27,8 +27,8 @@ namespace ifcg
 		 * @brief Construct a new Keys object.
 		 * @param win The window to associate with this key handler.
 		 */
-		Keys(Window* win) 
-			: _window(win->getGLFWwindow()) {};
+		Keys(Window& win) 
+			: _window(win.getGLFWwindow()) {};
 		
         /**
          * @brief Add a callback for a specific key.

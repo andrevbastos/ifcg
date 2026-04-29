@@ -13,6 +13,9 @@
 
 #include <chrono>
 #include <thread>
+#include <stop_token>
+#include <functional>
+#include <memory>
 
 #include "ifcg/components/context.hpp"
 #include "ifcg/components/window.hpp"
@@ -21,6 +24,21 @@
 
 namespace ifcg
 {
+	/**
+	 * @struct LoopConfig
+	 * @brief Configuration struct for the main loop, allowing users to specify callbacks for different stages of the loop.
+	 * @details Users can provide custom functions to be called before the loop starts, before and after input processing,
+	 * 			during the main loop body, after rendering, and when exiting the
+	 */
+	struct LoopConfig {
+		const std::function<void()>& beforeLoop = [] {};
+		const std::function<void()>& beforeInputs = [] {};
+		const std::function<void()>& afterInputs = [] {};
+		const std::function<void()>& loopBody = [] {};
+		const std::function<void()>& afterRender = [] {};
+		const std::function<void()>& onExit = [] {};
+	};
+
 	/**
 	 * @class IFCG
 	 * @brief Wrapper class for initializing and managing the IFCG graphics context.
@@ -45,14 +63,19 @@ namespace ifcg
 		/**
 		 * @brief Get the Input Handler object.
 		 * @return Keys* Pointer to the Keys object.
+		static IFCG* _instance;
 		 */
-		static Keys* getInputHandler();
+		static Keys& getInputHandler();
 
 		/**
 		 * @brief Get the Renderer object.
 		 * @return Renderer* Pointer to the Renderer object.
 		 */
-		static Renderer* getRenderer();
+		static Renderer& getRenderer();
+
+		static bool isRunning();
+		static void pollEvents();
+		static void releaseContext();
 
 		/**
 		 * @brief Set the FramesPerSecond used in the main loop.
@@ -63,7 +86,13 @@ namespace ifcg
 		 * @brief Run the main application loop.
 		 * @param gameLoopBody Function to be called each loop iteration.
 		 */
-        static void loop(const std::function<void()>& loopBody);
+        static void loop(LoopConfig config);
+		/**
+		 * @brief Internal loop function that runs in a separate thread.
+		 * @param token Stop token for gracefully exiting the loop.
+		 * @param config Loop configuration containing callbacks and conditions.
+		 */
+		static void loopP(std::stop_token token, LoopConfig config);
 		/**
 		 * @brief Terminate the IFCG library and clean up resources.
 		 */
@@ -71,23 +100,26 @@ namespace ifcg
 
 
 	private:
-		// Private constructor and destructor to enforce singleton pattern.
-		IFCG(unsigned int w, unsigned int h, const char* title);
-		~IFCG();
+		// Concede permissão para o unique_ptr conseguir destruir o Singleton
+        friend struct std::default_delete<IFCG>;
+
+        // Private constructor and destructor
+        IFCG(unsigned int w, unsigned int h, const char* title);
+        ~IFCG();
 		IFCG(const IFCG&) = delete;
 		IFCG& operator=(const IFCG&) = delete;
 
 		// Singleton instance.
-		static IFCG* _instance;
+		static std::unique_ptr<IFCG> _instance;
 
 		// Target frame time in seconds (for FPS limiting).
 		static double _frameTimeTarget; 
 
 		// Components
-		static Context* _context;
-		static Window* _window;
-		static Renderer* _renderer;
-		static Keys* _keys;
+		static std::unique_ptr<Context> _context;
+		static std::unique_ptr<Window> _window;
+		static std::unique_ptr<Renderer> _renderer;
+		static std::unique_ptr<Keys> _keys;
 	};
 };
 

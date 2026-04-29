@@ -14,9 +14,9 @@ namespace ifcg {
         setupMesh();
     };
 
-    Mesh* Mesh::duplicate() const
+    std::shared_ptr<MeshBase> Mesh::duplicate() const
     {
-        return new Mesh(*this);
+        return std::make_shared<Mesh>(*this);
     };
 
     std::vector<Vertex> Mesh::getVertices() const
