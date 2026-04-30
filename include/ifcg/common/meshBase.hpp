@@ -1,5 +1,5 @@
 /**
- * @file mesh.hpp
+ * @file meshBase.hpp
  * @author andrevbastos (andrev.bastos28@gmail.com)
  * @brief Mesh interface for 2D and 3D geometries.
  * @copyright Copyright (c) 2025

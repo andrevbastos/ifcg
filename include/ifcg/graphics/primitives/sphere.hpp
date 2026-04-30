@@ -31,11 +31,18 @@ namespace ifcg
          */
         Sphere(int precision, GLuint shaderID);
     private:
-        // Generates vertex data for the sphere mesh based on the specified precision.
-        // Returns a vector of Vertex objects.
+        /**
+         * @brief Generates vertex data for the sphere mesh.
+         * @param precision Level of detail (segments).
+         * @return std::vector<Vertex> Vector of vertices.
+         */
         std::vector<Vertex> vertices(int precision);
-        // Generates index data for the sphere mesh based on the specified precision.
-        // Returns a vector of GLuint indices.
+
+        /**
+         * @brief Generates index data for the sphere mesh.
+         * @param precision Level of detail (segments).
+         * @return std::vector<GLuint> Vector of indices.
+         */
         std::vector<GLuint> indices(int precision);
     };
 };

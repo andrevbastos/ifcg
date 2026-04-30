@@ -29,8 +29,19 @@ public:
            float r = 1.0f, float g = 0.0f, float b = 1.0f, float a = 1.0f)
         : x(x), y(y), z(z), r(r), g(g), b(b), a(a) {}
 
-    // Dados de Posição
-    float x, y, z;
-    // Dados de Cor
-    float r, g, b, a;
+    /// X position coordinate.
+    float x;
+    /// Y position coordinate.
+    float y;
+    /// Z position coordinate.
+    float z;
+    
+    /// Red color component (0.0f to 1.0f).
+    float r;
+    /// Green color component (0.0f to 1.0f).
+    float g;
+    /// Blue color component (0.0f to 1.0f).
+    float b;
+    /// Alpha transparency component (0.0f to 1.0f).
+    float a;
 };

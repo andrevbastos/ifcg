@@ -41,7 +41,9 @@ make
 
 ## 🧑‍🏫 Usage
 
-The [main](tests/main.cpp) file has some good usage examples. You can alter it and the whole project however you prefer, but when using the current CMakeLists setup remember: [include](include) folder must only contain .hpp files, [src](src) folder must only contain .cpp files and the entry point will alway be at [main](tests/main.cpp).
+The [main](src/main.cpp) file has some good usage examples, demonstrating both sequential and parallel loop configurations. You can alter it and the whole project however you prefer, but when using the current CMakeLists setup remember: [include](include) folder must only contain .hpp files and [src](src) folder must only contain .cpp files.
+
+The entry point for the application is [src/main.cpp](src/main.cpp), while unit tests are located in [tests/tests.cpp](tests/tests.cpp).
 
 ## 👤 Author
 

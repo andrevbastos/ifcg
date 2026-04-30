@@ -20,6 +20,10 @@ namespace ifcg
     class Cube : public ifcg::Mesh
     {
     public:
+        /**
+         * @brief Construct a new Cube object.
+         * @param shaderID Shader program ID to use for rendering.
+         */
         Cube(GLuint shaderID);
     };
 }

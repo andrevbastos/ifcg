@@ -1,4 +1,5 @@
 /**
+ * @file context.hpp
  * @author andrevbastos (andrev.bastos28@gmail.com)
  * @brief Context management for the IFCG library.
  * @details This file declares the Context class responsible for managing the rendering context.
@@ -22,20 +23,19 @@ namespace ifcg
 	public:
 		/**
 		 * @brief Initialize the rendering context.
-		 * @param window Pointer to the window object.
 		 */
 		Context();
 		/**
-		 * @brief Poll for and process events.
+		 * @brief Poll for and process events from GLFW.
 		 */
 		void pollEvents();
         /**
-         * @brief Get the time since the context was initialized.
-         * @return The time in seconds.
+         * @brief Get the time since GLFW was initialized.
+         * @return double The time in seconds.
          */
         double getTime();
         /**
-         * @brief Terminate the context.
+         * @brief Terminate the context and clean up GLFW resources.
          */
         void terminate();
 

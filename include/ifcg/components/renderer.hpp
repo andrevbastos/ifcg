@@ -98,8 +98,22 @@ namespace ifcg
 		 */
 		Camera& getCamera() const;
 
+		/**
+		 * @brief Set the field of view for the perspective projection.
+		 * @param fov The field of view in degrees.
+		 */
 		void setFOV(float fov) { _fov = fov; }
+
+		/**
+		 * @brief Set the near clipping plane distance.
+		 * @param nearPlane The distance to the near clipping plane.
+		 */
 		void setNearPlane(float nearPlane) { _nearPlane = nearPlane; }
+
+		/**
+		 * @brief Set the far clipping plane distance.
+		 * @param farPlane The distance to the far clipping plane.
+		 */
 		void setFarPlane(float farPlane) { _farPlane = farPlane; }
 
 	private:

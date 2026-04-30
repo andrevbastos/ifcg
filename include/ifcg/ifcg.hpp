@@ -69,12 +69,24 @@ namespace ifcg
 
 		/**
 		 * @brief Get the Renderer object.
-		 * @return Renderer* Pointer to the Renderer object.
+		 * @return Renderer& Reference to the Renderer object.
 		 */
 		static Renderer& getRenderer();
 
+		/**
+		 * @brief Check if the application window is still running.
+		 * @return true if the window should remain open, false otherwise.
+		 */
 		static bool isRunning();
+
+		/**
+		 * @brief Poll and process window events.
+		 */
 		static void pollEvents();
+
+		/**
+		 * @brief Release the OpenGL context from the current thread.
+		 */
 		static void releaseContext();
 
 		/**
