@@ -4,15 +4,15 @@ namespace ifcg
 {
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-    std::unique_ptr<IFCG> IFCG::_instance = nullptr;
-    double IFCG::_frameTimeTarget = 0.0;
+    std::unique_ptr<Engine> Engine::_instance = nullptr;
+    double Engine::_frameTimeTarget = 0.0;
 
-    std::unique_ptr<Context> IFCG::_context = nullptr;
-    std::unique_ptr<Window> IFCG::_window = nullptr;
-    std::unique_ptr<Renderer> IFCG::_renderer = nullptr;
-    std::unique_ptr<Keys> IFCG::_keys = nullptr;
+    std::unique_ptr<Context> Engine::_context = nullptr;
+    std::unique_ptr<Window> Engine::_window = nullptr;
+    std::unique_ptr<Renderer> Engine::_renderer = nullptr;
+    std::unique_ptr<Keys> Engine::_keys = nullptr;
 
-    IFCG::IFCG(unsigned int w, unsigned int h, const char* title)
+    Engine::Engine(unsigned int w, unsigned int h, const char* title)
     {
         _context = std::make_unique<Context>();   
         _window = std::make_unique<Window>(w, h, title);
@@ -25,7 +25,7 @@ namespace ifcg
         });
     };
 
-    IFCG::~IFCG()
+    Engine::~Engine()
     {
         _keys.reset();
         _renderer.reset();
@@ -34,49 +34,49 @@ namespace ifcg
         _context.reset();
     };
 
-    void IFCG::init(unsigned int w, unsigned int h, const char* title)
+    void Engine::init(unsigned int w, unsigned int h, const char* title)
     {
         if (_instance == nullptr)
         {
-            _instance = std::unique_ptr<IFCG>(new IFCG(w, h, title));
+            _instance = std::unique_ptr<Engine>(new Engine(w, h, title));
         }
     };
 
-    void IFCG::setup2D() 
+    void Engine::setup2D() 
     {
         _renderer->reset();
         _renderer->setup2D();
     };
 		
-    void IFCG::setup3D() 
+    void Engine::setup3D() 
     {
         _renderer->reset();
         _renderer->setup3D();
     };
 
-    Keys& IFCG::getInputHandler()
+    Keys& Engine::getInputHandler()
     {
         return *_keys;
     };
 
-    Renderer& IFCG::getRenderer() 
+    Renderer& Engine::getRenderer() 
     { 
         return *_renderer; 
     };
 
-    bool IFCG::isRunning() {
+    bool Engine::isRunning() {
         return !_window->shouldClose();
     }
 
-    void IFCG::pollEvents() {
+    void Engine::pollEvents() {
         _context->pollEvents();
     }
 
-    void IFCG::releaseContext() {
+    void Engine::releaseContext() {
         glfwMakeContextCurrent(nullptr);
     }
 
-    void IFCG::setFramesPerSecond(int fps) {
+    void Engine::setFramesPerSecond(int fps) {
         if (fps > 0) {
             _frameTimeTarget = 1.0 / static_cast<double>(fps);
         } else {
@@ -84,7 +84,7 @@ namespace ifcg
         }
     }
 
-    void IFCG::loop(LoopConfig config)
+    void Engine::loop(LoopConfig config)
     {
         while (!_window->shouldClose())
         {
@@ -124,7 +124,7 @@ namespace ifcg
         config.onExit();
     }
 
-    void IFCG::loopP(std::stop_token st, LoopConfig config)
+    void Engine::loopP(std::stop_token st, LoopConfig config)
     {
         glfwMakeContextCurrent(_window->getGLFWwindow());
 
@@ -161,7 +161,7 @@ namespace ifcg
         config.onExit();
     }
 
-    void IFCG::terminate() {
+    void Engine::terminate() {
         _keys.reset();
         _renderer.reset();
         _window.reset();

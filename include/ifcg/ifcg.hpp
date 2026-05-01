@@ -2,7 +2,7 @@
  * @file ifcg.hpp
  * @author andrevbastos (andrev.bastos28@gmail.com)
  * @brief Main header file for the IFCG library.
- * @details This file includes all necessary headers and declares the main IFCG class for initializing and
+ * @details This file includes all necessary headers and declares the main Engine class for initializing and
  * 			managing the graphics context, window, rendering loop, and scene setup.
  * @version 0.1
  * @date 2025-09-14
@@ -40,10 +40,10 @@ namespace ifcg
 	};
 
 	/**
-	 * @class IFCG
+	 * @class Engine
 	 * @brief Wrapper class for initializing and managing the IFCG graphics context.
 	 */
-    class IFCG
+    class Engine
 	{
 	public:
 		/**
@@ -63,7 +63,7 @@ namespace ifcg
 		/**
 		 * @brief Get the Input Handler object.
 		 * @return Keys* Pointer to the Keys object.
-		static IFCG* _instance;
+		static Engine* _instance;
 		 */
 		static Keys& getInputHandler();
 
@@ -113,16 +113,16 @@ namespace ifcg
 
 	private:
 		// Concede permissão para o unique_ptr conseguir destruir o Singleton
-        friend struct std::default_delete<IFCG>;
+        friend struct std::default_delete<Engine>;
 
         // Private constructor and destructor
-        IFCG(unsigned int w, unsigned int h, const char* title);
-        ~IFCG();
-		IFCG(const IFCG&) = delete;
-		IFCG& operator=(const IFCG&) = delete;
+        Engine(unsigned int w, unsigned int h, const char* title);
+        ~Engine();
+		Engine(const Engine&) = delete;
+		Engine& operator=(const Engine&) = delete;
 
 		// Singleton instance.
-		static std::unique_ptr<IFCG> _instance;
+		static std::unique_ptr<Engine> _instance;
 
 		// Target frame time in seconds (for FPS limiting).
 		static double _frameTimeTarget; 
@@ -134,5 +134,3 @@ namespace ifcg
 		static std::unique_ptr<Keys> _keys;
 	};
 };
-
-using namespace ifcg;

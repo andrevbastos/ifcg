@@ -9,34 +9,32 @@
 #include "ifcg/graphics/primitives/sphere.hpp"
 #include "ifcg/graphics/primitives/pyramid.hpp"
 
-using namespace ifcg;
-
 int sequentialExample();
 int parallelExample();
 
-int main() 
-{
+int main() {
+    // Você pode escolher entre rodar o exemplo sequencial ou paralelo
     // return sequentialExample();
     return parallelExample();
 }
 
 int sequentialExample() {
     // 1. Inicialização e Janela
-    IFCG::init(800, 600, "IFCG Engine Showcase");
-    IFCG::setup3D();
+    ifcg::Engine::init(800, 600, "IFCG Engine Showcase");
+    ifcg::Engine::setup3D();
 
-    auto& input = IFCG::getInputHandler();
-    auto& renderer = IFCG::getRenderer();
+    auto& input = ifcg::Engine::getInputHandler();
+    auto& renderer = ifcg::Engine::getRenderer();
     GLuint shader = renderer.getShaderID();
 
     // 2. Criando Primitivas (Agora com make_shared)
-    auto centralSphere = std::make_shared<Sphere>(20, shader);
+    auto centralSphere = std::make_shared<ifcg::Sphere>(20, shader);
     centralSphere->setDrawMode(GL_LINE_LOOP);
-    auto leftPyramid = std::make_shared<Pyramid>(shader);
-    auto rightCube = std::make_shared<Cube>(shader);
+    auto leftPyramid = std::make_shared<ifcg::Pyramid>(shader);
+    auto rightCube = std::make_shared<ifcg::Cube>(shader);
 
     // 3. Configurando a Hierarquia (MeshTree)
-    auto solarSystem = std::make_shared<MeshTree>();
+    auto solarSystem = std::make_shared<ifcg::MeshTree>();
     solarSystem->translate(0.0f, 0.0f, -10.0f); // Afasta a câmera
 
     // A esfera será o centro
@@ -54,7 +52,7 @@ int sequentialExample() {
     satellite->translate(0.0f, 2.0f, 0.0f);
     satellite->scale(0.4f, 0.4f, 0.4f);
     
-    auto cubeWithSattelite = std::make_shared<MeshTree>();
+    auto cubeWithSattelite = std::make_shared<ifcg::MeshTree>();
     cubeWithSattelite->addChild(rightCube);
     cubeWithSattelite->addChild(satellite);
     solarSystem->addChild(cubeWithSattelite);
@@ -71,11 +69,11 @@ int sequentialExample() {
         if (input.isKeyHeld(GLFW_KEY_LEFT)) solarSystem->rotate(0.02f, 0.0f, -1.0f, 0.0f);
     });
 
-    std::cout << "IFCG Inicializada com sucesso!" << std::endl;
+    std::cout << "Engine Inicializada com sucesso!" << std::endl;
     std::cout << "Use as SETAS para rotacionar a cena." << std::endl;
 
     // 7. Loop Principal
-    IFCG::loop({
+    ifcg::Engine::loop({
         .loopBody = [&]() {
             centralSphere->rotate(0.01f, 0.0f, 1.0f, 0.0f);
             leftPyramid->rotate(0.015f, 1.0f, 0.0f, 0.0f);
@@ -86,27 +84,27 @@ int sequentialExample() {
     });
 
     // 8. Limpeza segura de recursos
-    IFCG::terminate();
+    ifcg::Engine::terminate();
     return 0;
 };
 
 int parallelExample() {
     // 1. Inicialização e Janela
-    IFCG::init(800, 600, "IFCG Engine Showcase");
-    IFCG::setup3D();
+    ifcg::Engine::init(800, 600, "IFCG Engine Showcase");
+    ifcg::Engine::setup3D();
 
-    auto& input = IFCG::getInputHandler();
-    auto& renderer = IFCG::getRenderer();
+    auto& input = ifcg::Engine::getInputHandler();
+    auto& renderer = ifcg::Engine::getRenderer();
     GLuint shader = renderer.getShaderID();
 
     // 2. Criando Primitivas
-    auto centralSphere = std::make_shared<Sphere>(20, shader);
+    auto centralSphere = std::make_shared<ifcg::Sphere>(20, shader);
     centralSphere->setDrawMode(GL_LINE_LOOP);
-    auto leftPyramid = std::make_shared<Pyramid>(shader);
-    auto rightCube = std::make_shared<Cube>(shader);
+    auto leftPyramid = std::make_shared<ifcg::Pyramid>(shader);
+    auto rightCube = std::make_shared<ifcg::Cube>(shader);
 
     // 3. Configurando a Hierarquia (MeshTree)
-    auto solarSystem = std::make_shared<MeshTree>();
+    auto solarSystem = std::make_shared<ifcg::MeshTree>();
     solarSystem->translate(0.0f, 0.0f, -10.0f); 
 
     solarSystem->addChild(centralSphere);
@@ -121,7 +119,7 @@ int parallelExample() {
     satellite->translate(0.0f, 2.0f, 0.0f);
     satellite->scale(0.4f, 0.4f, 0.4f);
     
-    auto cubeWithSattelite = std::make_shared<MeshTree>();
+    auto cubeWithSattelite = std::make_shared<ifcg::MeshTree>();
     cubeWithSattelite->addChild(rightCube);
     cubeWithSattelite->addChild(satellite);
     solarSystem->addChild(cubeWithSattelite);
@@ -137,7 +135,7 @@ int parallelExample() {
         if (input.isKeyHeld(GLFW_KEY_LEFT)) solarSystem->rotate(0.02f, 0.0f, -1.0f, 0.0f);
     });
     
-    LoopConfig config {
+    ifcg::LoopConfig config {
         .loopBody = [&]() {
             centralSphere->rotate(0.01f, 0.0f, 1.0f, 0.0f);
             leftPyramid->rotate(0.015f, 1.0f, 0.0f, 0.0f);
@@ -146,21 +144,21 @@ int parallelExample() {
         }
     };
 
-    std::cout << "IFCG Inicializada com sucesso!" << std::endl;
+    std::cout << "Engine Inicializada com sucesso!" << std::endl;
     std::cout << "Renderizando em SEGUNDO PLANO!" << std::endl;
 
-    IFCG::releaseContext();
+    ifcg::Engine::releaseContext();
 
-    std::jthread loopThread(IFCG::loopP, config);
+    std::jthread loopThread(ifcg::Engine::loopP, config);
 
-    while (IFCG::isRunning()) {
-        IFCG::pollEvents();
+    while (ifcg::Engine::isRunning()) {
+        ifcg::Engine::pollEvents();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
     loopThread.request_stop();
     loopThread.join();
 
-    IFCG::terminate();
+    ifcg::Engine::terminate();
     return 0;
 };
