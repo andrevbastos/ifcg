@@ -135,6 +135,7 @@ int parallelExample() {
         if (input.isKeyHeld(GLFW_KEY_LEFT)) solarSystem->rotate(0.02f, 0.0f, -1.0f, 0.0f);
     });
     
+    // 7. Loop Principal em Paralelo
     ifcg::LoopConfig config {
         .loopBody = [&]() {
             centralSphere->rotate(0.01f, 0.0f, 1.0f, 0.0f);
@@ -159,6 +160,8 @@ int parallelExample() {
     loopThread.request_stop();
     loopThread.join();
 
+    // 8. Limpeza segura de recursos
     ifcg::Engine::terminate();
+    
     return 0;
 };
