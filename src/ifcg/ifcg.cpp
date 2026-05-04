@@ -12,8 +12,7 @@ namespace ifcg
     std::unique_ptr<Renderer> Engine::_renderer = nullptr;
     std::unique_ptr<Keys> Engine::_keys = nullptr;
 
-    Engine::Engine(unsigned int w, unsigned int h, const char* title)
-    {
+    Engine::Engine(unsigned int w, unsigned int h, const char* title) {
         _context = std::make_unique<Context>();   
         _window = std::make_unique<Window>(w, h, title);
         _renderer = std::make_unique<Renderer>(*_window);
@@ -25,8 +24,7 @@ namespace ifcg
         });
     };
 
-    Engine::~Engine()
-    {
+    Engine::~Engine() {
         _keys.reset();
         _renderer.reset();
         _window.reset();
@@ -34,33 +32,37 @@ namespace ifcg
         _context.reset();
     };
 
-    void Engine::init(unsigned int w, unsigned int h, const char* title)
-    {
+    void Engine::init(unsigned int w, unsigned int h, const char* title) {
         if (_instance == nullptr)
         {
             _instance = std::unique_ptr<Engine>(new Engine(w, h, title));
         }
     };
 
-    void Engine::setup2D() 
-    {
+    void Engine::setup2D() {
         _renderer->reset();
         _renderer->setup2D();
     };
 		
-    void Engine::setup3D() 
-    {
+    void Engine::setup3D() {
         _renderer->reset();
         _renderer->setup3D();
     };
 
-    Keys& Engine::getInputHandler()
-    {
+    Context& Engine::getContext() { 
+        return *_context; 
+    };
+
+    Window& Engine::getWindow() { 
+        return *_window; 
+    };
+
+
+    Keys& Engine::getInputHandler() {
         return *_keys;
     };
 
-    Renderer& Engine::getRenderer() 
-    { 
+    Renderer& Engine::getRenderer() { 
         return *_renderer; 
     };
 
@@ -84,8 +86,7 @@ namespace ifcg
         }
     }
 
-    void Engine::loop(LoopConfig config)
-    {
+    void Engine::loop(LoopConfig config) {
         while (!_window->shouldClose())
         {
             config.beforeInputs();
@@ -124,8 +125,7 @@ namespace ifcg
         config.onExit();
     }
 
-    void Engine::loopP(std::stop_token st, LoopConfig config)
-    {
+    void Engine::loopP(std::stop_token st, LoopConfig config) {
         glfwMakeContextCurrent(_window->getGLFWwindow());
 
         while (!_window->shouldClose() && !st.stop_requested())

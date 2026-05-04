@@ -61,9 +61,20 @@ namespace ifcg
 		static void setup3D();
 
 		/**
+		 * @brief Get the Context object.
+		 * @return Context& Reference to the Context object.
+		 */
+		static Context& getContext();
+		
+		/**
+		 * @brief Get the Window object.
+		 * @return Window& Reference to the Window object.
+		 */
+		static Window& getWindow();
+
+		/**
 		 * @brief Get the Input Handler object.
 		 * @return Keys* Pointer to the Keys object.
-		static Engine* _instance;
 		 */
 		static Keys& getInputHandler();
 
