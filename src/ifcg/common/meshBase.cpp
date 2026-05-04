@@ -2,6 +2,10 @@
 
 namespace ifcg
 {
+    glm::mat4 MeshBase::getModel() const { 
+        return _model; 
+    }
+
     void MeshBase::translate(float tX, float tY, float tZ)
     {
         _model = glm::translate(_model, glm::vec3(tX, tY, tZ));

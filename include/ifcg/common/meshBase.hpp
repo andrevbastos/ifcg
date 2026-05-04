@@ -41,6 +41,12 @@ namespace ifcg
         virtual void draw(glm::mat4 parentModel = glm::mat4(1.0f)) = 0;
 
         /**
+         * @brief Get the Model matrix of the mesh.
+         * @return glm::mat4 The current model transformation matrix of the mesh.
+         */
+        glm::mat4 getModel() const;
+
+        /**
          * @brief Translates over the current model matrix.
          * @param tX X-axis translation.
          * @param tY Y-axis translation.
