@@ -47,6 +47,12 @@ namespace ifcg
         glm::mat4 getModel() const;
 
         /**
+         * @brief Set the Model matrix of the mesh.
+         * @param model The new model transformation matrix to set for the mesh.
+         */
+        void setModel(const glm::mat4& model);
+
+        /**
          * @brief Translates over the current model matrix.
          * @param tX X-axis translation.
          * @param tY Y-axis translation.

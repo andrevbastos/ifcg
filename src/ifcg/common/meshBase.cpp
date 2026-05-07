@@ -6,6 +6,10 @@ namespace ifcg
         return _model; 
     }
 
+    void MeshBase::setModel(const glm::mat4& model) {
+        _model = model;
+    };
+
     void MeshBase::translate(float tX, float tY, float tZ)
     {
         _model = glm::translate(_model, glm::vec3(tX, tY, tZ));
