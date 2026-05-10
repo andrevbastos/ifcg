@@ -4,6 +4,10 @@ namespace ifcg
 {
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+    void key_callback(GLFWwindow* /*window*/, int key, int /*scancode*/, int action, int /*mods*/) {
+        Engine::getInputHandler().handleKeyEvent(key, action);
+    }
+
     std::unique_ptr<Engine> Engine::_instance = nullptr;
     double Engine::_frameTimeTarget = 0.0;
 
@@ -18,9 +22,10 @@ namespace ifcg
         _renderer = std::make_unique<Renderer>(*_window);
         _keys = std::make_unique<Keys>(*_window);
 
-        _keys->addKeyCallback(GLFW_KEY_ESCAPE, []() {
-            if (_keys->isKeyReleased(GLFW_KEY_ESCAPE))
-                glfwSetWindowShouldClose(_window->getGLFWwindow(), true);
+        glfwSetKeyCallback(_window->getGLFWwindow(), key_callback);
+
+        _keys->addKeyCallback(Key::ESCAPE, KeyAction::RELEASE, []() {
+            glfwSetWindowShouldClose(_window->getGLFWwindow(), true);
         });
     };
 
@@ -92,7 +97,6 @@ namespace ifcg
             config.beforeInputs();
 
             _context->pollEvents();
-            _keys->update();
             _keys->processInput();
             
             config.afterInputs();
@@ -132,7 +136,6 @@ namespace ifcg
         {
             config.beforeInputs();
 
-            _keys->update();
             _keys->processInput();
             
             config.afterInputs();

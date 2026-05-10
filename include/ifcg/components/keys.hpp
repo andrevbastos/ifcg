@@ -1,8 +1,7 @@
 /**
  * @file keys.hpp
  * @author andrevbastos (andrev.bastos28@gmail.com)
- * @brief Key input handling for the IFCG library.
- * @details This file declares the KeyInput class responsible for handling key input.
+ * @brief Key input handling for the IFCG library using an event-driven architecture.
  * @copyright Copyright (c) 2025
  */
 
@@ -13,12 +12,13 @@
 #include <vector>
 
 #include "ifcg/components/window.hpp"
+#include "ifcg/components/keys_list.hpp"
 
 namespace ifcg
 {
 	/**
 	 * @class Keys
-	 * @brief Class responsible for handling key input.
+	 * @brief Class responsible for handling key input via events and continuous polling for held states.
 	 */
 	class Keys
 	{
@@ -27,61 +27,57 @@ namespace ifcg
 		 * @brief Construct a new Keys object.
 		 * @param win The window to associate with this key handler.
 		 */
-		Keys(Window& win) 
-			: _window(win.getGLFWwindow()) {};
+		Keys(Window& win);
 		
         /**
-         * @brief Add a callback for a specific key.
+         * @brief Add a callback for a specific key and action.
          * @param key The key to bind the callback to.
-         * @param callback The function to call when the key is pressed.
+         * @param action The action that triggers the callback.
+         * @param callback The function to call when the key action occurs.
          */
-        void addKeyCallback(int key, const std::function<void()> callback);
+        void addKeyCallback(Key key, KeyAction action, const std::function<void()> callback);
 
 		/**
-		 * @brief Update the key states. Should be called each frame.
+		 * @brief Handle a key event from GLFW.
+		 * @param key The key that was pressed/released.
+		 * @param action The action (PRESS, RELEASE, REPEAT).
 		 */
-		void update();
+		void handleKeyEvent(int key, int action);
 
-		/**
-		 * @brief Get the state of a key.
-		 * @param key The key to check.
-		 * @return The state of the key.
-		 */
-		int getKeyState(int key) const;
-
-		/**
-		 * @brief Get the state of a key.
-		 * @param key The key to check.
-		 * @return true if the key is pressed, false otherwise.
-		 */
-		bool isKeyPressed(int key);
-		/**
-		 * @brief Get the state of a key.
-		 * @param key The key to check.
-		 * @return true if the key is released, false otherwise.
-		 */
-		bool isKeyReleased(int key);
-		/**
-		 * @brief Get the state of a key.
-		 * @param key The key to check.
-		 * @return true if the key is held, false otherwise.
-		 */
-		bool isKeyHeld(int key);
         /**
-         * @brief Process input events.
+         * @brief Process continuous input events (HELD). Should be called each frame.
          */
         void processInput();
+
+		/**
+		 * @brief Check if a key was pressed in the last event.
+		 * @param key The key to check.
+		 * @return true if pressed, false otherwise.
+		 */
+		bool isKeyPressed(Key key) const;
+
+		/**
+		 * @brief Check if a key was released in the last event.
+		 * @param key The key to check.
+		 * @return true if released, false otherwise.
+		 */
+		bool isKeyReleased(Key key) const;
+
+		/**
+		 * @brief Check if a key is currently held down.
+		 * @param key The key to check.
+		 * @return true if held, false otherwise.
+		 */
+		bool isKeyHeld(Key key) const;
 
 	private:
 		// Pointer to the GLFW window.
 		GLFWwindow* _window;
-        // Key callbacks map.
-        std::unordered_map<int, std::vector<std::function<void()>>> _keyCallbacks;
-        // Key states map.
-		std::unordered_map<int, int> _keyStates;
 
-		// Just pressed and just released states for edge detection.
-		std::unordered_map<int, bool> _justPressed;
-        std::unordered_map<int, bool> _justReleased;
+        // Key callbacks map: Key (int) -> {Action -> List of Callbacks}
+        std::unordered_map<int, std::unordered_map<KeyAction, std::vector<std::function<void()>>>> _callbacks;
+        
+        // Internal state to track held keys.
+		std::unordered_map<int, bool> _keyStates;
 	};
 };
