@@ -99,9 +99,34 @@ namespace ifcg
 		}
 	};
 
-	void Camera::setPos(glm::vec3 pos)
+	void Camera::setPosition(glm::vec3 pos)
 	{
 		position = pos;
+	};
+
+	glm::vec3 Camera::getPosition() const
+	{
+		return position;
+	};
+
+	void Camera::setOrientation(glm::vec3 orient)
+	{
+		orientation = orient;
+	};
+
+	glm::vec3 Camera::getOrientation() const
+	{
+		return orientation;
+	};
+
+	void Camera::setUp(glm::vec3 up_vector)
+	{
+		up = up_vector;
+	};
+
+	glm::vec3 Camera::getUp() const
+	{
+		return up;
 	};
 
 	void Camera::translate(float amount, glm::vec3 target)

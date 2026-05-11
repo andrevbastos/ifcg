@@ -60,7 +60,37 @@ namespace ifcg
 		 * @brief Set the camera's position in 3D space.
 		 * @param pos New position vector for the camera.
 		 */
-		void setPos(glm::vec3 pos);
+		void setPosition(glm::vec3 pos);
+
+		/**
+		 * @brief Get the camera's position in 3D space.
+		 * @return glm::vec3 The camera's position.
+		 */
+		glm::vec3 getPosition() const;
+
+		/**
+		 * @brief Set the camera's orientation.
+		 * @param orient New orientation vector.
+		 */
+		void setOrientation(glm::vec3 orient);
+
+		/**
+		 * @brief Get the camera's orientation.
+		 * @return glm::vec3 The camera's orientation.
+		 */
+		glm::vec3 getOrientation() const;
+
+		/**
+		 * @brief Set the camera's up vector.
+		 * @param up_vector New up vector.
+		 */
+		void setUp(glm::vec3 up_vector);
+
+		/**
+		 * @brief Get the camera's up vector.
+		 * @return glm::vec3 The camera's up vector.
+		 */
+		glm::vec3 getUp() const;
 
 		/**
 		 * @brief Get the camera's projection matrix.
