@@ -31,12 +31,12 @@ namespace ifcg
 	 * 			during the main loop body, after rendering, and when exiting the
 	 */
 	struct LoopConfig {
-		const std::function<void()>& beforeLoop = [] {};
-		const std::function<void()>& beforeInputs = [] {};
-		const std::function<void()>& afterInputs = [] {};
-		const std::function<void()>& loopBody = [] {};
-		const std::function<void()>& afterRender = [] {};
-		const std::function<void()>& onExit = [] {};
+		const std::function<void()> beforeLoop = [] {};
+		const std::function<void()> beforeInputs = [] {};
+		const std::function<void()> afterInputs = [] {};
+		const std::function<void()> loopBody = [] {};
+		const std::function<void()> afterRender = [] {};
+		const std::function<void()> onExit = [] {};
 	};
 
 	/**
