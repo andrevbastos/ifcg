@@ -44,4 +44,47 @@ public:
     float b;
     /// Alpha transparency component (0.0f to 1.0f).
     float a;
+
+    // Operator overloads for vertex arithmetic with clamping for color components.
+    Vertex operator+(const Vertex& other) const {
+        return Vertex(
+            x + other.x,
+            y + other.y,
+            z + other.z,
+            r + other.r > 1.0f ? 1.0f : r + other.r, 
+            g + other.g > 1.0f ? 1.0f : g + other.g, 
+            b + other.b > 1.0f ? 1.0f : b + other.b, 
+            a + other.a > 1.0f ? 1.0f : a + other.a
+        );
+    }
+
+    // Operator overload for vertex subtraction with clamping for color components.
+    Vertex operator-(const Vertex& other) const {
+        return Vertex(
+            x - other.x,
+            y - other.y,
+            z - other.z,
+            r - other.r < 0.0f ? 0.0f : r - other.r, 
+            g - other.g < 0.0f ? 0.0f : g - other.g, 
+            b - other.b < 0.0f ? 0.0f : b - other.b, 
+            a - other.a < 0.0f ? 0.0f : a - other.a
+        );
+    }
+
+    /**
+     * @brief Operator overload for vertex interpolation.
+     * @param other The other vertex to interpolate with.
+     * @return The interpolated vertex.
+     */
+    Vertex operator%(const Vertex& other) const {
+        return Vertex(
+            (x + other.x) * 0.5f,
+            (y + other.y) * 0.5f,
+            (z + other.z) * 0.5f,
+            (r + other.r) * 0.5f,
+            (g + other.g) * 0.5f,
+            (b + other.b) * 0.5f,
+            (a + other.a) * 0.5f
+        );
+    }
 };
