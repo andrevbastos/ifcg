@@ -71,6 +71,32 @@ public:
         );
     }
 
+    // Operator overload for vertex scaling by another vertex with clamping for color components.
+    Vertex operator*(const Vertex& other) const {
+        return Vertex(
+            x * other.x,
+            y * other.y,
+            z * other.z,
+            r * other.r > 1.0f ? 1.0f : r * other.r, 
+            g * other.g > 1.0f ? 1.0f : g * other.g, 
+            b * other.b > 1.0f ? 1.0f : b * other.b, 
+            a * other.a > 1.0f ? 1.0f : a * other.a
+        );
+    }
+
+    // Operator overload for vertex scaling by a scalar with clamping for color components.
+    Vertex operator*(float scalar) const {
+        return Vertex(
+            x * scalar,
+            y * scalar,
+            z * scalar,
+            r * scalar > 1.0f ? 1.0f : r * scalar, 
+            g * scalar > 1.0f ? 1.0f : g * scalar, 
+            b * scalar > 1.0f ? 1.0f : b * scalar, 
+            a * scalar > 1.0f ? 1.0f : a * scalar
+        );
+    }
+
     /**
      * @brief Operator overload for vertex interpolation.
      * @param other The other vertex to interpolate with.
