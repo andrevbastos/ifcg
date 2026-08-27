@@ -32,7 +32,12 @@ namespace vbo
          * @param vertices A vector of Vertex structures.
          */
         VBO(const std::vector<Vertex>& vertices);
-    
+
+        /**
+         * @brief Destroy the VBO object and free its resources.
+         */
+        ~VBO();
+
         /** 
          * @brief Bind the VBO.
          */
@@ -41,10 +46,6 @@ namespace vbo
          * @brief Unbind the VBO.
          */
         void unbind();
-        /**
-         * @brief Destroy the VBO.
-         */
-        void destroy();
     };
 }
 

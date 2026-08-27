@@ -30,6 +30,11 @@ namespace ebo
          * @param indices A vector of unsigned integers representing the indices.
          */
         EBO(const std::vector<GLuint>& indices);
+        
+        /**
+         * @brief Destroy the EBO object and free its resources.
+         */
+        ~EBO();
 
         /**
          * @brief Bind the EBO.
@@ -39,10 +44,6 @@ namespace ebo
          * @brief Unbind the EBO.
          */
         void unbind();
-        /**
-         * @brief Destroy the EBO.
-         */
-        void destroy();
     };
 }
 

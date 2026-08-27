@@ -31,6 +31,11 @@ namespace vao
          */
         VAO();
     
+        /**
+         * @brief Destroy the VAO object and free its resources.
+         */
+        ~VAO();
+
         /** 
          * @brief Link a VBO to the VAO and define its vertex attribute layout.
          * @param vbo The VBO to link.
@@ -49,10 +54,6 @@ namespace vao
          * @brief Unbind the VAO.
          */
         void unbind();
-        /**
-         * @brief Destroy the VAO.
-         */
-        void destroy();
     };
 }
 

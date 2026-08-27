@@ -10,6 +10,11 @@ namespace vbo
         GLCheckError();
     }
 
+    VBO::~VBO()
+    {
+        glDeleteBuffers(1, &_id);
+    }
+
     void VBO::bind()
     {
         glBindBuffer(GL_ARRAY_BUFFER, _id);
@@ -18,10 +23,5 @@ namespace vbo
     void VBO::unbind()
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-    }
-
-    void VBO::destroy()
-    {
-        glDeleteBuffers(1, &_id);
     }
 }
