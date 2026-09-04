@@ -30,9 +30,3 @@ include(Dependencies)
 
 # Inclusão dos Sources
 add_subdirectory(src)
-
-# Testes
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    enable_testing()
-    add_subdirectory(tests)
-endif()

@@ -98,69 +98,60 @@ int parallelExample() {
     auto& renderer = Engine::getRenderer();
     GLuint shader = renderer.getShaderID();
 
-    // 2. Criando Primitivas
+    // 2. Criando objetos que pertencem à main/render thread
     auto centralSphere = std::make_shared<Sphere>(20, shader);
     centralSphere->setDrawMode(GL_LINE_LOOP);
-    auto leftPyramid = std::make_shared<Pyramid>(shader);
-    auto rightCube = std::make_shared<Cube>(shader);
 
-    // 3. Configurando a Hierarquia (MeshTree)
-    auto solarSystem = std::make_shared<MeshTree>();
-    solarSystem->translate(0.0f, 0.0f, -10.0f); 
+    auto scene = std::make_shared<MeshTree>();
+    scene->translate(0.0f, 0.0f, -10.0f);
+    scene->addChild(centralSphere);
 
-    solarSystem->addChild(centralSphere);
+    std::shared_ptr<MeshBase> asyncMesh = nullptr;
+    renderer.addMesh(scene);
 
-    leftPyramid->translate(-4.0f, 0.0f, 0.0f);
-    solarSystem->addChild(leftPyramid);
+    // 3. Geração assíncrona de dados em CPU
+    Engine::runAsync([shader, scene, &asyncMesh]() {
+        std::vector<Vertex> vertices {
+            { -1.0f, -1.0f, 0.0f, 0.9f, 0.2f, 0.2f, 1.0f },
+            {  1.0f, -1.0f, 0.0f, 0.2f, 0.9f, 0.2f, 1.0f },
+            {  0.0f,  1.0f, 0.0f, 0.2f, 0.2f, 0.9f, 1.0f }
+        };
+        std::vector<GLuint> indices { 0, 1, 2 };
 
-    rightCube->translate(4.0f, 0.0f, 0.0f);
+        // Criação de Mesh e alteração da cena acontecem obrigatoriamente na main thread.
+        Engine::runOnMainThread([shader, scene, &asyncMesh, vertices = std::move(vertices), indices = std::move(indices)]() mutable {
+            asyncMesh = std::make_shared<Mesh>(std::move(vertices), std::move(indices), shader);
+            asyncMesh->translate(3.0f, 0.0f, 0.0f);
+            scene->addChild(asyncMesh);
+        });
+    }, Priority::High);
 
-    // 4. Demonstração de Duplicação e Estilo (Outline)
-    auto satellite = rightCube->duplicate();
-    satellite->translate(0.0f, 2.0f, 0.0f);
-    satellite->scale(0.4f, 0.4f, 0.4f);
-    
-    auto cubeWithSattelite = std::make_shared<MeshTree>();
-    cubeWithSattelite->addChild(rightCube);
-    cubeWithSattelite->addChild(satellite);
-    solarSystem->addChild(cubeWithSattelite);
-
-    // 5. Adicionando à fila de renderização
-    renderer.addMesh(solarSystem);
-
-    // 6. Callbacks de Input
-    input.addKeyCallback(Key::RIGHT, KeyAction::HELD, [solarSystem]() {
-        solarSystem->rotate(0.02f, 0.0f, 1.0f, 0.0f);
+    // 4. Callbacks de Input
+    input.addKeyCallback(Key::RIGHT, KeyAction::HELD, [scene]() {
+        scene->rotate(0.02f, 0.0f, 1.0f, 0.0f);
     });
-    input.addKeyCallback(Key::LEFT, KeyAction::HELD, [solarSystem]() {
-        solarSystem->rotate(0.02f, 0.0f, -1.0f, 0.0f);
+    input.addKeyCallback(Key::LEFT, KeyAction::HELD, [scene]() {
+        scene->rotate(0.02f, 0.0f, -1.0f, 0.0f);
     });
     
-    // 7. Loop Principal em Paralelo
+    // 5. Loop Principal: continua na main/render thread
     LoopConfig config {
+        .mode = LoopMode::Concurrent,
         .loopBody = [&]() {
             centralSphere->rotate(0.01f, 0.0f, 1.0f, 0.0f);
-            leftPyramid->rotate(0.015f, 1.0f, 0.0f, 0.0f);
-            rightCube->rotate(0.01f, 0.0f, 0.0f, 1.0f);
-            satellite->rotate(0.05f, 0.0f, 1.0f, 0.0f);
+
+            if (asyncMesh) {
+                asyncMesh->rotate(0.02f, 0.0f, 0.0f, 1.0f);
+            }
         }
     };
 
     std::cout << "Engine Inicializada com sucesso!" << std::endl;
-    std::cout << "Renderizando em SEGUNDO PLANO!" << std::endl;
+    std::cout << "Use as SETAS para rotacionar a cena." << std::endl;
 
-    Engine::releaseContext();
+    Engine::loop(config);
 
-    std::jthread loopThread(Engine::loopP, config);
-
-    while (Engine::isRunning()) {
-        Engine::pollEvents();
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
-
-    loopThread.request_stop();
-
-    // 8. Limpeza segura de recursos
+    // 6. Limpeza segura de recursos
     Engine::terminate();
     
     return 0;

@@ -1,5 +1,7 @@
 #include "ifcg/ifcg.hpp"
 
+#include <stdexcept>
+
 namespace ifcg
 {
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -10,17 +12,22 @@ namespace ifcg
 
     std::unique_ptr<Engine> Engine::_instance = nullptr;
     double Engine::_frameTimeTarget = 0.0;
+    std::thread::id Engine::_mainThreadId;
+    std::queue<std::function<void()>> Engine::_mainThreadQueue;
+    std::mutex Engine::_mainThreadQueueMutex;
 
     std::unique_ptr<Context> Engine::_context = nullptr;
     std::unique_ptr<Window> Engine::_window = nullptr;
     std::unique_ptr<Renderer> Engine::_renderer = nullptr;
     std::unique_ptr<Keys> Engine::_keys = nullptr;
+    std::unique_ptr<TaskMaster> Engine::_taskMaster = nullptr;
 
     Engine::Engine(unsigned int w, unsigned int h, const char* title) {
         _context = std::make_unique<Context>();   
         _window = std::make_unique<Window>(w, h, title);
         _renderer = std::make_unique<Renderer>(*_window);
         _keys = std::make_unique<Keys>(*_window);
+        _taskMaster = std::make_unique<TaskMaster>();
 
         glfwSetKeyCallback(_window->getGLFWwindow(), key_callback);
 
@@ -30,16 +37,20 @@ namespace ifcg
     };
 
     Engine::~Engine() {
+        _taskMaster.reset();
         _keys.reset();
         _renderer.reset();
         _window.reset();
-        _context->terminate();
-        _context.reset();
+        if (_context) {
+            _context->terminate();
+            _context.reset();
+        }
     };
 
     void Engine::init(unsigned int w, unsigned int h, const char* title) {
         if (_instance == nullptr)
         {
+            _mainThreadId = std::this_thread::get_id();
             _instance = std::unique_ptr<Engine>(new Engine(w, h, title));
         }
     };
@@ -91,9 +102,40 @@ namespace ifcg
         }
     }
 
+    bool Engine::isMainThread() {
+        return std::this_thread::get_id() == _mainThreadId;
+    }
+
+    TaskMaster& Engine::getTaskMaster() {
+        if (!_taskMaster) {
+            _taskMaster = std::make_unique<TaskMaster>();
+        }
+        return *_taskMaster;
+    }
+
+    void Engine::processMainThreadTasks() {
+        std::queue<std::function<void()>> tasks;
+
+        {
+            std::lock_guard<std::mutex> lock(_mainThreadQueueMutex);
+            std::swap(tasks, _mainThreadQueue);
+        }
+
+        while (!tasks.empty()) {
+            tasks.front()();
+            tasks.pop();
+        }
+    }
+
     void Engine::loop(LoopConfig config) {
+        if (!isMainThread()) {
+            throw std::runtime_error("Engine::loop must run on the main/render thread.");
+        }
+
         while (!_window->shouldClose())
         {
+            processMainThreadTasks();
+
             config.beforeInputs();
 
             _context->pollEvents();
@@ -103,6 +145,7 @@ namespace ifcg
             
             _renderer->clearBuffer(1.0f, 1.0f, 1.0f, 1.0f);
             
+            processMainThreadTasks();
             config.loopBody();
 
             _renderer->getCamera().inputs(_window->getGLFWwindow());
@@ -165,6 +208,7 @@ namespace ifcg
     }
 
     void Engine::terminate() {
+        _taskMaster.reset();
         _keys.reset();
         _renderer.reset();
         _window.reset();
@@ -172,6 +216,13 @@ namespace ifcg
             _context->terminate();
             _context.reset();
         }
+
+        {
+            std::lock_guard<std::mutex> lock(_mainThreadQueueMutex);
+            std::queue<std::function<void()>> empty;
+            std::swap(_mainThreadQueue, empty);
+        }
+
         _instance.reset();
     }
 }

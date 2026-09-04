@@ -16,14 +16,28 @@
 #include <stop_token>
 #include <functional>
 #include <memory>
+#include <queue>
+#include <mutex>
+#include <utility>
+#include <type_traits>
 
 #include "ifcg/components/context.hpp"
 #include "ifcg/components/window.hpp"
 #include "ifcg/components/renderer.hpp"
 #include "ifcg/components/keys.hpp"
+#include "ifcg/components/task.hpp"
 
 namespace ifcg
 {
+	/**
+	 * @enum LoopMode
+	 * @brief Defines how the engine loop should use worker threads.
+	 */
+	enum class LoopMode {
+		Sequential,
+		Concurrent
+	};
+
 	/**
 	 * @struct LoopConfig
 	 * @brief Configuration struct for the main loop, allowing users to specify callbacks for different stages of the loop.
@@ -31,6 +45,7 @@ namespace ifcg
 	 * 			during the main loop body, after rendering, and when exiting the
 	 */
 	struct LoopConfig {
+		const LoopMode mode = LoopMode::Sequential;
 		const std::function<void()> beforeLoop = [] {};
 		const std::function<void()> beforeInputs = [] {};
 		const std::function<void()> afterInputs = [] {};
@@ -105,6 +120,73 @@ namespace ifcg
 		 * @param fps Frames per second (0 for uncapped).
 		 */
 		static void setFramesPerSecond(int fps);
+
+		/**
+		 * @brief Check whether the current code is running on the engine main/render thread.
+		 */
+		static bool isMainThread();
+
+		/**
+		 * @brief Get the worker task manager.
+		 */
+		static TaskMaster& getTaskMaster();
+
+		/**
+		 * @brief Queue work to be executed by a worker thread.
+		 */
+		template <typename Func>
+		static void runAsync(Func&& task, Priority p = Priority::Medium) {
+			getTaskMaster().addTask(std::forward<Func>(task), p);
+		}
+
+		/**
+		 * @brief Run work on the main/render thread.
+		 * @details If already on the main thread, the task runs immediately. Otherwise,
+		 *          it is queued and processed by Engine::loop.
+		 */
+		template <typename Func>
+		static void runOnMainThread(Func&& task) {
+			if (isMainThread()) {
+				std::forward<Func>(task)();
+				return;
+			}
+
+			{
+				std::lock_guard<std::mutex> lock(_mainThreadQueueMutex);
+				_mainThreadQueue.push(std::function<void()>(std::forward<Func>(task)));
+			}
+		}
+
+		/**
+		 * @brief Run a CPU task on a worker and send its result back to the main/render thread.
+		 * @details The worker function runs outside the main thread. The main function runs
+		 *          later on Engine::loop, receiving the worker result when the worker returns
+		 *          a value. Void workers are also supported.
+		 */
+		template <typename WorkerFunc, typename MainFunc>
+		static void runAsyncThenMain(WorkerFunc&& workerFunc, MainFunc&& mainFunc, Priority p = Priority::Medium) {
+			using Worker = std::decay_t<WorkerFunc>;
+			using Main = std::decay_t<MainFunc>;
+
+			auto worker = std::make_shared<Worker>(std::forward<WorkerFunc>(workerFunc));
+			auto main = std::make_shared<Main>(std::forward<MainFunc>(mainFunc));
+
+			runAsync([worker, main]() mutable {
+				if constexpr (std::is_void_v<std::invoke_result_t<Worker&>>) {
+					std::invoke(*worker);
+					runOnMainThread([main]() mutable {
+						std::invoke(*main);
+					});
+				} else {
+					auto result = std::invoke(*worker);
+					auto sharedResult = std::make_shared<decltype(result)>(std::move(result));
+
+					runOnMainThread([main, sharedResult]() mutable {
+						std::invoke(*main, std::move(*sharedResult));
+					});
+				}
+			}, p);
+		}
 		/**
 		 * @brief Run the main application loop.
 		 * @param gameLoopBody Function to be called each loop iteration.
@@ -136,12 +218,19 @@ namespace ifcg
 		static std::unique_ptr<Engine> _instance;
 
 		// Target frame time in seconds (for FPS limiting).
-		static double _frameTimeTarget; 
+		static double _frameTimeTarget;
+
+		// Main/render thread support.
+		static std::thread::id _mainThreadId;
+		static std::queue<std::function<void()>> _mainThreadQueue;
+		static std::mutex _mainThreadQueueMutex;
+		static void processMainThreadTasks();
 
 		// Components
 		static std::unique_ptr<Context> _context;
 		static std::unique_ptr<Window> _window;
 		static std::unique_ptr<Renderer> _renderer;
 		static std::unique_ptr<Keys> _keys;
+		static std::unique_ptr<TaskMaster> _taskMaster;
 	};
 };
